@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>兩支影片改變我用 AI 的方式：Karpathy 與 Cole Medin 筆記 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="ph ph-research"><span class="tag">post-agent-lessons.png</span></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-07-17</time></div>
+    <h1 class="post-title">兩支影片改變我用 AI 的方式：Karpathy 與 Cole Medin 筆記</h1>
+  </div>
+  <div class="content">
+<p>最近認真看了兩支影片，做了完整筆記。一支是 Andrej Karpathy 在 YC AI Startup School 的演講「Software Is Changing (Again)」，一支是 Cole Medin 在 n8n podcast 談「Stop Vibe Coding: Context Engineering &amp; RAG」。一個講產業典範，一個講動手紀律，高度差很多，但抄完筆記回頭看，兩個人其實在講同一件事。</p>
+<h2>Karpathy：軟體第三次典範轉移</h2>
+<p>他的框架很簡潔：<strong>Software 1.0</strong> 是手寫程式碼，<strong>Software 2.0</strong> 是神經網路權重，<strong>Software 3.0</strong> 是用自然語言 prompt 來 program LLM。三種各有優劣，實務者的功課是判斷「這個功能該寫 code、該訓練模型、還是該 prompt」——而不是全押其中一種。</p>
+<blockquote><p>"The hottest new programming language is English."</p></blockquote>
+<p>我最受用的是他對 LLM 的兩個比喻。</p>
+<p><strong>第一個：LLM 是作業系統，而且現在是 1960 年代。</strong> LLM 是 CPU，context window 是 RAM，算力昂貴、集中在雲端、以分時方式使用——personal computing 的革命還沒發生，屬於這個時代的 GUI 也還沒被發明出來。這個比喻把「現在該做什麼」講得很清楚：別急著宣告終局，基礎設施還早。</p>
+<p><strong>第二個：LLM 是有認知缺陷的 people spirits。</strong> 它有百科全書式的記憶，同時卻會幻覺、智力參差（某些領域超人、某些犯人類不會犯的錯），而且有<strong>順行性失憶</strong>——權重固定、context 每天被清空，不會跨 session 累積專業。他用電影《Memento》比喻：</p>
+<blockquote><p>"Their weights are fixed and their context windows get wiped every single morning… you have to program the working memory quite directly."</p></blockquote>
+<p>這句話直接解釋了為什麼我要幫自己的 AI 助手蓋三層記憶系統（工作快照／滾動存檔／長期主題檔）——不是錦上添花，是在補一個作業系統層級的缺陷。</p>
+<p>第三點是他對 agent 熱潮的降溫：自駕車 2013 年就有完美 demo，十二年後還沒完全解決。<strong>該建的是鋼鐵人的裝甲（augmentation、自主程度可調），不是鋼鐵人機器人（全自主）</strong>。</p>
+<blockquote><p>"This is the decade of agents, not the year of agents."</p></blockquote>
+<p>具體的設計語言是 <strong>autonomy slider</strong>：像 Cursor 從 tab 補全到全 repo 自主改動有好幾個檔位，使用者依任務決定讓渡多少自主權。另一個是 <strong>generation-verification loop</strong>：AI 負責生成、人負責驗證，整個合作的效率取決於這個迴圈轉多快——所以 AI 的產出應該是可視化的 diff、表格、可以「看」的東西，因為人腦讀字很慢、看圖很快。</p>
+<h2>Cole Medin：context engineering 只有一個目標</h2>
+<p>Cole 那支的核心句子我直接抄在筆記最上面：</p>
+<blockquote><p>"The one primary goal of context engineering is simply to reduce the number of assumptions that your AI agent is making."</p></blockquote>
+<p>Vibe coding 之所以失敗，通常不是模型不夠聰明，而是<strong>你讓它猜的事情太多</strong>。他給的解法都很樸素：</p>
+<ul>
+<li><strong>先花 30–60 分鐘寫 PRD</strong> 再動工：定義成功標準（可勾選的清單）、使用者旅程、切成 phase 的任務分解</li>
+<li><strong>反向提問</strong>：把想法倒給 AI 之後，明確要求「針對你知識裡的缺口反問我」——從它反覆問的問題裡，你會學到自己老是漏掉哪些維度（我的是 security）</li>
+<li><strong>成功標準要寫成可機器驗證的形式</strong>：測試指令、lint、smoke check——「勾完這十個框就是完成」，不留模糊空間</li>
+<li><strong>AI 天生愛過度工程</strong>：「除非你講得非常明確，它永遠會做得比你要求的多。」所以每個 phase 都要寫明確的 out-of-scope 清單</li>
+<li><strong>Prompt 也要 version control</strong>：agent 行為劣化時，先看 prompt 的變更史再 debug</li>
+</ul>
+<h2>兩人的交會點</h2>
+<p>Karpathy 說要用小 diff 和中間產物把 AI「拴住」（keep AI on a leash），因為一次丟給你一萬行的 diff，瓶頸還是人；Cole 說先寫 PRD、先問清楚再動工。一個從「驗證端」出發、一個從「輸入端」出發，指向同一條紀律：</p>
+<p><strong>先對齊，再動工。plan 就是那條牽繩。</strong></p>
+<p>還有一個交會點在驗證：Karpathy 說 LLM 會犯人類不會犯的錯，所以關鍵路徑要放<strong>獨立 context 的驗證者</strong>，能用傳統程式驗證的（檔案存在、數字加總）就不要用 LLM 驗證；Cole 說 validation gates 要可機器執行。翻成一句話：<strong>Software 3.0 的產出，盡量用 Software 1.0 驗收。</strong></p>
+<h2>我真的落地的五個行動</h2>
+<p>筆記的價值在行動。整理完之後我挑了五件事改進自己的 AI 工作流：</p>
+<ol>
+<li><strong>規劃前置提問關卡</strong>——複雜任務先讓 AI 產出 5–10 個釐清問題、回答完才寫計畫（Cole 的反向提問 + Karpathy 的 leash）</li>
+<li><strong>成功標準寫成可驗證的 checklist</strong>，宣稱完成前必須跑過驗證關卡</li>
+<li><strong>每個專案根目錄放一份 agent 看得懂的 context 檔</strong>——專案是什麼、關鍵路徑、目前狀態、常用指令，新開的 session 一讀就有完整脈絡（Karpathy 的 llms.txt 思路）</li>
+<li><strong>記憶系統加「睡眠鞏固」</strong>——定期讓 AI 讀舊的工作存檔，把重複出現的模式升格成長期筆記、刪掉過時條目，模仿人腦睡眠時做的事</li>
+<li><strong>AI 產出一律要求驗證友善</strong>——表格、diff、對照矩陣，並且把「每輪驗證花幾秒」當成工作流的核心指標</li>
+</ol>
+<p>最後放一句 Cole 的話收尾，我覺得它同時解釋了為什麼值得自己蓋題庫系統、自己蓋部落格產生器、自己蓋記憶架構：</p>
+<blockquote><p>"The most powerful system is the one that you've customized to specifically what you're working on."</p></blockquote>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-07-18-ai-cert-prep.html">← 較新：準備 AI 證照，我把 444 題蓋成一座自己的考試系統</a><a href="2026-07-11-interior-app.html">較舊：自己寫室內設計軟體，最難的是「把床推到牆邊」 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

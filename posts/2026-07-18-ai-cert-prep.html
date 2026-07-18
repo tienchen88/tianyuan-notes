@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>準備 AI 證照，我把 444 題蓋成一座自己的考試系統 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="ph ph-research"><span class="tag">post-ai-cert-prep.png</span></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-07-18</time></div>
+    <h1 class="post-title">準備 AI 證照，我把 444 題蓋成一座自己的考試系統</h1>
+  </div>
+  <div class="content">
+<p>今年給自己排了幾張 AI 證照：微軟的 AI-900（後來改版成 AI-901）、資策會的生成式 AI 能力認證，後面還排著人工智慧工程素養和 iPAS 初級 AI 應用規劃師。證照本身值多少見仁見智，但我把它當成一次「強迫自己把知識盤點一遍」的機會——而準備的過程，意外變成一個小小的系統工程題目。</p>
+<h2>固定流程：七個步驟</h2>
+<p>從 AI-900 開始，我就把備考收斂成一套固定流程，後面每張證照都直接套用：</p>
+<ol>
+<li><strong>題庫盤點</strong>——先確認題型與總題數，題目一律從官方或既有題庫出，不自創</li>
+<li><strong>回推天數</strong>——以考試日回推可用天數</li>
+<li><strong>分配題目</strong>——全部題目切成每回合 50 題排進天數，確保考前每一題都見過一次</li>
+<li><strong>全刷一輪</strong>——答錯的進錯題池</li>
+<li><strong>錯題反覆考到清零</strong></li>
+<li><strong>最後階段做限時模擬考</strong></li>
+<li><strong>依領域產出分類筆記</strong>，考前只讀筆記和錯題</li>
+</ol>
+<p>流程不稀奇，稀奇的是執行工具。市面上的刷題網站要嘛要訂閱、要嘛沒有錯題池、要嘛換一張證照資料就打架。所以我決定自己蓋。</p>
+<h2>把題庫蓋成一個離線 app</h2>
+<p>以資策會生成式 AI 認證為例，原始題庫是六個 HTML 檔、四個領域。我寫了兩支腳本：</p>
+<ul>
+<li><code>extract_pool.py</code>：解析 HTML、抽出所有單選題、去重——得到 <strong>444 題</strong>（基礎知識 148、能力強化 102、應用技能 97、倫理法律 97）</li>
+<li><code>build_app.py</code>：把 444 題內嵌成 JSON，產出一個<strong>自包含的 <code>模擬測驗.html</code></strong>——雙擊就能用，不需要伺服器、不需要網路，成績和錯題全部存瀏覽器的 localStorage</li>
+</ul>
+<p>app 的規格照著七步流程長出來：</p>
+<div class='table-wrap'><table><thead><tr>
+<th>功能</th>
+<th>為什麼要有</th>
+</tr></thead><tbody>
+<tr><td>每回隨機 50 題、領域配比 17/11/11/11</td><td>比例貼近題庫分布，不會整回都是同領域</td></tr>
+<tr><td>作答時不顯示答案，交卷才評分＋逐題解析</td><td>防止「看過答案的假熟練」</td></tr>
+<tr><td>錯題訓練模式：只考累積錯題，最常錯優先</td><td>答對移出錯題池、答錯次數 +1——錯題池就是整套系統的核心資產</td></tr>
+<tr><td>避開已練題</td><td>保證考前全題庫覆蓋</td></tr>
+<tr><td>中途離開可續考</td><td>生活總會打斷你</td></tr>
+<tr><td>「複製結果給 Claude」匯出</td><td>一鍵把作答字串貼給 AI 批改、講解錯題</td></tr>
+</tbody></table></div>
+<p>後來又加了一個我很喜歡的小功能：<strong>猶豫標記</strong>。作答時可以把「不太確定」的題目標起來，交卷後除了錯題，還能只看「答對但曾猶豫」的題目。這個設計解決一個統計上的盲點——<strong>答對不代表會，可能只是矇對</strong>。錯題池抓得到「不會的」，猶豫標記抓得到「假會的」。</p>
+<h2>一個踩過才懂的坑：答案不能先亮出來</h2>
+<p>原始題庫檔一載入，正確答案就用綠底標好了。用它讀書等於邊看題目邊看答案，讀完一輪自我感覺良好，模擬考直接被打回原形。</p>
+<p>我把六個題庫檔全部改掉：每題加「顯示答案與解析」按鈕，作答後才展開；正解改用 ✔ 勾號加粗體，<strong>不用顏色當唯一提示</strong>（這順便符合無障礙原則——色弱使用者也分得出來）；解析開頭加一行純文字「正確答案：X」。改動用一支冪等的 patch 腳本跑完，原檔留備份。</p>
+<p>一個讀書工具的介面設計，會直接決定你練到的是「記憶」還是「辨識」。這個坑值得寫下來。</p>
+<h2>六天衝刺表</h2>
+<p>考前六天，每天一回模擬考加錯題訓練，目標是考前「連續兩份 ≥ 80%、錯題清零」：</p>
+<div class='table-wrap'><table><thead><tr>
+<th>日期</th>
+<th>重點</th>
+</tr></thead><tbody>
+<tr><td>D-6</td><td>模擬考①建立基準，記下最弱領域</td></tr>
+<tr><td>D-5</td><td>模擬考②＋基礎/能力強化錯題清空</td></tr>
+<tr><td>D-4</td><td>模擬考③＋應用/倫理法律錯題清空</td></tr>
+<tr><td>D-3</td><td>模擬考④，錯題池壓到 20 題以下</td></tr>
+<tr><td>D-2</td><td>模擬考⑤全範圍複習，目標 ≥ 80%</td></tr>
+<tr><td>D-1</td><td>模擬考⑥自我限時 40 分鐘，錯題清零，早睡</td></tr>
+<tr><td>考試日</td><td>只掃錯題、不做新題</td></tr>
+</tbody></table></div>
+<p>實際成績曲線：第一回 <strong>76%</strong>（弱區是基礎知識 65%、倫理法律 64%），照表操課之後模擬考爬到 <strong>94%、96%</strong>。</p>
+<p>最後兩天加開了一種「弱點加強考」：分析十二回的歷史紀錄，挑出五種最常錯的題型（反向題、法規題、數字記憶、模型架構、工具對應），50 題裡有 40 題是我真的錯過的舊題——本質上就是<strong>間隔重複（spaced repetition）的手工版</strong>。第一份 90%，第二份 <strong>98%</strong>，只剩一題死對頭：DPIA 是哪部法規的機制。最後靠口訣收掉——DPIA 的 DP 就是 GDPR 的 <strong>D</strong>ata <strong>P</strong>rotection。</p>
+<h2>心得三條</h2>
+<ol>
+<li><strong>刷題系統的本質是錯題池管理。</strong> 模擬考只是取樣器，真正讓分數動的是「錯題反覆考到清零」這個迴圈。</li>
+<li><strong>多張證照的資料一定要隔離。</strong> 三套題庫各自獨立的儲存空間、各自的錯題池，出題批改絕不跨池——混在一起，統計就毀了。</li>
+<li><strong>工具長什麼樣，你就練成什麼樣。</strong> 會先亮答案的題庫練出辨識力，藏答案的題庫才練出記憶力。</li>
+</ol>
+<p>下一張是八月底的人工智慧工程素養，1,247 題、約 25 回合。系統已經蓋好了，換個題庫重跑腳本就開工。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-07-17-agent-lessons.html">較舊：兩支影片改變我用 AI 的方式：Karpathy 與 Cole Medin 筆記 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
