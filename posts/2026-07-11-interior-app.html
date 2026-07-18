@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自己寫室內設計軟體，最難的是「把床推到牆邊」 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-interior-app.png" alt="自己寫室內設計軟體，最難的是「把床推到牆邊」" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-home">🏡 新家日誌</span><time>2026-07-11</time></div>
+    <h1 class="post-title">自己寫室內設計軟體，最難的是「把床推到牆邊」</h1>
+  </div>
+  <div class="content">
+<p>規劃新家時試了幾套線上格局工具，不是要訂閱就是傢俱庫不合台灣使用習慣，乾脆拿開源的 blueprint3d（Three.js + Next.js）自己改。功能面照著自己的需求長：繁中介面、公分單位、台灣規格的床尺寸快選、輸入長寬高＋一張照片就能生成客製傢俱（照片會過本地端的 MobileNet 影像辨識自動判斷傢俱類型）、2D 平面圖直接顯示傢俱配置並匯出 PNG。</p>
+<p>但這篇想寫的不是功能清單，是三個磨了最久的工程問題——全部集中在一件事上：<strong>把傢俱推到牆邊</strong>。</p>
+<h2>問題一：磁吸的遲滯方向裝反了</h2>
+<p>貼牆吸附（snap-to-wall)的第一版把吸附距離設 50cm，結果半個房間都是磁吸範圍，傢俱被「搶走」根本放不到想放的位置。改小到 15cm，又出現更怪的現象：床一放手就被吸回牆邊，怎麼拉都拉不走。</p>
+<p>盯著參數看才發現：吸附區 15cm、脫離區 8cm——<strong>進入磁吸比脫離磁吸還容易</strong>，遲滯（hysteresis）方向完全裝反了。傢俱一旦貼牆，往外拉 10cm 仍在吸附區內，一放手又被吸回去，脫離在數學上就不可能發生。</p>
+<p>正確的遲滯是反過來：<strong>吸附區 8cm（明確靠近才吸）、脫離區 12cm（輕拉即走）</strong>。改完之後在引擎層驗證三個情境：貼牆後輕拉即釋放、角落可以沿牆滑走、8cm 內仍會吸附貼齊。用戶語言的「移動的力要大於磁吸力」，翻成工程語言就是這兩個閾值的大小關係。</p>
+<p>另一個相關修正：原本的吸附會<strong>強制把傢俱轉向面牆</strong>，而且用固定軸向的半尺寸當貼牆偏移——床斜著推向側牆時會突然自轉 90 度。改成保持傢俱當前朝向，貼牆偏移改用 OBB 在牆面法線上的投影（依旋轉角算出真正朝牆那一面的半尺寸），要床頭朝牆就手動轉，系統不自作聰明。</p>
+<h2>問題二：藏在幾何函式庫裡的射線起點</h2>
+<p>某次自建的房間裡，傢俱<strong>完全不能動</strong>——不是卡頓，是一動也不動。追進去發現問題不在移動邏輯，而在最底層的 point-in-polygon 判斷：射線法的起點被寫死在原點 (0,0)，前人用 <code>|| 0</code> 的預設值埋的。範本房間離原點很遠沒事，但新建方案生成的房間以原點為中心——<strong>射線從房間正中央出發</strong>，交點數的奇偶性全錯，房內每一個點都被判成房外，於是所有移動都被「防穿牆」檢查否決。</p>
+<p>修法是把射線起點改到多邊形外側。教訓是：幾何謂詞（predicate）這種「不可能錯」的底層函式，錯起來的症狀會出現在千里之外的 UI 層，而且完全不像它的錯。</p>
+<h2>問題三：房間縮小之後，床死在原地</h2>
+<p>最頑固的一個 bug：用戶回報「床在房間中間，移不到牆邊」，前後修了四輪都只是補到個案。最後一次直接把實際操作資料從瀏覽器的 IndexedDB 裡還原出來重演，才看到全貌：</p>
+<p>房間曾經被「事後調整尺寸」功能縮小過，床沒有跟著移動，於是床的邊緣<strong>嵌進牆裡 26 公分</strong>。而移動系統有一條保守假設——「目前位置不合法就原地不動」。這條假設在正常情況下是安全網，在嵌牆情況下變成死鎖：床永遠不合法，所以永遠不能動。</p>
+<p>修法是開一個逃生艙：偵測到目前位置本來就不合法時，<strong>放棄一切物理限制、完全跟隨游標</strong>（外加紅色警示），等傢俱回到合法空間再恢復碰撞檢查。這次也順手把整個移動架構從「全有全無驗證」改成「朝游標方向滑動到最遠合法位置」——目標點不合法就二分逼近，再不行就沿單軸滑動，<strong>永不凍住</strong>。</p>
+<h2>三個 bug 的共同教訓</h2>
+<ol>
+<li><strong>手感問題都是物理參數問題</strong>。「不順」「很黏」「會暴走」聽起來很主觀，拆到最後都是某兩個閾值的大小關係、某個偏移量的算法。</li>
+<li><strong>任何「current state 一定合法」的假設都是陷阱</strong>。狀態可以被別的功能（房間縮放、載入舊檔）弄髒，移動系統必須能從非法狀態自我修復。</li>
+<li><strong>一比一重演用戶資料，勝過十次相似場景的猜測</strong>。前四輪修不好是因為我在「像的場景」裡測試；把真實資料挖出來重演，root cause 一次現形。</li>
+</ol>
+<p>格局和主要傢俱都排完了，下一步想接 AI 照片轉 3D，讓看中的傢俱拍張照就能放進自己家裡試擺。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-07-11-opening.html">較舊：開張：給自己蓋一個小院子 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>純視覺機器人導航：一顆相機、五個版本的進化史 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-robot-navigation.png" alt="純視覺機器人導航：一顆相機、五個版本的進化史" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-07-09</time></div>
+    <h1 class="post-title">純視覺機器人導航：一顆相機、五個版本的進化史</h1>
+  </div>
+  <div class="content">
+<p>做過的一個機器人導航題目，限制很有趣：模擬場景裡有彩色方塊當障礙、終點是一座拱門，而機器人<strong>只有一顆 RGB 相機</strong>——沒有光達（沒距離）、沒有里程計（不知道自己在哪）、也不用 AI 模型。感知只剩 OpenCV 的 HSV 色彩遮罩：黑色遮罩（V≤25，順便過濾陰影）抓拱門，高飽和遮罩（S≥120）抓障礙方塊。</p>
+<p>這篇把五個版本的進化史記下來。每一版都不是「想到新功能」，而是<strong>被一種具體的失敗逼出來的</strong>。</p>
+<h2>v1.0：原地死轉——探索也需要動力</h2>
+<p>第一版邏輯很天真：看到目標就朝它走，沒看到就原地旋轉找。結果機器人在空曠地轉了一圈什麼都沒看到，就永遠轉下去了——經典的 local minima。</p>
+<p>解法出乎意料地簡單：巡邏模式加上前進速度（<code>linear.x = 0.2</code>），邊轉邊走。<strong>探索不是旋轉，是移動</strong>。原地旋轉只能改變視角，不能改變視野。</p>
+<h2>v2.0：盲區撞牆——相機看不到腳下</h2>
+<p>第二版解兩個問題。一是避障太僵硬：看到障礙就急煞原地轉，走起來一頓一頓。引入人工勢場的概念，中距離改成<strong>平滑繞行</strong>（前進 0.15 m/s 同時帶轉向），路徑變成弧線。</p>
+<p>二是更隱蔽的：相機有俯角盲區，障礙物一旦近到進入畫面下緣以下，遮罩上就「消失」了，機器人誤判安全直接輾上去。解法是<strong>觸底偵測</strong>——障礙物的 bounding box 底邊超過畫面高度減 180px，就當作已經頂到輪子，觸發「全力倒車＋反向猛打方向盤」的脫困程序。</p>
+<blockquote><p>感測器的盲區不會回報「我看不到」，它會回報「這裡沒東西」。這兩者的差別會撞出來。</p></blockquote>
+<h2>v3.0：把拱門看成兩根柱子——FOV 裁切問題</h2>
+<p>靠近拱門時出現詭異行為：機器人明明該穿門而過，卻朝著門柱撞上去。原因是視野裁切（FOV clipping）——距離近了，拱門在畫面裡被切成<strong>兩個獨立的黑色輪廓</strong>，「朝最大輪廓走」的邏輯就變成「朝柱子衝」。</p>
+<p>解法分兩層：</p>
+<ul>
+<li>把所有黑色輪廓包成一個 <strong>super bounding box</strong>，瞄準的是整體的中心（也就是門縫），而不是任何一根柱子</li>
+<li>門縫寬度撐滿畫面 70% 時，代表已經在門前——方向盤打正、全速衝刺，不再修正（這時候任何轉向都是自找麻煩）</li>
+<li>視野裡只剩一根柱子且高度超過畫面 60% 時，進入<strong>單側排斥</strong>：看見左柱向右閃、右柱向左閃</li>
+</ul>
+<h2>v4.0：左柱出現在畫面右邊——狀態混淆與空間記憶</h2>
+<p>v3 有個致命假設：柱子在畫面左半邊就是左柱。但如果車體已經嚴重偏移，<strong>左柱完全可能出現在畫面右側</strong>——這時排斥方向就反了，機器人朝錯的方向逃，越逃越迷航。這種「同一個觀測對應多種真實狀態」的問題，就是 state aliasing。</p>
+<p>破法是給機器人一份<strong>短期空間記憶</strong>：<code>memory_gap_x</code> 記住最後一次看到完整門縫時的 x 座標。之後只剩單柱時，不再用畫面中心判斷左右，而是問記憶：「這根柱子在記憶中的門縫哪一側？」</p>
+<p>同一版還加了<strong>虛擬目標</strong>：中距離看到單柱時，不等撞近才排斥，而是在柱子旁 250px 處憑空生成一個虛擬門縫座標，讓 P 控制朝虛擬點走——路徑提早畫出一條平滑的入彎弧線。</p>
+<h2>v5.0：記憶要在潛意識層更新</h2>
+<p>v4 還剩兩個殘缺。一是冷啟動偏差：遠距離時整座拱門糊成一小塊，會被誤判成「單柱」而寫入錯誤記憶。解法是加一條判斷——黑塊高度不到畫面 35% 就視為「遠方的完整拱門」，直接當成第一印象記憶。</p>
+<p>二是結構性的：記憶更新原本寫在導航狀態裡，機器人一旦進入避障狀態，就<strong>停止更新對拱門的記憶</strong>——繞完障礙物出來，拿著過期的記憶亂走。最後一版把記憶更新抽離到所有決策之前：不管當下在避障還是巡邏，只要畫面裡出現拱門特徵，就先非同步更新門縫座標，再進入行為決策。除錯時把這條記憶畫成一條藍色垂直線疊在畫面上，一眼就能看出「大腦以為門在哪」。</p>
+<pre><code># 每一幀、任何狀態下都先跑：背景記憶更新
+if len(valid_black_contours) &gt;= 2:
+    self.memory_gap_x = (x_min + x_max) // 2      # 看得到門縫：更新
+elif single_contour_height &lt;= height * 0.35:
+    self.memory_gap_x = contour_center_x          # 遠方整體拱門：第一印象
+# ……然後才是避障 / 導航 / 巡邏的決策</code></pre>
+<h2>後日談與心得</h2>
+<p>後來又做了一個進階版：換成六狀態的顯式狀態機（search → scan → align → drive → door，加上 wall_follow 和 reposition 兩個補救狀態），用連續 8 幀確認來抗雜訊、用「強制走完再說」解掉狀態間的死循環。架構更工整，但核心的幾課全是這五個版本教的：</p>
+<ol>
+<li><strong>失敗驅動的迭代比功能驅動誠實</strong>——每一版的需求都是上一版撞出來的，不是想出來的</li>
+<li><strong>觀測不等於狀態</strong>。純視覺下同一幀畫面可能對應多種真實處境，記憶（哪怕只有一個 x 座標）就是打破歧義的最小武器</li>
+<li><strong>感知要跟決策解耦</strong>。v5 最重要的改動不是任何演算法，是把「更新記憶」從狀態機裡搬出來——潛意識不該被當下的行為打斷</li>
+</ol>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-07-10-appliances.html">← 較新：新家家電功課：一張清單、四個決策、和幾個差點踩的坑</a><a href="2026-07-06-house-hunting.html">較舊：買房功課：用五個構面把兩個重劃區攤開來比 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
