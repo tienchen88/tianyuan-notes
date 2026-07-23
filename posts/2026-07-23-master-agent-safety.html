@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 新片：coding agent 的災情故事，和怎麼安全地用它 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-agent-safety.png" alt="Cole Medin 新片：coding agent 的災情故事，和怎麼安全地用它" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-07-23</time></div>
+    <h1 class="post-title">Cole Medin 新片：coding agent 的災情故事，和怎麼安全地用它</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去巡一下頻道，Cole Medin 今天出了一支新片：<a href="https://www.youtube.com/watch?v=zb2LyMro77M">How to Actually Run Your Coding Agent Safely (And Avoid the Horror Stories)</a>。剛上架沒多久，老實說我還沒看完，只掃了個開頭。但標題一出來我就知道這支得認真看，先把原因記下來，看完再回來補正式筆記。</p>
+<h2>那些 horror stories 不是都市傳說</h2>
+<p>會對這個標題有反應，是因為這陣子 coding agent 闖禍的故事真的聽了不少。最有名的一件：有人讓 AI 助手整理電腦桌面，明明只授權它動一些暫存檔，結果它把一整個資料夾、十幾年份的家庭照片直接用指令刪掉——連垃圾桶都沒進，最後是靠雲端備份的三十天保留期才撿回來。Docker 的部落格前陣子整理過一輪這類事故，從 2024 年底算起，光是被公開記錄的就有十來件，橫跨好幾家的工具，不是單一產品的問題。</p>
+<p>還有一個數字我印象很深：有統計說，權限確認框跳出來的時候，九成以上的人都是直接按同意。也就是說那個「你確定要執行嗎」的對話框，實際上已經變成一種儀式。這點我自己也心虛，工具用順手之後，提示框跳出來常常看都沒看就按下去了。</p>
+<h2>我預期的看點</h2>
+<p>Cole 的影片一向不談大敘事，都是動手的紀律——上次那支講 context engineering 的也是，筆記我寫在〈<a href="2026-07-17-agent-lessons.html">看完 Karpathy 和 Cole Medin，我改了五個用 AI 的習慣</a>〉。所以我猜這支大概會落在幾件事上：</p>
+<ul>
+<li><strong>隔離</strong>：讓 agent 在容器或沙箱裡跑。它再怎麼失控，也出不了那個框。</li>
+<li><strong>權限最小化</strong>：不要圖方便就開全自動模式，該擋的操作明確擋下來，而且別讓確認框淪為儀式。</li>
+<li><strong>備份與可回復</strong>：真出事的時候，有沒有版本控制、有沒有保留期，差別就是救得回來和救不回來。</li>
+</ul>
+<p>猜錯了也沒關係，看完自然見分曉。這題對我不算遙遠，我平常讓 AI 寫程式寫得蠻兇的，該補的圍欄大概也沒補齊。剛好趁這支片盤點一下自己的做法。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-07-23-journal.html">← 較新：小院日誌 07/23：追片清單加一</a><a href="2026-07-20-journal.html">較舊：小院日誌 07/20：搬家師傅與裝不齊的櫃門 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
