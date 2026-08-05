@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 新片：一行 npm install 就裝完整套本地 AI？ · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-local-ai-npm.png" alt="Cole Medin 新片：一行 npm install 就裝完整套本地 AI？" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-02</time></div>
+    <h1 class="post-title">Cole Medin 新片：一行 npm install 就裝完整套本地 AI？</h1>
+  </div>
+  <div class="content">
+<p>晚上照例巡一輪頻道，Cole Medin 又有新片：<a href="https://www.youtube.com/watch?v=E5qThSVlFzY">The Complete Local AI System with A Single NPM Install!</a>。標題有點聳動，一行 npm install 裝完一整套本地 AI 系統。老實說我還沒看，先把查到的背景寫下來。</p>
+<h2>他之前是怎麼做的</h2>
+<p>會對這支有感覺，是因為我知道他 GitHub 上那個 <a href="https://github.com/coleam00/local-ai-packaged">local-ai-packaged</a>。那是個 Docker Compose 模板，把 Ollama、Open WebUI、Supabase、n8n、Flowise、Neo4j、Langfuse、SearXNG 全部打包，號稱一鍵起一個完全自架的 AI 環境。想法很好，但實際上手過的人都知道，Docker Compose 的「一鍵」通常是安裝十個東西之後的一鍵：要先裝 Docker、要懂 port 衝突、GPU passthrough 又是另一關。</p>
+<p>所以這次標題說 single NPM install，我的直覺是他把門檻又往下砍了一刀。npm 是前端和 Node 生態的標配，比要求人家先架好 Docker 環境親民太多。如果真的做到「裝了 Node 就能跑」，受眾會完全不一樣。</p>
+<h2>我想確認的點</h2>
+<ul>
+<li><strong>npm 包到底包了什麼</strong>：Ollama 這種要跑模型的東西不可能塞進 npm 套件裡，所以大概率是個 CLI，幫你下載、設定、串起各個服務。那它跟原本的 Docker 方案是取代還是包裝？</li>
+<li><strong>全家桶還剩幾樣</strong>：原本那套有九個服務，全上等於跑一個小機房。這次如果精簡成「夠用的最小組合」，反而是進步。</li>
+<li><strong>硬體門檻</strong>：本地 AI 最誠實的問題永遠是「我的機器跑得動嗎」。他有沒有講清楚多少 VRAM 能跑什麼等級的模型，這決定這套東西對一般人是玩具還是工具。</li>
+</ul>
+<p>本地優先這件事我一直覺得值得投資，資料不出門，長期成本也可控。等看完再回來補心得。連同之前欠的片債，這下又多一支了。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-02-master-google-ai-day45.html">← 較新：Gary Chen 新片：Google AI 課程 Day 4+5，AI 要上正式環境前得過哪些關</a><a href="2026-07-30-journal.html">較舊：小院日誌 07/30：一晚進帳兩支新片 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

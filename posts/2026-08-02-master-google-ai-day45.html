@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 新片：Google AI 課程 Day 4+5，AI 要上正式環境前得過哪些關 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-google-ai-day45.png" alt="Gary Chen 新片：Google AI 課程 Day 4+5，AI 要上正式環境前得過哪些關" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-02</time></div>
+    <h1 class="post-title">Gary Chen 新片：Google AI 課程 Day 4+5，AI 要上正式環境前得過哪些關</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 的 Google AI 課程系列出到完結篇了：<a href="https://www.youtube.com/watch?v=h7abDtqN9gs">Google AI 課程 Day 4+5 解析，怎麼放心讓 AI 上正式環境？</a>。這系列他從 Day 1 一路講過來，前面 Day 2+3 講 MCP、A2A 和 Skills 那支我印象還在，這支是收尾。照舊，我還沒看，先把查到的課綱和我的問題記下來。</p>
+<h2>最後兩天在講什麼</h2>
+<p>查了一下 Google 這門五天課的架構，Day 4 是 Agent Quality，Day 5 是 Prototype to Production。翻成白話：第四天教你怎麼知道 agent 做得好不好，第五天教你怎麼把它推上線。</p>
+<p>Day 4 的關鍵字是 LLM-as-a-Judge、logging 和 tracing。意思是用另一個模型當裁判來評你的 agent 輸出，加上把執行過程全程留痕，出事的時候才追得回去。Day 5 就是從原型到正式環境的那段路，也是影片標題那個問題的來源：怎麼「放心」讓 AI 上 production。</p>
+<h2>為什麼這題對我有感</h2>
+<p>因為這剛好是我自己最沒把握的一段。玩 demo 誰都會，agent 在自己電腦上跑得好好的，但要說「這東西可以放著自己跑、出錯我兜得住」，中間差的就是評測和監控這一整層。而這層恰恰是教學影片最少講的，大家都愛講怎麼蓋，很少人講怎麼驗收。</p>
+<p>Gary 的長處是把英文課程消化成十幾二十分鐘的中文重點，前幾支都做得蠻紮實。我特別想從這支裡找的答案：</p>
+<ul>
+<li><strong>LLM-as-a-Judge 實際怎麼落地</strong>：裁判模型自己也會錯，那評測結果要多當真？課程有沒有給個務實的用法，還是只講概念？</li>
+<li><strong>留痕要留到什麼程度</strong>：log 全開成本很高，不開又追不了問題。有沒有講取捨的原則？</li>
+<li><strong>「放心」的標準是什麼</strong>：上線前到底要過哪幾關才算數。如果課程真給了一張 checklist，那這支就值回票價了。</li>
+</ul>
+<p>這系列完結了，找個時間把沒看的幾支連著補完，當一門課看應該蠻划算的。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-02-journal.html">← 較新：小院日誌 08/02：週末夜又是雙響</a><a href="2026-08-02-master-local-ai-npm.html">較舊：Cole Medin 新片：一行 npm install 就裝完整套本地 AI？ →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
