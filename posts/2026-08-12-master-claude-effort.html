@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 新片：你以為 Claude 降智，其實是你少設了這個 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-claude-effort.png" alt="Gary Chen 新片：你以為 Claude 降智，其實是你少設了這個" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-12</time></div>
+    <h1 class="post-title">Gary Chen 新片：你以為 Claude 降智，其實是你少設了這個</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去逛頻道，看到 Gary Chen 上了新片：<a href="https://www.youtube.com/watch?v=E8Bx9OlpmdM">你以為 Claude 降智，其實是你少設了這個</a>。老實說我還沒把整支看完，但這個標題實在太對到最近的時事，先把脈絡和我預期的看點記下來，看完再回頭補。</p>
+<h2>為什麼這支來得正是時候</h2>
+<p>「Claude 降智」這件事最近吵得很兇，而且不是玄學。我印象比較深的幾件事：有 AMD 的 AI 總監公開說 Claude 退步、不能信任它跑複雜任務，還附了內部員工的用語統計——罵 terrible 的多了一倍多，讚美掉了快一半。後來甚至冒出專門監控模型品質的網站，把「變笨」這件事做成了數據曲線。連官方都出來承認過，Claude Code 的產品負責人說有三個 bug、修好了、訂閱額度全數重置。</p>
+<p>所以「降智」有一部分是真的出過事。但另一部分，照社群裡流傳的說法，其實是設定悄悄變了：預設的 reasoning effort 從 high 被調成 medium，adaptive thinking 變成預設開啟（讓模型自己決定每輪要想多久），有時候執行中模型還會被切到比較小的型號而不通知你。你以為它變笨，其實是它偷偷變省。</p>
+<h2>我猜「少設的這個」是什麼</h2>
+<p>從標題看，八九不離十就是 effort 設定。社群裡的自救配置大概是這幾條：確認 effort 是不是 high（<code>/effort high</code>，據說 medium 笨很多而 high 也沒有特別燒 token）、確認模型沒有被偷偷切成小模型、然後用 statusline 把這兩個狀態常駐顯示出來，不然你根本不會發現它被改了。</p>
+<p>Gary 之前那支 CLAUDE.md 教學和 model routing 的片子都是那種「講完你馬上能照做」的實操路線，所以我預期這支也會給具體步驟，可能還會講 effort 各檔位的 token 成本差多少、什麼任務值得開到 max。這是我最想確認的部分——如果 high 真的不怎麼多燒 token，那預設 medium 就有點坑了。</p>
+<h2>先記在這裡</h2>
+<p>還沒看，不敢多寫。等看完如果有標題以外的東西（比如他自己的測試數據），我再補一篇或回來改。倒是今晚可以先做一件事：把自己的 statusline 弄起來，至少讓 effort 和模型型號隨時看得到。工具會不會變笨我管不了，自己的設定被改了卻不知道，這個可以管。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-12-journal.html">← 較新：小院日誌 08/12：Claude 到底是變笨還是被調低了</a><a href="2026-08-08-journal.html">較舊：小院日誌 08/08：一天冒出兩支好片，一支講爛掉，一支講加薪 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
