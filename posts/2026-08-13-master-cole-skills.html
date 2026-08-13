@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 新片：他把整套開發流程做成了 33 個 skills · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-cole-skills.png" alt="Cole Medin 新片：他把整套開發流程做成了 33 個 skills" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-13</time></div>
+    <h1 class="post-title">Cole Medin 新片：他把整套開發流程做成了 33 個 skills</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去逛頻道，看到 Cole Medin 上了新片：<a href="https://www.youtube.com/watch?v=MbiMwgbGdxw">Every Claude Code Skill I Use to Drive My Entire Development Process</a>。片子今天剛出，我還沒看完整支，不過標題裡的「every skill I use」不是隨口說說——他真的把自己在用的 skills 整包開源了，放在 <a href="https://github.com/coleam00/skills">coleam00/skills</a> 這個 repo。影片還沒消化完，repo 我倒是先翻了一遍，先把看到的東西記下來。</p>
+<h2>骨架是一個叫 PIV 的循環</h2>
+<p>整套東西繞著一個循環轉：prime → plan → implement → validate → review → commit → PR。他說幾乎每張 ticket 都跑這個流程。拆開看其實沒有什麼神祕的，就是先讓 agent 讀懂 codebase（prime），再做實作計畫，然後實作、驗證、審查、修審查抓到的問題，最後才 commit 發 PR。</p>
+<p>repo 裡的 33 個 skills 就是這個循環的零件。prime 有分前後端的版本（<code>prime-backend</code>、<code>prime-frontend</code>），計畫階段有訪談式的 PRD 生成和架構設計，還有一個 <code>piv-slice-epic</code> 負責把大需求切成一張張能做的票。循環外圍再配上 worktree 的建立與合併，讓好幾個 agent 平行開工。</p>
+<p>我覺得最有意思的是他留了一組 meta-skills：<code>rules-create-global</code> 幫你生 CLAUDE.md、<code>skills-create</code> 幫你寫新的 skill、還有一個 <code>opportunity-scan</code> 會掃你的工作流程，找出「這段其實可以做成 skill」的機會。等於工具箱裡放了一把專門用來做工具的工具。</p>
+<h2>他的理念我蠻買單的</h2>
+<p>README 裡有一句話大意是：讀它們，挑適合你工作方式的，其餘的改寫掉。這些 skills 全部是普通的 markdown 檔，一個資料夾一個 <code>SKILL.md</code>，兩分鐘就能讀完一個，不同意就直接改。他強調這不是框架，是把工作流程寫成文字而已。整包常駐的 context 才四千多個 token，agent 啟動時只載入簡述，需要時才把全文叫進來。</p>
+<p>老實說這跟我自己這陣子摸索的方向蠻接近的。我也是零零散散寫了一些自己用的流程筆記，但一直沒有像他這樣整理成一個有骨架的系統。看到 PIV 這個循環的時候有點「啊，原來缺的是這個」的感覺——我的問題不是沒有零件，是零件之間沒有一條固定的路線串起來。</p>
+<h2>想確認的幾件事</h2>
+<p>等看完影片我想確認：一是 validate 那一步他實際上怎麼做，是跑測試而已還是有別的花樣；二是 <code>opportunity-scan</code> 掃出來的東西實不實用，這種「自動找可自動化的機會」的點子聽起來很美，實際效果常常普普；三是 33 個裡面他自己最常用的到底是哪幾個，全部裝上顯然不現實，我比較想抄他的前五名。</p>
+<p>安裝倒是很簡單，兩行指令就能當 plugin 裝進 Claude Code。我打算先不整包裝，挑 PIV 核心那幾個讀一讀，改成自己的版本再上。看完影片如果有 repo 裡沒有的東西，再回來補。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-13-journal.html">← 較新：小院日誌 08/13：翻了一整晚別人的工具箱</a><a href="2026-08-12-journal.html">較舊：小院日誌 08/12：Claude 到底是變笨還是被調低了 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
