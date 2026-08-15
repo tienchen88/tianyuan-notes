@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 新片：把零件拼成「最強 AI 開發系統」 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-powerful-system.png" alt="Cole Medin 新片：把零件拼成「最強 AI 開發系統」" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-15</time></div>
+    <h1 class="post-title">Cole Medin 新片：把零件拼成「最強 AI 開發系統」</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去頻道晃一圈，Cole Medin 上了新片：<a href="https://www.youtube.com/watch?v=eecUhBpTz_g">How to Build the Most Powerful System for AI Coding (Full Breakdown)</a>。標題有點大——「最強系統」這種字眼我通常會先打個折——不過看他這半年一路鋪陳下來，這支多半是收尾，把散落的零件拼成一張完整的圖。片子今天剛出，我還沒看完整支，先憑標題和他過去的東西寫一下我為什麼想看、預期看什麼。</p>
+<h2>為什麼這支我特別想看</h2>
+<p>前陣子我陸陸續續追了他好幾支：講 <a href="2026-08-13-master-cole-skills.html">skills 那一整包</a>的、講 second brain 會慢慢爛掉要怎麼救的、還有更早的 context engineering 和 PRP。每一支都在講一個零件，但零件多了以後我自己反而有點亂——skill 歸 skill、知識庫歸知識庫、workflow 歸 workflow，它們到底怎麼組在一起，我一直沒有一個清楚的心智圖。</p>
+<p>這支叫「full breakdown」，我猜就是要回答這個問題：把 Archon（他那套在 agent 之上做編排的引擎）、skills、還有 progressive disclosure 那套按需載入 context 的想法，接成一條從想法到 PR 的完整線。如果真是這樣，那對我來說價值不在任何單一技巧，而在那張「線怎麼連」的圖。</p>
+<h2>我對這套系統的理解（看片前的版本）</h2>
+<p>先把我目前拼湊出來的樣子寫下來，等看完影片再回來對照哪裡猜錯了。</p>
+<p>大概是三層：最底下是知識——他很強調 context engineering，核心那句話是「AI 寫壞不是因為模型笨，是因為你給的 context 不對」。中間是流程——Archon 把工作流程寫成 YAML，每個節點要嘛是丟給 agent 的 prompt，要嘛是不交給 agent 自由發揮的確定性指令（建 context、跑驗證、git 操作這種）。最上面是人——他把自己定位成設計流程、定目標、給 context 的那個角色，實作全丟給 agent，但不是放生式的 vibe coding。</p>
+<p>他一直掛在嘴邊的一句是「每個 bug 都是修好系統的機會」——出錯不是回頭手改，而是回去補流程，讓同樣的錯下次不會再發生。這個心態我蠻認同的，只是知易行難。</p>
+<h2>想在影片裡確認的幾件事</h2>
+<p>一是 Archon 和 skills 的分工到底怎麼切。skills 是給單一 agent 用的可重用 prompt，Archon 是在更上面編排整條流程——它們是上下層關係，還是有重疊、要二選一？這點我一直沒搞清楚。</p>
+<p>二是 progressive disclosure 實際跑起來的樣子。「需要時才把 context 載進來」聽起來很理想，但判斷「什麼時候需要」本身就是難題，我想看他怎麼落地，是靠 skill 的簡述先探路，還是有別的機制。</p>
+<p>三是這套東西的重量。他示範的系統看起來零件不少，我比較怕的是維護成本——建一套很爽，但每天養它、更新它的力氣，會不會比它省下來的還多。這是我看任何「完整系統」時的老毛病式懷疑。</p>
+<p>先記到這。老實說我對「最強」這種說法一向保留，但 Cole 的東西通常實在、不太灌水，值得花一個晚上看完。看完如果跟我猜的不一樣，再回來補一篇。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-15-journal.html">← 較新：小院日誌 08/15：又是被一支「最強系統」勾住的晚上</a><a href="2026-08-13-journal.html">較舊：小院日誌 08/13：翻了一整晚別人的工具箱 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
