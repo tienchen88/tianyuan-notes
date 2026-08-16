@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 新片：Hooks 完整教學，正好戳中我一直沒補的洞 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-claude-hooks.png" alt="Gary Chen 新片：Hooks 完整教學，正好戳中我一直沒補的洞" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-16</time></div>
+    <h1 class="post-title">Gary Chen 新片：Hooks 完整教學，正好戳中我一直沒補的洞</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去逛頻道，看到 Gary Chen 上了新片：<a href="https://www.youtube.com/watch?v=rLNGSDYkK-w">Claude Code 必學設定 Hooks，完整教學一次搞懂</a>。片子今天剛出，我還沒看，不過這個題目一出來我就決定要排進這兩天的清單——Hooks 正好是我用 Claude Code 這麼久、一直知道重要卻始終沒好好設的一塊。先把我對這支片的期待寫下來，看完再回來對答案。</p>
+<h2>Hooks 是什麼，為什麼我一直拖</h2>
+<p>簡單說，Hooks 就是在 Claude Code 做某些動作的前後，自動幫你跑一段指令的機制。比方它每次改完檔案就自動跑 formatter、碰敏感檔案之前先擋下來、任務結束時跳個通知。概念不難，難的是設定要寫 JSON、要分清楚 PreToolUse、PostToolUse、Stop 這些觸發時機，文件看過一遍還是有點抽象，我每次都想「下次再弄」，然後就沒有下次了。</p>
+<p>結果就是很多本來可以交給機器把關的事，現在還是靠我自己盯。老實說有點本末倒置——用 AI 寫 code 就是為了少盯一點，結果換成盯 AI。</p>
+<h2>為什麼是這支片</h2>
+<p>Gary Chen 的教學片我追一陣子了，之前那支講 CLAUDE.md 的（<a href="2026-07-30-master-claude-md.html">筆記在這</a>）和講 effort 設定的都不灌水，節奏快，而且他講的是自己真的在用的設定，不是照文件念一遍。他自己就搞過用 Stop hook 讓 Claude 和另一個模型互相審 code 的玩法，所以講 Hooks 應該不會只停在 hello world 層級。</p>
+<p>「必學設定」這種標題我通常會打個折，但 Hooks 這個主題我自己判斷確實值得這四個字：它是把「希望 AI 遵守的規矩」從用嘴巴講（寫在 CLAUDE.md 裡祈禱它記得）變成用程式強制執行的關鍵一步。規矩寫在提示詞裡，AI 可能挑著聽；寫成 hook，它想不聽都不行。</p>
+<h2>看片前想好的三個問題</h2>
+<ul>
+<li>觸發時機那幾種到底怎麼選？我最想搞懂 PreToolUse 和 PostToolUse 各自適合擋什麼、補什麼，有沒有好記的判斷方式。</li>
+<li>他自己常駐在用的 hooks 是哪幾個？教學片列十種用法很容易，我想抄的是他真的留下來天天跑的那兩三個。</li>
+<li>Hooks 跟 CLAUDE.md 的分工。哪些規矩該留在說明檔、哪些該升級成 hook 強制執行，這條線畫在哪裡。</li>
+</ul>
+<p>看完之後打算至少設兩個：一個改完檔自動跑檢查，一個擋住我不想被碰的資料夾。到時候再回來補實測心得。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-16-journal.html">← 較新：小院日誌 08/16：又欠了一支要看的片</a><a href="2026-08-15-journal.html">較舊：小院日誌 08/15：又是被一支「最強系統」勾住的晚上 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
