@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 新片：把整條開發流程搬進 AI，他這次想講的是「全套」 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-ai-native-cycle.png" alt="Cole Medin 新片：把整條開發流程搬進 AI，他這次想講的是「全套」" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-17</time></div>
+    <h1 class="post-title">Cole Medin 新片：把整條開發流程搬進 AI，他這次想講的是「全套」</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去逛頻道，看到 Cole Medin 上了一支新片：<a href="https://www.youtube.com/watch?v=Tliio-33w4g">The Ultimate Guide to Making Your Entire Development Cycle AI Native</a>。標題口氣不小，「entire development cycle」加上「ultimate guide」，擺明是想把他這半年零散講過的東西收成一套完整的說法。片子今天剛出，我還沒看完整支，不過這幾週他其他影片和配套的 repo 我陸續翻過，先把預期的看點記下來。</p>
+<h2>他這套東西的核心是「AI layer」</h2>
+<p>Cole 反覆在講一個概念：現在每個 codebase 其實有兩層，一層是程式碼本身，另一層是他叫做 AI layer 的東西——就是所有告訴 coding agent 「在這個專案裡該怎麼做事」的 context。這層不是玄學，拆開來就三塊：全域規則（<code>CLAUDE.md</code> 裡的技術棧、程式慣例、測試標準）、按需載入的參考文件和風格指南，還有把工作流程打包好的 commands 跟 skills。</p>
+<p>我覺得這個框架最實用的地方是，他把 AI layer 也當程式碼在管——checked into version control，改進透過 pull request 走、給團隊 review。等於把「怎麼跟 AI 協作」這件事從各自摸索變成可以共享、可以版本控管的資產。這點我蠻認同的，我自己的流程筆記散在好幾個資料夾，最大的問題就是沒被當成正經的東西在維護。</p>
+<h2>PIV loop：Plan → Implement → Validate</h2>
+<p>影片大概還是會繞著他那個 PIV 循環轉。三個階段：</p>
+<ul>
+<li><strong>Plan</strong>：先 <code>/prime</code> 把 context 載進來，再 <code>/plan</code> 產出一份有內建驗證點的實作計畫，動手寫之前就先想清楚。</li>
+<li><strong>Implement</strong>：context 重置，換一個乾淨的視窗用 <code>/implement</code> 執行計畫。他很堅持這個「fresh window」的動作，避免前面規劃的雜訊污染實作。</li>
+<li><strong>Validate</strong>：一個五層的金字塔，底層 type check、lint 這種交給 agent，往上到人工測試才由人接手。</li>
+</ul>
+<p>配套的 <a href="https://github.com/coleam00/ai-transformation-workshop">ai-transformation-workshop</a> 這個 repo 裡放了十五個可以直接丟進任何專案的 command，除了核心的 <code>/plan</code>、<code>/implement</code>、<code>/validate</code>，還有一整組 primer（<code>/prime-server</code>、<code>/prime-client</code> 之類的分前後端版本）和 <code>/create-prd</code>、<code>/create-stories</code> 這種把需求拆成故事的東西。整條線大致是 Prime → 生 PRD → 拆故事 → Plan → Implement → Validate → Review。</p>
+<h2>我想在影片裡確認的幾件事</h2>
+<p>repo 的文件我翻得差不多了，反而是影片裡「為什麼要這樣設計」的部分我最想聽。幾個具體的：</p>
+<p>一是那個五層 validate 金字塔，文件寫得很漂亮，但實務上每一層到底花多少力氣、哪一層最常漏，我想聽他講真實案例，而不是理想圖。二是他一直說自己一年多沒親手寫程式、整個開發外包給 agent——這件事我半信半疑，想看他這支片有沒有誠實交代崩掉的時候怎麼收拾。三是 AI layer 要團隊一起維護聽起來很美，但多人協作時這層 context 會不會反而變成另一種要吵架的東西，這種協作面的坑影片裡未必會講，但我會特別留意。</p>
+<p>老實說 Cole 的東西我看多了，有時候會覺得包裝大於實質，一個概念換個名字又出一支片。但這支既然打著「ultimate guide」的旗號，我還是想給它一個機會，看他能不能真的把散落的零件收成一條走得通的路線。看完再回來補該補的。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-17-journal.html">← 較新：小院日誌 08/17：又是一支「終極指南」</a><a href="2026-08-16-journal.html">較舊：小院日誌 08/16：又欠了一支要看的片 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
