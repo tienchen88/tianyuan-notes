@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSeek 這次端出一個「什麼都能拆」的 coding agent，Cole 說它是下一代 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-deepseek-harness.png" alt="DeepSeek 這次端出一個「什麼都能拆」的 coding agent，Cole 說它是下一代" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-20</time></div>
+    <h1 class="post-title">DeepSeek 這次端出一個「什麼都能拆」的 coding agent，Cole 說它是下一代</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去逛頻道，看到 Cole Medin 上了一支新片：<a href="https://www.youtube.com/watch?v=yipfaA-GXPg">DeepSeek Just Built the Next Generation of Coding Agents</a>。標題口氣很大，「next generation」擺明是要幫 DeepSeek 這個新東西背書。片子今天剛出，我還沒看完，不過主角「DeepSeek Harness」這幾天的討論我翻了一輪，先把重點跟我的疑問記下來，看完再回來補。</p>
+<h2>主角是隨 V4 Pro 一起來的 Harness</h2>
+<p>這次的背景是 DeepSeek 更新了旗艦模型 V4 Pro，強調 agentic 能力，然後順手放了一個叫 Harness 的 coding agent 當 developer preview。它最不一樣的地方，是設計哲學跟 Claude Code、Codex 這種恰好相反。</p>
+<p>Claude Code 走的是「我幫你把流程都想好了」的路線，一套固定的 workflow，好處是開箱即用。DeepSeek Harness 反過來——它把系統的每一塊都當成可以抽換的外掛：工具、技能、session，甚至連別的 coding agent 都能當外掛掛進來。所有設定攤在可以直接改的 YAML 檔裡，而不是藏在某個設定選單深處。</p>
+<p>拆開來看它可插拔的幾個層次：</p>
+<ul>
+<li><strong>工具</strong>：shell、改檔、網路搜尋，都是可以一個一個開關的，而不是綁死的內建功能。</li>
+<li><strong>模式</strong>：完整 agent、code mode、精簡模式、還有讓你自訂 profile 的 creator mode。</li>
+<li><strong>模型</strong>：一個 session 裡可以在 Flash 跟 Pro 之間切，日常寫程式官方還建議用便宜的 Flash。</li>
+<li><strong>子代理</strong>：這點我覺得最有意思——它可以把 Claude Code、Codex 直接接進來當 sub-agent。</li>
+</ul>
+<p>換句話說，你可以讓 DeepSeek 當總指揮，遇到某個它不擅長的任務就轉派給最適合的那個工具。加上 MIT 授權，接自架模型或別家 provider 的門也是開的。</p>
+<h2>為什麼「可插拔」這件事我會多看一眼</h2>
+<p>我對這種「全部可換」的設計一直有點又愛又怕。愛的是它不把你鎖死——現在每家 agent 都想把你圈進自己那套流程，Harness 願意當一個編排層、把別人家的工具也納進來，這個姿態我蠻欣賞的。怕的是彈性的代價通常是要自己組裝，開箱那一刻你面對的是一堆 YAML，而不是一條走得通的路。對想直接開工的人來說，這種自由有時候反而是負擔。</p>
+<p>另外它強調的即時可觀測性我也留意到了：tokens/秒、cache 命中率、跑了多久都攤在眼前，而且據說 cache 命中率能到 95% 以上。對一個月中就在省額度的人來說，把成本攤開來看這件事，比什麼「next generation」的口號都實在。</p>
+<h2>我想在影片裡確認的幾件事</h2>
+<p>規格面的東西網路上翻得差不多了，反而是 Cole 這支片我想聽的是「實際跑起來到底怎樣」。幾個具體的：</p>
+<p>一是那個「把 Claude Code 當 sub-agent 掛進去」的用法，聽起來很美，但多 agent 串起來的實際體驗如何、延遲跟花費會不會失控，我想看他真的示範一條 pipeline，而不是只講架構圖。二是 Flash 這顆便宜模型在真實任務上到底夠不夠用，還是最後還是得切回 Pro——這關係到它「省」的說法能不能兌現。三是 developer preview 這四個字要打個折，我想聽他誠實講講哪裡還很粗糙、哪裡會踩雷。</p>
+<p>老實說 Cole 的片我看多了，他對新工具的熱情有時候會跑在成熟度前面，一個 preview 也能講成「下一代」。但 DeepSeek 這個開放、可組裝的方向，跟現在主流那種越做越封閉的走法確實不太一樣，值得給它一個機會看清楚。看完再回來補該補的。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-20-journal.html">← 較新：小院日誌 08/20：晚上逛到一個「什麼都能拆」的新工具</a><a href="2026-08-19-journal.html">較舊：小院日誌 08/19：被一支省 Token 的片戳到痛處 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
