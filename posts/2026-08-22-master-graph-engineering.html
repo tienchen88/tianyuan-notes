@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 聊 Graph Engineering：AI 圈又冒出的新名詞，這次我沒急著白眼 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-graph-engineering.png" alt="Gary Chen 聊 Graph Engineering：AI 圈又冒出的新名詞，這次我沒急著白眼" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-22</time></div>
+    <h1 class="post-title">Gary Chen 聊 Graph Engineering：AI 圈又冒出的新名詞，這次我沒急著白眼</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去逛頻道，Gary Chen 上了新片：<a href="https://www.youtube.com/watch?v=CKKJuFVMvXQ">Graph Engineering 解析，AI 圈新名詞到底在紅什麼？</a>。老實說我看到標題第一反應是又來了——這一兩年 AI 圈的新詞多到我都懶得追，prompt engineering 才紅沒多久，接著 context engineering、harness、loop，現在又一個 graph。片子剛出我還沒看完，不過趁著印象還新，先把我自己查到的、還有想跟他對答案的地方寫下來。</p>
+<h2>這名詞到底在講什麼</h2>
+<p>我先自己查了一輪才敢下判斷。Graph Engineering 大致是說：與其讓一個 agent 在那邊自己繞迴圈（想一步、做一步、再想一步），不如把整個應用畫成一張圖——每個節點是一個有特定職責的 agent、工具、驗證器，甚至是需要真人拍板的環節，節點之間用「邊」明確接起來，規定誰接誰、什麼條件下走哪條路。</p>
+<p>換句話說，它不是要取代前面那些 prompt、context 的功夫，而是疊在上面那一層。<a href="https://www.analyticsvidhya.com/blog/2026/07/graph-engineering/">有篇講這題的文章</a>講得蠻清楚：context engineering 管的是「每個模型看到什麼」，graph engineering 管的是「一堆 agent、迴圈、工具、驗證、真人之間怎麼串起來一起work」。這樣一分，我心裡就順多了。</p>
+<h2>為什麼這次我沒直接白眼</h2>
+<p>我對這種新名詞通常先打三折，因為十個有八個是把舊做法換個殼再賣一次。但 graph 這個我自己判斷是真有東西，因為它正好戳到我最近實作上的痛。</p>
+<p>我這陣子在試著讓幾個 agent 分工——一個查資料、一個寫、一個回頭檢查。問題是我一直用最土的方法在接：把前一個的輸出手動貼給下一個，中間出錯了就整條重跑，跑到哪、卡在哪、要不要退回去，全靠我自己盯。做著做著就會發現，真正難的從來不是單一個 agent 夠不夠聰明，而是它們之間的交接、分岔、和「這裡該停下來讓我看一眼」的節點該擺哪。graph 這套講的剛好就是這件事——把那些我現在用蠻力硬接的東西，變成可以明確宣告、看得到全貌的結構。</p>
+<h2>看片前想好的幾個問題</h2>
+<ul>
+<li><strong>多小的專案才值得畫圖</strong>。我怕的是殺雞用牛刀——明明兩三步就搞定的事，硬要搭一張圖反而把自己綁死。想看 Gary Chen 怎麼抓那條線，什麼時候該老實用迴圈就好。</li>
+<li><strong>出錯了怎麼辦</strong>。圖裡某個節點掛了，是整張重跑還是能從那個點續？這在我手動硬接的版本裡是最痛的一塊，很想看有沒有比較乾淨的處理。</li>
+<li><strong>真人節點怎麼擺</strong>。我不想全自動，總希望某些關卡自己看一眼再放行。想看他怎麼把「等我確認」這種環節自然地嵌進圖裡，而不是讓它變成卡住整條流程的瓶頸。</li>
+</ul>
+<p>Gary Chen 的東西我追一陣子了，之前那幾支講 <a href="2026-07-30-master-claude-md.html">CLAUDE.md</a> 和<a href="2026-08-19-master-save-token.html">省 token</a> 的都不灌水，講的是他自己天天在用的做法。這支我期待的也是同一件事——別跟我掉書袋解釋名詞，直接給我看一張他自己在跑的圖長什麼樣。看完再回來補我到底抄了哪些。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-22-journal.html">← 較新：小院日誌 08/22：又一個新名詞，這次我沒急著翻白眼</a><a href="2026-08-20-journal.html">較舊：小院日誌 08/20：晚上逛到一個「什麼都能拆」的新工具 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
