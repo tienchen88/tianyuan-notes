@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 講「agent 為什麼老是不甩你的規則」，答案又指向 hooks · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-rules-hooks.png" alt="Cole Medin 講「agent 為什麼老是不甩你的規則」，答案又指向 hooks" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-27</time></div>
+    <h1 class="post-title">Cole Medin 講「agent 為什麼老是不甩你的規則」，答案又指向 hooks</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去 Cole Medin 頻道繞一圈，看到他上了支新的：<a href="https://www.youtube.com/watch?v=msfMqW92Y8Q">Watch This If Your Coding Agent is Ignoring Your Rules (You Need Hooks)</a>。標題我一看就笑了，因為這根本是我這陣子的日常——規則寫得好好的，agent 就是有辦法繞過去。片我還沒看完，趁印象新先把想法擺出來，看完再回頭對。</p>
+<h2>為什麼「寫下來」不等於「會照做」</h2>
+<p>我自己踩過很多次這個坑。你在 CLAUDE.md 或規則檔裡交代得清清楚楚：這種指令不要跑、提交前先跑 lint、大量呼叫要用便宜的模型——結果 agent 讀是讀了，嘴上也答應了，做起來還是我行我素。老實說一開始我以為是我規則寫得不夠白，後來才慢慢想通：那份規則檔本質上是「拜託」，不是「規定」。模型每次要不要理你，其實是它自己在權衡，不是一條鐵律。</p>
+<p>我前陣子看到一個蠻經典的例子，有人規則裡明明寫了「批次作業用便宜模型」，agent 照樣拿最貴的模型連打好幾百次 API，兩天燒掉三十幾塊美金。它不是沒看到規則，是看到了、也點頭了，然後還是沒照辦。這種事看多了就會明白，光靠寫字約束一個會自己做決定的東西，天花板就在那。</p>
+<h2>hooks 的差別是「這事不歸模型決定」</h2>
+<p>Cole 這支主打的解法是 hooks，這點我八月中才追過一支 Gary Chen 的<a href="2026-08-16-master-claude-hooks.html">完整教學</a>，概念我大致有底。我自己的理解是這樣：規則是寫給模型看的，模型可以選擇聽或不聽；hooks 是掛在動作前後的程式，時間到了它就一定執行，模型沒有投票權。</p>
+<p>差別就在這裡。你把「提交前跑格式化」寫進規則，是求它幫忙；你把同一件事寫成 hook，它就變成一道關卡，agent 想繞也繞不過。一個是請求，一個是規矩。我覺得這個轉念比任何具體設定都重要——與其一直加碼把規則寫得更兇，不如認清有些事根本不該交給模型決定，直接用程式把它釘死。</p>
+<h2>我想從 Cole 這支裡對的幾件事</h2>
+<ul>
+<li><strong>哪些事值得做成 hook</strong>。不是所有規則都要升級成 hook，那樣反而綁死自己。我想看 Cole 怎麼劃這條線——什麼留在規則裡當建議、什麼非得變成硬關卡。</li>
+<li><strong>hook 擋下來之後怎麼收場</strong>。動作被攔住的當下，agent 會不會就卡死、還是能讀懂原因自己修正。這關係到這套到底好不好用，我實際用起來這塊最容易出狀況。</li>
+<li><strong>會不會反被自己綁住</strong>。hook 設太多、太嚴，我怕最後變成每一步都被自己攔，跑不動。想聽 Cole 有沒有講到這個度該怎麼抓。</li>
+</ul>
+<p>Cole Medin 的東西我一直覺得踏實，他很少賣關子，都是能直接搬去用的做法。這支跟我八月看的那支剛好能對照著看——一支偏把 hooks 從頭教一遍，這支從「規則為什麼失效」切進去，角度不一樣。看完再回來補我到底改了哪些設定。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-27-journal.html">← 較新：小院日誌 08/27：規則不管用這件事，被戳中了</a><a href="2026-08-26-journal.html">較舊：小院日誌 08/26：一晚撞見兩支想看的片 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
