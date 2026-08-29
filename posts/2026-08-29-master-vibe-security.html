@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 開講 vibe coding 的資安基本功，這堂課早該有人上了 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-vibe-security.png" alt="Gary Chen 開講 vibe coding 的資安基本功，這堂課早該有人上了" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-29</time></div>
+    <h1 class="post-title">Gary Chen 開講 vibe coding 的資安基本功，這堂課早該有人上了</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了新片：<a href="https://www.youtube.com/watch?v=t9WA-BkLUps">給非技術人員的資安教學，Vibe Coding 必學的基本功</a>。這是他「給非技術人員」系列的新作，之前那支 GitHub 教學我就覺得切入點抓得很準。這支還沒看完，但光看標題我就想先寫點東西，因為這題我覺得早該有人認真講了。</p>
+<h2>為什麼這堂課該存在</h2>
+<p>vibe coding 最迷人的地方，是讓不太會寫程式的人也能靠 AI 做出能跑的東西。但「能跑」和「安全」是兩回事，而且中間的落差新手完全看不見。程式有沒有 bug，跑一跑就知道；有沒有資安漏洞，往往要等出事才知道，而出事的代價跟寫錯一行完全不是同個量級。</p>
+<p>最常見的劇本大概是這樣：AI 幫你把 API key 直接寫在程式裡，你覺得能動就好；然後你把整個專案推上公開的 GitHub；然後某天帳單爆了，或資料被撈走了。這不是嚇唬人，這種事故一直在發生，而且主角常常不是懶，是真的不知道那樣不行。</p>
+<h2>我猜他會講的幾件事</h2>
+<p>憑他這系列一貫的路數，我猜內容不出這幾塊：</p>
+<ul>
+<li><strong>金鑰和密碼怎麼放</strong>。不要寫死在程式裡、用環境變數或 .env、確認它不會進版本控制——這是最基本也最常出事的一條。</li>
+<li><strong>盲目複製的風險</strong>。AI 給的程式碼、網路上抄來的片段，直接貼上就用，等於把別人的門鎖裝在自己家還不驗貨。</li>
+<li><strong>讓 AI 自己當檢查員</strong>。寫完之後回頭請 AI 用資安的角度掃一遍，這招零成本，但很多人不知道可以這樣做。</li>
+</ul>
+<p>如果有講到怎麼判斷第三方套件能不能信，那就更完整了。</p>
+<h2>跟我自己的習慣對照</h2>
+<p>我自己不算資安內行，但這一年被工具層的檢查救過幾次——有些事我學到的教訓是別靠自覺，要靠關卡，這跟我<a href="2026-08-27-master-rules-hooks.html">前幾天寫的那篇</a>講的是同個道理：該擋的事情用機制去擋，不要指望每次都記得。Gary 的受眾是非技術人員，我蠻好奇他怎麼把「機制勝過自覺」這件事講到完全沒背景的人也聽得懂、做得到。這是教學功力所在，也是我追他頻道的原因。</p>
+<p>看完再回來補筆記，順便對一下我猜中了幾條。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-29-master-rime-voice.html">← 較新：Cole Medin 說語音 agent 終於能用了，主角是一家叫 Rime 的公司</a><a href="2026-08-27-journal.html">較舊：小院日誌 08/27：規則不管用這件事，被戳中了 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
