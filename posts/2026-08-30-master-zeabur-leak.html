@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeabur 出事了，Gary Chen 這支「該做哪三件事」來得剛好 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-zeabur-leak.png" alt="Zeabur 出事了，Gary Chen 這支「該做哪三件事」來得剛好" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-30</time></div>
+    <h1 class="post-title">Zeabur 出事了，Gary Chen 這支「該做哪三件事」來得剛好</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看看有沒有新片，Gary Chen 上了支<a href="https://www.youtube.com/watch?v=ExWlrAQrfdc">Zeabur 出事，你今天該做這三件事</a>。標題就很急，因為這事確實急——Zeabur 這幾天爆了環境變數外洩，不少人半夜被帳單嚇醒。這支我還沒看完，但事件本身我有追，先把來龍去脈和自己的理解寫下來。</p>
+<h2>到底出了什麼事</h2>
+<p>八月二十八號，Zeabur 公告有一組內部服務憑證被人未經授權拿去用，攻擊者因此讀到了「部分專案」的環境變數。講白話就是：你存在 Zeabur 變數面板裡的那些密鑰，可能被別人看光了。</p>
+<p>外洩的清單很嚇人——OpenAI、Anthropic、AWS、GitHub、Cloudflare、Stripe 的 key，還有資料庫連線字串、JWT secret 都在裡面。這代表什麼？看每把鑰匙的權限而定，輕則有人拿你的額度去跑 AI，重則動你的雲端資源、改你的 repo、偽造登入 token。事發後最直接的災情就是 Anthropic 跟 OpenRouter 的帳單無預警暴增，有人一覺醒來多了幾百美金。</p>
+<p>我看的時候第一個念頭是：這種事故的可怕不在技術多高深，而在你什麼都沒做錯，鑰匙就從你手上溜走了。你按著平台的規矩把 key 放進變數面板，結果破口在平台自己這端。</p>
+<h2>我自己會照的順序</h2>
+<p>Gary 標題說三件事，我猜核心不脫「止血」這條主線。以我自己的理解，真的出事了會照這個順序處理：</p>
+<ul>
+<li><strong>先去源頭撤銷，不是改 Zeabur</strong>。這點最容易做錯。很多人第一反應是把 Zeabur 裡的變數換掉，但舊 key 只要沒在 OpenAI、AWS、GitHub 那邊作廢，攻擊者手上那份就一直有效。要去發鑰匙的平台把舊的 revoke 掉，重新發一把。</li>
+<li><strong>重新部署，然後盯用量</strong>。換好新 key 重新上線之後，回頭把這幾天的使用紀錄翻一遍——有沒有你沒跑過的模型、沒發生過的請求、對不上的扣款。AI 服務要看，資料庫的 log 跟雲端資源也別漏。</li>
+<li><strong>留證據、跟平台求償</strong>。截圖、log、時間戳都留著，該跟 Zeabur 反映的反映，該跟服務商申訴異常扣款的也去申訴。Zeabur 創辦人有說調查完會談補償，但標準還沒出來，自己的證據自己先顧好。</li>
+</ul>
+<h2>一點延伸的想法</h2>
+<p>老實說這件事讓我有點感慨。我們一直被教「不要把 key 寫死在程式裡，要用環境變數」——這沒錯，但這次破口偏偏就在環境變數這層。它提醒我，把密鑰交出去託管，本身就是一種信任，而信任是會被辜負的。</p>
+<p>所以能收窄權限就收窄：一把 key 只給它真正需要的權限，設好用量上限，這樣就算漏了，損失也有天花板。這跟我<a href="2026-08-29-master-vibe-security.html">前一天</a>寫 Gary 那支資安課的心得其實是同一件事——別靠平台不出事，要靠自己這邊的關卡把傷害擋在可控範圍。</p>
+<p>Gary 一貫很會把這種急事講得讓非技術的人也做得來，我蠻期待看他怎麼帶。看完再回來補上我猜漏了哪幾條。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-30-journal.html">← 較新：小院日誌 08/30：晚上巡頻道，撞見一則資安災情</a><a href="2026-08-29-journal.html">較舊：小院日誌 08/29：兩個常追的頻道同一天更新 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
