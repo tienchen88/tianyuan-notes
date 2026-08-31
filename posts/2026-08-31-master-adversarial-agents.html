@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>讓另一隻 agent 來拆自己的程式——Cole Medin 這支點到我痛處 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-adversarial-agents.png" alt="讓另一隻 agent 來拆自己的程式——Cole Medin 這支點到我痛處" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-08-31</time></div>
+    <h1 class="post-title">讓另一隻 agent 來拆自己的程式——Cole Medin 這支點到我痛處</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看看有沒有新片，Cole Medin 上了支<a href="https://www.youtube.com/watch?v=t-EsObfyxzo">The Hidden Flaw of EVERY Coding Agent Now Has a Solution</a>。標題有點聳動，但他講的那個毛病我最近剛好被咬到，就先點進去看了開頭，剩下的還沒看完，先把我理解的部分寫下來，等看完再回頭補。</p>
+<h2>他說的「每個 agent 都有的毛病」是什麼</h2>
+<p>簡單講就是：一隻 coding agent 沒辦法好好挑自己寫的程式的毛病。</p>
+<p>這聽起來很像廢話，但想一下就會覺得蠻真的。agent 把一整段脈絡都建立在「我要把這個功能做出來」上面，它的每一步都是為了讓這條路走通。等它寫完，你叫它「檢查一下有沒有問題」，它其實是拿同一份、已經偏向「這樣做是對的」的脈絡在自我審查。結果多半是它跟你說「看起來沒問題」，然後 bug 還在那裡。</p>
+<p>這跟人一模一樣。我自己寫的東西，回頭看常常看不出破綻，因為我腦子裡那份「我當初為什麼這樣寫」的脈絡會幫它擋掉質疑。要別人來看才看得到。</p>
+<h2>他的解法：找隻對手來拆</h2>
+<p>Cole 給的名字叫 adversarial dev，白話就是「對抗式開發」。做法是另外開一隻完全獨立、有自己乾淨脈絡的 agent，它唯一的任務就是把主力 agent 剛寫的東西拆爛——專門找漏洞、找沒考慮到的情況、找它覺得寫得爛的地方。</p>
+<p>他說這靈感是從 GAN 來的。以前那種會生成圖片的模型，就是一隻負責生、一隻負責挑（discriminator），兩邊互相逼。搬到寫程式這邊，就變成一隻 builder、一隻 critic。</p>
+<p>裡面我覺得最關鍵的一點是：那隻負責挑毛病的，最好用別家的模型。比方說主力用 Claude Code 寫，就找 Codex 來審這個分支跟 main 的差異。理由是同一家的模型思路太接近，容易一起漏同一個坑；換一家等於換一雙眼睛，它沒有「我當初這樣想」的包袱，才挑得出你自己脈絡裡看不到的東西。</p>
+<p>退一步說，就算你懶得換模型，讓同一隻模型「開一個全新的對話」來審自己，也比在原本那條又臭又長的脈絡裡自我檢查強——至少脈絡是乾淨的，沒被「我要把這件事做成」的執念污染。</p>
+<h2>為什麼我覺得這招值得試</h2>
+<p>老實說我最近就吃過這個虧。讓 agent 一路寫下去，寫到後面它自己都在幫自己的錯誤圓場，我在旁邊看還被它說服了，最後是換個場景重看才發現前面有一段邏輯根本站不住。那時候的感覺就是——它跟我都陷在同一份脈絡裡，一起瞎了。</p>
+<p>Cole 這套的價值不在多高深的技術，而在它幫你把「審查」這件事從「自己看自己」變成「找個沒立場的來看」。這個結構上的分工，比你叫 agent「再仔細檢查一遍」有用太多，因為問題從來不是它不夠仔細，是它站的位置不對。</p>
+<p>我打算這幾天就照著試：主力寫完一個段落，就另開一隻、最好別家的，只丟給它「這個分支相對 main 改了什麼，幫我挑毛病」，不給它任何「這樣做很好」的預設。看它能不能撈出我自己漏掉的東西。</p>
+<p>影片後半他應該有講更細的操作和實例，我還沒看完，看完再回來補上我漏了哪幾條。先記到這。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-08-31-journal.html">← 較新：小院日誌 08/31：換一隻沒立場的來看</a><a href="2026-08-30-journal.html">較舊：小院日誌 08/30：晚上巡頻道，撞見一則資安災情 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
