@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每六個月刪光你的 CLAUDE.md？Claude Code 之父這建議聽起來像自殺，但有道理 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-delete-claude-md.png" alt="每六個月刪光你的 CLAUDE.md？Claude Code 之父這建議聽起來像自殺，但有道理" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-02</time></div>
+    <h1 class="post-title">每六個月刪光你的 CLAUDE.md？Claude Code 之父這建議聽起來像自殺，但有道理</h1>
+  </div>
+  <div class="content">
+<p>今天翻新片的時候看到 Gary Chen 上了支<a href="https://www.youtube.com/watch?v=Z-4AsgTYv2c">Claude Code 之父建議，每六個月刪光你的 CLAUDE.md？</a>。標題就是那種會讓我停下來的類型——刪光 CLAUDE.md？那不是我辛辛苦苦養了半年的東西嗎。查了一下背景，原來是 Claude Code 的創造者 Boris Cherny 講的，我把來龍去脈記一記。</p>
+<h2>他到底建議了什麼</h2>
+<p>Boris 的原話大概是：如果你不是在做 agent 產品、只是拿 Claude Code 來寫東西的人，每六個月，把你的 CLAUDE.md 刪掉、skills 刪掉、hooks 也刪掉，然後看看模型自己會怎麼做。他說結果可能會讓你意外。</p>
+<p>聽起來很像叫你自廢武功。但他給的理由我覺得很硬：你那份系統提示、那份 CLAUDE.md，裡面絕大多數的規則，其實都是「補丁」——都是為了糾正上一代模型會犯的某個錯而寫的。當模型變強，那些錯它本來就不會犯了，補丁就變成純粹的雜訊，還占著脈絡。</p>
+<p>而且這不是空談。搜到的說法是，他們幫 Opus 5 準備的時候，把系統提示砍掉了超過八成，在自家的 coding 測試上沒看到任何退步。八成欸。這數字擺在那，很難不讓人回頭看自己那份 CLAUDE.md 到底有多少是真的還需要的。</p>
+<h2>我覺得最容易被忽略的是第二步</h2>
+<p>很多人聽到「刪光」就只做了前半，然後 agent 表現變差就罵這建議是騙人的。但重點在後半：刪完之後，只在模型真的卡住的時候，才一條一條把規則加回來。</p>
+<p>換句話說，這不是叫你永遠不寫規則，是叫你把「預設塞規則」翻轉成「預設不塞、卡了才補」。這樣留下來的每一條，都是模型真的需要、自己推不出來的，而不是你憑感覺覺得該寫的。</p>
+<p>搜到有個判斷標準蠻好用：加一條規則之前先問自己，一個夠聰明的模型，光讀我這個專案的程式碼，會不會自己搞懂這件事？會的話就別寫。留下來的應該是那種它推不出來的東西——你的風格偏好、語氣、非談不可的安全或商業紅線。</p>
+<p>有意思的是，同一份資料裡有人真的去測，79 條規則裡最後只有 22% 是可以刪的。所以也不是越少越好，是要留對的那些。</p>
+<h2>對照我自己</h2>
+<p>這篇對我來說有點打臉。我那份 CLAUDE.md 這半年只進不出，每次 agent 做錯一件事我就加一條，加到現在自己都懶得回頭看還需不需要。Boris 這說法提醒我，模型一直在變，我卻用半年前的補丁在綁現在的模型，等於拿舊藥治早就好了的病。</p>
+<p>這跟我今晚看的<a href="2026-09-02-master-tiny-agent-fixes.html">另一支 Cole Medin 的清單</a>其實是同一件事的兩面——他講「別把脈絡養肥」，Boris 講「定期清掉養肥的部分」，湊起來就是一句：規則要當耗材看，不是資產。</p>
+<p>我打算這幾天先不真的全刪（沒那個膽），但至少把那份檔案從頭讀一遍，一條一條問「這還需要嗎」。看完整支影片再回來補他講得更細的部分。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-02-journal.html">← 較新：小院日誌 09/02：兩支影片講同一件事，規則別越養越肥</a><a href="2026-09-02-master-tiny-agent-fixes.html">較舊：11 個小到不行、但回報大到誇張的 agent 調整——Cole Medin 這清單我想抄 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

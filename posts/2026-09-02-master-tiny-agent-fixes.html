@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11 個小到不行、但回報大到誇張的 agent 調整——Cole Medin 這清單我想抄 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-tiny-agent-fixes.png" alt="11 個小到不行、但回報大到誇張的 agent 調整——Cole Medin 這清單我想抄" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-02</time></div>
+    <h1 class="post-title">11 個小到不行、但回報大到誇張的 agent 調整——Cole Medin 這清單我想抄</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去翻一輪新片，Cole Medin 上了支<a href="https://www.youtube.com/watch?v=UbylWXukvR8">11 Tiny Coding Agent Fixes With A Stupid Amount Of Payoff</a>。標題白話講就是「11 個超小的 coding agent 調整，但回報大到蠢」。我對這種「小改動、大回報」的清單一向沒抵抗力，點進去看了開頭，後面還沒看完，先把我理解和預期的部分記下來，看完再回來對。</p>
+<h2>為什麼是這個人講我會想聽</h2>
+<p>Cole 這個頻道我追一陣子了，他不太講那種花俏的 demo，講的都是「怎麼讓 agent 穩定地幫你做事」的工程細節。他反覆在講一件事：每個 codebase 其實有兩層，一層是程式碼本身，另一層是他叫做「AI 層」的東西——就是所有告訴 agent「在這個專案裡該怎麼做事」的脈絡。多數人只顧著寫第一層，第二層放著爛，然後抱怨 agent 不聽話。</p>
+<p>所以他這種「11 個小修正」的清單，我猜八成不是什麼新工具或新指令，而是一堆調整你跟 agent 相處方式的小習慣。這種東西通常最有用，因為不用學新東西，改個做法就見效。</p>
+<h2>我猜這清單裡會有的幾條</h2>
+<p>憑他過去講過的東西，我大概能猜到幾個方向：</p>
+<ul>
+<li><strong>脈絡是王，別把 CLAUDE.md 養成垃圾場</strong>。他一直主張與其塞一份又肥又雜的規則檔，不如讓需要的脈絡在需要的時候才進來。這點剛好跟我今晚看的另一支影片（<a href="2026-09-02-master-delete-claude-md.html">Gary 講 Boris Cherny 建議定期刪光 CLAUDE.md 那篇</a>）撞在一起，兩邊都在說同一件事：規則不是越多越好。</li>
+<li><strong>子 agent 只拿來查資料</strong>。查一個 codebase 很吃脈絡，他的做法是把「查」這件事丟給子 agent 去燒它自己的脈絡，查完只把結論帶回主線，主線的脈絡就乾淨。</li>
+<li><strong>規劃和實作之間要重置</strong>。想清楚要做什麼、跟真的動手寫，是兩種狀態，中間把脈絡清一清再開始，比一路拖著規劃階段的雜訊往下走好。</li>
+<li><strong>git log 當記憶</strong>。commit 寫得勤、寫得清楚，agent 每次開工先讀這段歷史，就等於幫它接上「這個專案之前發生過什麼」。</li>
+<li><strong>每個 bug 都是升級 AI 層的機會</strong>。agent 犯過的錯，回頭把它變成一條規則或一個檢查，下次它就不會再犯——系統會這樣一點一點長出來。</li>
+</ul>
+<p>當然這只是我從他過去內容湊出來的，實際 11 條是哪些、有沒有我沒想到的角度，還是得看完才知道。</p>
+<h2>我自己想先試的</h2>
+<p>老實說我最近的 CLAUDE.md 就有點失控，什麼都往裡塞，結果 agent 反而抓不到重點。所以「別把脈絡養肥」這條我特別有感。子 agent 拿來查資料那招我也還沒認真用過，都是讓主線自己硬讀，讀到後面脈絡就髒了。</p>
+<p>先記到這，等看完把 11 條補齊，順便對一下我猜中幾個。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-02-master-delete-claude-md.html">← 較新：每六個月刪光你的 CLAUDE.md？Claude Code 之父這建議聽起來像自殺，但有道理</a><a href="2026-08-31-journal.html">較舊：小院日誌 08/31：換一隻沒立場的來看 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
