@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「軟體工廠」是下一個大東西？Cole Medin 說他要幫我們蓋一座 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-software-factory.png" alt="「軟體工廠」是下一個大東西？Cole Medin 說他要幫我們蓋一座" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-03</time></div>
+    <h1 class="post-title">「軟體工廠」是下一個大東西？Cole Medin 說他要幫我們蓋一座</h1>
+  </div>
+  <div class="content">
+<p>早上開電腦看到 Cole Medin 上了新片：<a href="https://www.youtube.com/watch?v=DcLj_SO8JNk">AI Software Factories Are the Next Big Thing (And I'm Building You One)</a>。標題兩段都很敢——前半宣告一個趨勢，後半直接說他要幫你蓋一座。片子我還沒看完，不過這個題目他鋪了整個夏天，前後脈絡我大概接得起來，先把我理解的和我還不放心的地方記一記。</p>
+<h2>「工廠」到底指什麼</h2>
+<p>他之前用的詞是 dark factory，字面是「暗燈工廠」——製造業拿來講那種不需要開燈、因為裡面沒有人的產線。搬到寫程式上，意思就是一個能自己接規格、自己規劃、自己寫、自己測、自己部署的 codebase，人不用進去動手。</p>
+<p>這不是他嘴上說說。查到的說法是他真的讓那套系統連續跑了一個多星期，中間沒有人手寫程式，最後把一個叫 AI Tutor 的東西實際上線，還開直播收尾。底下跑的引擎是他那個開源的 <a href="https://github.com/coleam00/archon">Archon</a>——用 YAML 把開發流程寫成 workflow，每個節點要嘛是丟給 coding agent 的一段提示，要嘛是「建立脈絡」「跑驗證」「git 操作」這種確定性的指令。</p>
+<p>這個設計我蠻認同的。agent 最不可靠的部分是決定「下一步做什麼」，那就把下一步從模型手上拿走，寫死在 YAML 裡；模型只負責它真的擅長的——在一個被框好的小格子裡把事情做出來。</p>
+<h2>拆開來看有哪些零件</h2>
+<p>翻到一篇整理，把這套東西拆成五塊：</p>
+<ul>
+<li><strong>workflow 驅動的 repo</strong>：規格像工單一樣排隊進去</li>
+<li><strong>自動化與佇列</strong>：管工單怎麼從一個狀態流到下一個</li>
+<li><strong>藍綠部署</strong>：上線和回滾要能不痛</li>
+<li><strong>guidance 層</strong>：那些告訴 agent 怎麼做事的檔案</li>
+<li><strong>驗證 harness</strong>：程式自己檢查自己有沒有做對</li>
+</ul>
+<p>前四塊講白了都是工程活，不新，但很累人——重點在把它們湊齊。第五塊才是真正的心臟。</p>
+<h2>我最不放心的還是驗證</h2>
+<p>因為整座工廠能不能無人運轉，全押在「它知不知道自己做錯了」這件事上。前面四塊做得再漂亮，驗證一鬆，工廠就只是在高速產出你不敢用的東西。</p>
+<p>那篇整理裡有段話我覺得很誠實：現在的自主程度大概在 level 3 到 4 之間，也就是「AI 寫掉大部分程式，但規劃和驗證還是要人插手」，往上一階才勉強算「開始能無人駕駛」。作者自己也承認這東西 not yet foolproof、還在很早的階段。</p>
+<p>我看到「下一個大東西」這種字眼會先打折，這半年被打折的次數不少。不過打折之後剩下的那部分，通常還是值得抄——就像他前幾支講的東西，我最後真正拿去用的往往不是那個大架構，是裡面某一兩個小零件。</p>
+<p>有意思的是這支剛好接上前兩天那兩支。<a href="2026-08-31-master-adversarial-agents.html">對抗式 agent</a> 那支講的就是「誰來檢查」，<a href="2026-09-02-master-tiny-agent-fixes.html">11 個小調整</a>那支講的是別把脈絡養肥。放進工廠這個框架看，前者是驗證 harness，後者是 guidance 層要瘦。所以他不是換了題目，是把同一批零件往上組。</p>
+<h2>我打算怎麼試</h2>
+<p>我不會去蓋一座工廠，我手上也沒有那種需要連跑一星期的專案。但有兩件事想偷：</p>
+<p>一是把我現在靠聊天推進的流程，挑一段寫成 YAML。就一段——比方「改完之後跑測試、跑 lint、產出摘要」這種我每次都手動講一遍的。寫死之後就不必每次重講，也不會漏掉。</p>
+<p>二是先把驗證那塊補起來再想自動化。老實說我現在的驗證薄得可以，很多時候是我自己眼睛看過去覺得沒問題就過了。這種驗證水準之下談什麼無人化都是自欺。</p>
+<p>至於「幫你蓋一座」那句，照他的習慣多半會開源一個模板或 skill 出來。等真的釋出我再回頭看看，也把整支影片補完——現在寫的這些，還只是我從標題和過去脈絡推出來的預期，不是他真的說的。</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-03-journal.html">← 較新：小院日誌 09/03：無人工廠聽起來很爽，但驗證那塊我還沒補</a><a href="2026-09-02-journal.html">較舊：小院日誌 09/02：兩支影片講同一件事，規則別越養越肥 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
