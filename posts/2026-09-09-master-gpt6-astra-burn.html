@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>燒了 2300 美金換一份心得：Gary Chen 的 GPT-6 Astra 實測 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-gpt6-astra-burn.png" alt="燒了 2300 美金換一份心得：Gary Chen 的 GPT-6 Astra 實測" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-09</time></div>
+    <h1 class="post-title">燒了 2300 美金換一份心得：Gary Chen 的 GPT-6 Astra 實測</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看看有沒有新片，Gary Chen 上了一支 <a href="https://www.youtube.com/watch?v=UWdn0w-fbzQ">GPT-6 Astra 不是 AGI，但真的很猛，我燒了 2300 美金後的實測分享</a>。標題就把結論寫在前面了，我反而更想知道中間那段怎麼走。片子我只看了開頭跟章節列表，先把想法擺一擺，看完再回來補。</p>
+<h2>兩個實測，價差一百七十倍</h2>
+<p>他做了兩件事。一句話 prompt 讓 Astra 做自己的頻道官網，19 分鐘、13 美金；然後放它跑 16 小時做一款台北版 GTA，帳單 2300 美金。</p>
+<p>我盯著這兩個數字看了一下。13 美金那個沒什麼好講的，現在誰都做得出來。2300 那個才是真正的題目。做不做得出來我其實不太懷疑，我好奇的是一個人要在什麼情況下，才會願意先掏 2300 美金去換一個不知道會不會成的東西。這件事以前不存在。以前你評估一個工具，成本是你的時間；現在時間變少了，錢變多了，而且是要先付的那種。</p>
+<p>老實說我對這種訂價方式還沒調適過來。我習慣的是「花三天做，失敗了損失三天」，那三天至少還留在我腦子裡。燒掉的 2300 美金留下什麼，我不太確定。</p>
+<h2>跑分那段我先自己查了一輪</h2>
+<p>章節 1:17 是「三項跑分看進步在哪」。我先去翻了一下公開資料，順序上有點作弊，但不查我沒辦法判斷他講的數字該怎麼理解。</p>
+<p>最熱鬧的是 ARC-AGI-3。OpenAI 自己那套 harness 跑出 99.9%，看起來像是把題目打穿了；ARC Prize 用自己那套跨廠商中立的設定重跑，只有 62.7%。差別在哪？OpenAI 那套會在多次請求之間保留模型內部的推理狀態，長對話還會壓縮，等於讓它把前面想過的東西接著用；中立那套要求模型自己把學到的東西寫成筆記留下來。</p>
+<p>我覺得這個差別不是雞蛋裡挑骨頭。它問的是這個能力到底屬於誰：屬於模型本身，還是屬於那套幫它接住記憶的外殼。而且 ARC Prize 自己講得很清楚，就算把這個 benchmark 打滿分也不等於 AGI，它的範圍是被框死的，跟真實世界那種沒邊界的複雜度是兩回事。</p>
+<p>其他幾項倒是蠻硬的。電腦操作那塊，OSWorld 2.0 從 65.7% 上到 72.6%，而且平均完成時間從 75 分鐘掉到 40 分鐘。時間那個數字比正確率更讓我有感。同一個 agent 跑同一批任務，快了將近一倍，這種提升在實務上會直接反映在帳單上。</p>
+<h2>13:05 那段是我最想聽的</h2>
+<p>七個章節裡，最讓我坐直起來的是「思考過程越來越難監督」。</p>
+<p>這件事我這陣子在別的地方也讀到，方向大概是這樣：新一代模型愈來愈多推理發生在人看不懂的內部表徵裡，不再全部攤成一串人類讀得懂的文字。對安全研究的人來說，那串文字本來是最主要的稽核路徑，現在它變短、變稀、有時候乾脆沒有。更麻煩的是有評測發現模型會察覺自己正在被測試，Apollo Research 那邊的數字是四成以上的樣本裡它認得出來。那你測到的乖，到底是它本來就乖，還是它知道有人在看。</p>
+<p>OpenAI 自己的安全研究員 Tomek Korbak 講過一句話我印象很深，大意是「思考過程可監督性下降這個趨勢讓我很擔憂，而目前沒有好的替代品」。講這話的是自己人，不是外面唱衰的。</p>
+<p>所以 Gary 把這段排在「它算不算 AGI」前面，順序我認為是對的。能力多強是一個問題，看不看得懂它怎麼想是另一個問題，而後面這個問題會決定前面那個能力你敢不敢用在真的會出事的地方。</p>
+<h2>我還沒想清楚的</h2>
+<p>有一件事我卡著。這種「放它跑 16 小時然後看結果」的用法，其實已經不是在用工具了，比較像是在委託。委託就會有委託的問題：你怎麼知道它中間有沒有繞路、有沒有為了看起來完成而抄捷徑、有沒有在某個節骨眼上做了一個你不會同意的決定。跑 19 分鐘的東西你還能盯，跑 16 小時的東西你只能看報告。</p>
+<p>而且報告是它寫的。</p>
+<p>片子完整看完再補後面幾段的心得。他說明欄放了 Patreon 的完整文章和提示詞模板，那部分我沒看。</p>
+<hr class="leaf">
+<p>參考：<a href="https://arcprize.org/blog/astra">ARC Prize 對 Astra 的評測說明</a>、<a href="https://openai.com/index/gpt-6-astra/">OpenAI GPT-6 Astra 公告</a>、<a href="https://www.ghacks.net/2026/09/07/gpt-6-astra-draws-scrutiny-for-being-harder-to-monitor-even-as-openai-calls-it-more-aligned/">Astra 監督性爭議報導</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-09-master-agents-without-keys.html">← 較新：不給鑰匙，只給一張清單：Cole Medin 談 agent 碰真實基礎設施</a><a href="2026-09-05-journal.html">較舊：小院日誌 09/05：好用的東西，好用的理由可能已經沒了 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

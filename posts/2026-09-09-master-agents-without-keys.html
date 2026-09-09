@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>不給鑰匙，只給一張清單：Cole Medin 談 agent 碰真實基礎設施 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-agents-without-keys.png" alt="不給鑰匙，只給一張清單：Cole Medin 談 agent 碰真實基礎設施" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-09</time></div>
+    <h1 class="post-title">不給鑰匙，只給一張清單：Cole Medin 談 agent 碰真實基礎設施</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 上了一支 <a href="https://www.youtube.com/watch?v=PxQ_UJXDE1g">The Safest Way I've Found to Let AI Coding Agents Run Real Infrastructure</a>。他今年的程式碼全部是 AI 寫的，但他說限制他信任的不是模型能力，是模型碰得到什麼。這句話戳到我了，所以先寫下來。</p>
+<h2>問題出在權限的形狀</h2>
+<p>他講的情境是這樣：agent 一旦要碰真實環境，你交出去的通常是一整組東西，shell、資料庫連線字串、雲端金鑰全在裡面。給了之後它就什麼都能做，包括把資料庫清空。</p>
+<p>我覺得這個描述準確在「一整組」三個字。我們現在給 agent 權限的方式，粒度粗得離譜。要它幫忙重啟一個服務，結果順手給了整台機器；要它查一筆資料，給的是可以 DROP TABLE 的那把鑰匙。這也未必是我們不謹慎，多半是中間沒有更細的東西可以給。要嘛全給，要嘛它做不了事。</p>
+<p>而且這裡有個心理上的陷阱。你會覺得「我有在看啊，它做什麼我都知道」，但實際上你看到的是它願意告訴你的那段輸出。真正發生了什麼，要等出事了去翻日誌才會知道，前提是那個操作有留下日誌。</p>
+<h2>反過來做</h2>
+<p>他這支介紹的做法是把方向調轉：操作本身寫成 YAML 放進 Git，agent 拿到的不是憑證，是一張「你被允許執行的流程清單」。它每呼叫一次，回來的就是一次普通的執行紀錄，你可以打開來讀。</p>
+<p>我去翻了一下背後那套工具（Kestra，剛出 2.0，核心維持 Apache 2.0）的說明，實作上比我想的更簡單。你在既有的流程上加一個 trigger，那個流程就變成一個具名的 MCP 工具；流程的 input 自動對應成工具的 JSON schema，agent 填參數、執行、拿 output。他們自己那句話講得蠻好的：agent 的權限不會比一個坐在螢幕前按 Run 的人更多。</p>
+<p>這個設計我喜歡的地方在於，它沒有發明新的安全機制。RBAC、稽核紀錄、執行日誌，本來就有；它只是讓 agent 走同一條既有的路進來，沒有另外開後門。所以你不用為了「有 agent 在用」再蓋一套監控，它的每一次動作，長得跟人手動觸發的一模一樣。</p>
+<h2>我的懷疑</h2>
+<p>不過我還是有幾點想不通，等看片再對答案。</p>
+<p>第一，這套的安全性其實整個押在「哪些流程可以被叫」這件事上。定義得嚴，agent 幾乎做不了什麼，你等於退回手動；定義得鬆，那些流程裡面照樣可以塞任意 shell 指令，鑰匙只是換了個地方放。中間那條線在哪，我猜是這類做法真正難的部分，而且大概沒有通解，要看每個團隊自己的環境。</p>
+<p>第二，他們文件裡提到工具的描述要寫得精準，「模糊的描述會導致糟糕的路由」。這句話我看了有點無奈。等於說你省下了寫憑證管理的工，換成要寫一堆給模型看的說明文字，而且那些文字會過期、會跟實際流程對不上，還沒有任何機制提醒你它已經對不上了。這半年我在別的地方吃過一樣的虧，把手工活交出去之後，維護的東西只是換了一層。</p>
+<p>第三，這是一支有合作關係的影片，他自己在說明欄講了。我不覺得這樣有什麼問題，該講的他有講，但這代表片子裡不會出現「這套什麼時候不適合」的段落，那部分要我自己補。</p>
+<h2>我打算怎麼用</h2>
+<p>我手上沒有那麼嚴肅的基礎設施要顧，資料庫被清空這種事對我來說比較抽象。但「給清單不給鑰匙」這個形狀，我覺得可以縮小尺寸拿來用。</p>
+<p>比如我自己那些會動到檔案的自動化，現在多半是直接讓程式跑；如果改成先寫死成幾個具名操作，再讓上層只能從那幾個裡面挑，出錯的範圍就被框住了。麻煩一點，但麻煩的是我，不是未來某天的我。</p>
+<p>還有一點我蠻認同他的前提。我以前擔心的是模型會不會突然變壞，後來覺得更常見的狀況是它做對了事情，只是路徑上恰好有一個誰都沒想到的副作用。把可及範圍縮小，比把模型調乖實際得多。</p>
+<p>片子完整看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://kestra.io/blogs/release-2-0">Kestra 2.0 發布說明</a>、<a href="https://kestra.io/blogs/2026-09-04-kestra-2-0-flows-as-agent-tools">Flows as agent tools</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-09-journal.html">← 較新：小院日誌 09/09：一邊在算能交出去多少，一邊在算交出去以後怎麼收</a><a href="2026-09-09-master-gpt6-astra-burn.html">較舊：燒了 2300 美金換一份心得：Gary Chen 的 GPT-6 Astra 實測 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
