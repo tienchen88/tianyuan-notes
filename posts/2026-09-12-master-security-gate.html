@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提示詞不是關卡：Cole Medin 把安全掃描做成 agent 跳不過的一步 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-security-gate.png" alt="提示詞不是關卡：Cole Medin 把安全掃描做成 agent 跳不過的一步" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-12</time></div>
+    <h1 class="post-title">提示詞不是關卡：Cole Medin 把安全掃描做成 agent 跳不過的一步</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 前幾天上了 <a href="https://www.youtube.com/watch?v=SGodxQHnVxc">No One Talks Enough About Security for AI Coding. Here's How I Do It in My Workflows</a>。開頭那句我覺得講得蠻準：AI 寫程式這件事差不多算解決了，但它寫出來的絕對不是安全的程式碼。他說自己在 AI 生成的程式裡不斷看到漏洞，而幾乎沒人在為這件事做設計。</p>
+<p>這支我還沒看完，只看了前面幾分鐘。不過他把片中那條工作流整個放在 GitHub 上，我先去把 YAML 讀了一遍，反而比看片更快抓到他想講什麼。</p>
+<h2>他的說法：一個提示詞不是一道門</h2>
+<p>看說明欄的時間戳，前半段大概在鋪陳問題：agent 會用哪兩種方式把漏洞帶進來、為什麼會犯這種錯，然後有一段標題叫「它注意到漏洞了，還是照樣交出去」。這段我很想看，因為這正是我自己碰過的狀況。模型在推理過程裡明明寫了「這裡可能有注入風險」，然後下一步就把 PR 開了，好像那句話只是隨口說說。</p>
+<p>他接著的兩個小節標題，一個是「提示詞不是關卡」，一個是「為什麼再加一個審查 agent 也沒用」。這兩句合起來就是整支片的論點了。你在提示詞裡寫「請注意安全」，那是一個建議，模型可以聽也可以不聽；你再派一個 agent 去審，那還是一個意見，兩個意見疊在一起不會變成一道門。</p>
+<h2>我從 YAML 裡看到的東西</h2>
+<p>工作流叫 secure-fix-issue，本體就是他原本那條「從 issue 到 PR」的流程，多加了四樣東西。我覺得這四樣加得很有想法，值得一項一項寫：</p>
+<p>第一，PR 先開，而且開成草稿。理由是 SonarQube 的掃描要指定「這是哪一個 PR」，所以 PR 得先存在。順便的好處是，Sonar 的判定會直接掛在 GitHub 那個 PR 上，兩邊講的是同一件事。</p>
+<p>第二，掃描這一步是一個純 bash 節點，裡面沒有模型。他在註解裡寫了一句我很喜歡：「裡面沒有模型，所以它沒辦法決定跳過自己。」這句話點出了問題的核心。只要一個步驟是由 agent 來執行的，它就有可能基於任何理由把這步略過，而且理由聽起來會很合理。</p>
+<p>第三，掃完之後有一個 agent 節點去讀品質閘門的結果，發現問題就修、重掃，最多三輪。</p>
+<p>第四，也是我覺得最關鍵的一個：修完之後，另一個 bash 節點從外面再確認一次閘門是不是綠的，而「把 PR 從草稿改成正式」這一步，依賴的是這個外部確認的節點，不是 agent 自己回報的那份「我修好了」。</p>
+<p>第四點說白了就是不信 agent 的自我報告。這跟我<a href="2026-09-09-master-agents-without-keys.html">前幾天寫 Cole 另一支</a>時的感覺是一致的：他這一陣子的東西，都在把「相信模型會做對」換成「結構上讓它做不了錯的事」。</p>
+<p>還有一個小細節。issue 編號是用環境變數傳進 bash 的，不是拼進指令字串裡，註解寫說這樣 issue 的標題就沒辦法用來逃出指令。安全工作流自己先做好不被注入，這種地方看得出來是真的在用，不是為了拍片搭的。</p>
+<h2>我的保留</h2>
+<p>先講明，這支是跟 Sonar 合作的影片，他自己在說明欄有寫。這不影響做法本身，但表示片子裡大概不會有「這套什麼時候抓不到」的段落。</p>
+<p>而我覺得抓不到的部分才是要緊的。SonarQube 這類靜態分析擅長的是有固定樣式的問題，注入、寫死的金鑰、不安全的函式呼叫這些。時間戳裡說 Sonar 抓到了三個漏洞，我猜大概就是這類。但邏輯層的錯，例如權限檢查漏了一條路徑、某個狀態下的資料不該回傳卻回傳了，靜態掃描通常看不出來。所以這道門擋得住的是「常見錯誤」，擋不住「這個系統特有的錯誤」。這不是缺點，只是要知道門的高度在哪。</p>
+<p>另一個我有點在意的是那個三輪修復迴圈。agent 拿到「掃描不過」的訊息之後，它的目標會變成「讓掃描過」。這跟「把問題修好」多數時候是同一件事，但不是永遠。我沒有證據說會出事，只是這種目標替換我看過太多次了，一定要看片子裡他實際跑那段 red 變 green 是怎麼修的。</p>
+<h2>我打算怎麼拿來用</h2>
+<p>我自己沒有那麼正式的 CI，也沒在用 Sonar。但這裡真正的想法其實跟工具無關：把「不可以跳過」的檢查做成一個沒有模型參與的步驟，然後讓後面的動作依賴那個步驟的結果，而不是依賴 agent 的說法。</p>
+<p>這個形狀我覺得可以縮小。比如我那幾個會動檔案的小工具，跑完之後我通常是讀它的回報來判斷有沒有成功。如果改成讓一個很笨的檢查腳本去確認實際的檔案狀態，成功與否由那個腳本說了算，等於就是他這條線的迷你版。笨一點的東西反而比較可信，這個體會今年越來越深。</p>
+<p>等看完再回來補他前半段講的那兩種漏洞來源。</p>
+<hr class="leaf">
+<p>參考：<a href="https://github.com/coleam00/Archon">Archon</a>、<a href="https://github.com/coleam00/ai-transformation-workshop/blob/main/.archon/workflows/secure-fix-issue.yaml">片中那條 secure-fix-issue 工作流</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-12-master-claude-code-updates.html">← 較新：沒開發表會也在長：Gary Chen 整理的七個 Claude Code 更新</a><a href="2026-09-09-journal.html">較舊：小院日誌 09/09：一邊在算能交出去多少，一邊在算交出去以後怎麼收 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

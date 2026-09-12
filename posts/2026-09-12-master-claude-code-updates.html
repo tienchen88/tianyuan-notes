@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>沒開發表會也在長：Gary Chen 整理的七個 Claude Code 更新 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-claude-code-updates.png" alt="沒開發表會也在長：Gary Chen 整理的七個 Claude Code 更新" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-12</time></div>
+    <h1 class="post-title">沒開發表會也在長：Gary Chen 整理的七個 Claude Code 更新</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了 <a href="https://www.youtube.com/watch?v=dwGn39M5oX8">Claude Code 近期更新彙整，我好像又愛上 Claude Code 了</a>。片不長，八分鐘左右。說明欄講得很清楚，Claude Code 最近沒開發表會，但每週的更新日誌裡默默加了一堆東西，他挑了七項最有感的。</p>
+<p>七項照他的順序是：session 之間互相傳話、週上限額度調整與自動續跑、內建瀏覽器、iOS 模擬器、Auto mode 變預設、Concise 模式、/design 指令。最後聊他現在怎麼在 Codex 和 Claude Code 之間分工。</p>
+<p>我只看了開頭，但這七項我自己有幾項一直在用，有幾項聽都沒聽過，所以趁寫這篇的時候去翻了官方的更新日誌對一下。</p>
+<h2>對得上的幾項</h2>
+<p>Concise 模式在日誌裡有，寫的是「先給結果，略過鋪陳和過程敘述，工作照樣做完」，在 /config 的 output style 裡選。這個我早就想要了。之前每次跑一個小任務，它回來都要先講一遍它打算怎麼做，看久了很累。</p>
+<p>session 之間互相傳話這個，日誌裡看到的是同一台機器上的不同 session 可以互相列出、互相送訊息，甚至遠端另一台機器上的 session 也可以，對方離線的話訊息會先排隊。我對這項最好奇。我平常常常同時開兩三個視窗做不同的事，最後要靠自己當傳話的人，如果它們可以自己講，工作方式會有點不一樣。不過會不會變成兩個視窗互相把對方帶偏，我也不知道。</p>
+<p>內建瀏覽器，我猜他講的是 Claude in Chrome 那條線，日誌裡最近好幾條都在修它的細節，例如長頁面直接讀進來、不再存成檔案繞一圈。Auto mode 的更新也不少，有一條是被規則擋下來的時候，會把是哪條規則擋的告訴模型，叫它換個安全的做法，先把不相關的事做完再來問你。這條我覺得比「Auto mode 變預設」本身重要。</p>
+<p>週上限跟自動續跑，日誌裡有一條是 /goal 跑到一半碰到用量上限，會先暫停並說明原因，等額度重置再繼續。這應該就是他說的自動續跑。</p>
+<h2>對不上的兩項</h2>
+<p>iOS 模擬器和 /design，我在日誌裡用這兩個詞找不到對應的條目。可能是名字不一樣，可能是我看的版本範圍不對，也可能是他講的是插件或別的入口。這兩項我就不多說了，等看片再確認。</p>
+<h2>我自己的感覺</h2>
+<p>老實說，看到「又愛上」這種標題我通常不太當真，但這支我倒是能理解他的心情。這幾個月工具的變化是那種一點一點的，單看每一條更新都不痛不癢，累積起來某天你突然發現原本要繞的路不用繞了。像 Concise 這種，就是把一個每天讓你煩一點點的東西拿掉。</p>
+<p>Auto mode 變預設，我的感覺比較複雜。方便是方便，但我還記得幾個月前自己看著它一步一步做，每一步按一下的時候，其實是在建立對它的認識。現在預設就是放手，新手大概會直接跳過那段。這不是說不好，只是我會建議自己先不要跟著預設走。</p>
+<p>至於 Codex 跟 Claude Code 的分工，這段我還沒看，不亂猜。我自己目前的分法很土，就是哪個今天比較不卡就用哪個，沒什麼道理。想看看他有沒有比較講得出理由的版本。</p>
+<p>看完再補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md">Claude Code 更新日誌</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-12-journal.html">← 較新：小院日誌 09/12：積了三支片，先挑兩支</a><a href="2026-09-12-master-security-gate.html">較舊：提示詞不是關卡：Cole Medin 把安全掃描做成 agent 跳不過的一步 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
