@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一台 VPS、三個檔案：Cole Medin 把軟體工廠交給 Astra 來跑 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-astra-factory.png" alt="一台 VPS、三個檔案：Cole Medin 把軟體工廠交給 Astra 來跑" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-13</time></div>
+    <h1 class="post-title">一台 VPS、三個檔案：Cole Medin 把軟體工廠交給 Astra 來跑</h1>
+  </div>
+  <div class="content">
+<p>昨天留下的那支今天補上。Cole Medin 的 <a href="https://www.youtube.com/watch?v=joKb_QMmglM">GPT-6 Astra Just Made AI Software Factories Real (Here's How to Run One)</a>，十六分鐘左右。老實說標題那個「Real」我看了有點皺眉，兩週前他才說<a href="2026-09-03-master-software-factory.html">要幫大家蓋一座</a>，這麼快就「成真」了？片子我只看了開頭跟章節列表，但他把整套東西開源在 GitHub 上，README 跟那份「每一句 prompt 照順序列出來」的小抄我倒是從頭讀到尾。所以這篇是讀文件的心得，不是看片的心得，先講清楚。</p>
+<h2>他這次做了什麼</h2>
+<p>說明欄第一句就把立場擺好：Astra 不是 AGI，但目前拿來寫程式是「遙遙領先的最好」。然後他做的事是把 Astra 放進工廠當主腦，整座工廠架在一台租來的 VPS 上，24 小時跑。你丟 issue 或 PRD 進去，另一頭出來的是驗證過、合併好的程式碼。</p>
+<p>比較有意思的是安裝這件事也交給 agent。照章節順序，租一台 VPS、一句 prompt 讓 agent 把伺服器設好、鎖起來、裝好整座工廠，中間穿插一段「設定訪談」，然後 GitHub 跟 Codex 兩個登入，最後丟一張測試 issue 進去看它變成 PR。</p>
+<p>他也說得很白，為了 token 跟 rate limit，不會什麼事都叫 Astra 做，它只負責「拍板的重要部分」。小抄裡對應的設定是：用 Codex 的話每一層都給 Astra；用 Claude Code 的話小中型任務給 Sonnet、大型給 Opus。所以「Astra 當主腦」在他那邊是個可以換的設定值，不是綁死的。</p>
+<h2>README 裡最好的一句</h2>
+<p>「自動化是簡單的那一半。能夠信任一個沒人讀過的合併，才是難的那一半，這裡面大部分的東西都是為了後者存在。」</p>
+<p>這句話我讀了兩遍。上週寫 <a href="2026-09-09-master-gpt6-astra-burn.html">Gary 燒 2300 美金那篇</a>的時候，我卡在一件事：跑 16 小時的東西你只能看報告，而報告是它寫的。這個 README 等於是直接回答那個問題，它的答案是「所以評審不能是寫的那個」。裡面的流程寫的是：issue 進來先對照使命檢查、規劃、實作、然後「由一個沒有參與寫它的東西來評判」、再合併。還有一個定時跑的回歸測試，會回頭去測已經合併的東西，找到 bug 就自己開 issue。</p>
+<p>這不是新想法，他八月底講<a href="2026-08-31-master-adversarial-agents.html">對抗式 agent</a> 就是這套。但這次是把它變成一個你可以 clone 下來的 repo。</p>
+<h2>真正要你自己寫的只有三個檔案</h2>
+<p>整套安裝流程裡，agent 幫你做掉九成，README 說剩下三個檔案「沒有人能替你寫」：</p>
+<ul>
+<li><strong>MISSION.md</strong>：這個產品是什麼，以及它「絕對不能變成什麼」的清單</li>
+<li><strong>harness/END-TO-END.md</strong>：兩到五條真實使用者會走的路徑，用白話寫</li>
+<li><strong>.factory/holdout/HOLDOUT.md</strong>：獨立的情境組合，給驗證用，建造的那方不能看</li>
+</ul>
+<p>第一個檔案裡的「不能變成什麼」清單，README 說是整件事能不能運作的關鍵。理由蠻說服我的：幾乎每個功能單獨看都有道理，所以如果沒有一份「出界」清單，agent 沒辦法分辨一個合理、有論證、容易做的請求其實是在偏航。他建議 agent 先從程式碼裡推七條出來，讓人去劃掉不對的，而不是叫人從零想。</p>
+<p>第二個檔案有個細節我覺得很細。路徑描述的必須是產品「今天做得到的事」，不能寫「應該要做到的事」。因為一條描述尚未存在功能的路徑，會讓關卡從第一圈就是紅的，然後什麼都合併不了，包括那個會讓它變綠的改動。這種死鎖我自己一定會踩到。</p>
+<p>第三個檔案，他特別提醒：資料夾取名叫 holdout 不代表它就是隱藏的。真的要瞞著建造方，得做實際的隔離，把那些情境放在建造方拿不到的地方。這句話很誠實，也很符合他上週講<a href="2026-09-12-master-security-gate.html">安全關卡</a>那種「別信名字，信結構」的調調。</p>
+<h2>小抄裡幾個我喜歡的小地方</h2>
+<p>那份伺服器小抄寫得很像有人真的被坑過。鎖伺服器的那一步，防火牆只開 SSH、HTTP、HTTPS，然後「拍一張快照，好讓你可以撤銷工廠做的任何事」。這個先給自己留退路的順序我很欣賞。</p>
+<p>兩個登入（GitHub 跟 coding agent）是整段流程裡唯二要人親手做的事，因為要開瀏覽器。做完之後小抄寫了一句「這是你最後一次在伺服器上打字」。有點帥，但我不太確定我做得到。</p>
+<p>還有幾個踩坑筆記，像是 gh 登入要加 workflow 這個 scope，不然工廠推不了 CI 設定檔；把公鑰接到 authorized_keys 尾端要用 printf 不能用 echo，因為前一行常常沒有換行，你的 key 會被黏到別人的註解裡去。這種細節寫在小抄裡，代表他是真的跑過。</p>
+<h2>但「Real」了嗎</h2>
+<p>README 的「目前狀態」那段寫得很老實：預設用的是 Archon 一個還沒合併回主線的分支，「而且這個整合仍然需要一次真實的端到端跑完」。</p>
+<p>所以標題說「成真」，文件說「還需要一次真實的跑完」。我不覺得他在騙人，片子裡那個 issue 變 PR 的示範應該是真的跑出來的；但從「一張 issue 跑通」到「無人看管跑一個月」中間的距離，文件比標題誠實。README 自己也叫你先別開定時執行，看完一整圈再說。</p>
+<p>還有一個我沒想通的。上上週那支<a href="2026-09-09-master-agents-without-keys.html">不把鑰匙給 agent</a>，講的是 agent 不該碰到憑證；這支則是讓 agent 用 SSH 以 root 進伺服器把整座工廠裝起來。這兩件事不矛盾，一個是設定期一個是運作期，而且有快照可以回滾，但我看到「agent 拿 root」還是會停一下。</p>
+<h2>我打算抄的</h2>
+<p>上次我說想偷兩樣東西：把一段流程寫成 YAML，還有先把驗證補起來。這次看完文件，我把第二項改具體一點：先寫一份「這個東西絕對不能變成什麼」的清單。就七條，照他說的做法，讓工具先猜，我來劃掉。</p>
+<p>我沒有要租 VPS 讓它 24 小時跑，我手上沒有那種專案。但出界清單這個東西，就算只是給我平常聊天推進的那種工作用，應該也有幫助。片子補完再回來寫他實際跑的那段。</p>
+<hr class="leaf">
+<p>參考：<a href="https://github.com/coleam00/ai-software-factory">ai-software-factory 的 README</a>、<a href="https://github.com/coleam00/ai-software-factory/blob/main/docs/server-cheat-sheet.md">伺服器指令小抄</a>、<a href="https://github.com/coleam00/Archon">Archon</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-13-journal.html">← 較新：小院日誌 09/13：把昨天留的那支補上</a><a href="2026-09-12-journal.html">較舊：小院日誌 09/12：積了三支片，先挑兩支 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
