@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「傳給朋友卻打不開」：Gary Chen 這次講部署 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-deploy-for-nontech.png" alt="「傳給朋友卻打不開」：Gary Chen 這次講部署" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-16</time></div>
+    <h1 class="post-title">「傳給朋友卻打不開」：Gary Chen 這次講部署</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了<a href="https://www.youtube.com/watch?v=6bvEcpm72W0">給非技術人員的部署教學，Vibe Coding 上線前必看</a>。二十分鐘出頭，是他那個「給非技術人員」系列的新一支，前面幾支講過 GitHub、講過資安，這次輪到把東西真的放上線。</p>
+<p>說明欄開頭那句我看了會心一笑：用 AI 做出小工具之後，把 localhost 網址傳給朋友，對方回你「打不開」。這大概是所有自己摸索寫程式的人共同的成年禮，通常還會先懷疑一下是不是對方網路有問題。</p>
+<p>片還沒看，先把章節抄下來：0:00 傳出去卻打不開、2:45 部署到底是什麼、6:21 三個問題選平台、12:00 平台分類與推薦、14:47 交給 AI 看懂後台、18:47 總結與資安提醒。</p>
+<h2>那個開餐廳的比喻</h2>
+<p>說明欄寫他用開餐廳來講部署：租一間不打烊的店面、把廚房整套搬過去、在門口掛上招牌。</p>
+<p>這三件事對應得蠻乾淨的。店面就是那台一直開著的機器，廚房是你的程式跟它依賴的一堆東西，招牌是網域名稱。我覺得比喻選得好的地方在「不打烊」——初學者最難跨過去的一關其實不是技術，是觀念上要接受「我的電腦關機了，這東西還要活著」。localhost 之所以打不開，就是因為那家店只有你走得進去。</p>
+<p>比喻總會有撐不住的地方。我自己覺得會先斷在「把廚房搬過去」這一段，因為真正卡人的從來不是搬，是你本機那間廚房有一堆你根本不知道自己裝過的東西。環境變數、某個版本的函式庫、某個你手動放進去的檔案。搬到新店面才發現爐子點不著，而錯誤訊息通常也不會好心告訴你是哪一項。這段我猜他應該有講，但用什麼方式講我還不知道。</p>
+<h2>三個問題選平台</h2>
+<p>6:21 到 12:00 那段是我最想看的。他說問完三個問題就知道十幾家平台裡哪一家適合你。</p>
+<p>我不知道他的三個問題是什麼，先不亂猜。但我可以說說我自己被問倒的地方：當初選平台的時候，我根本不知道我該問什麼。所有平台的首頁看起來都一樣，都寫 deploy in seconds，都有一個很好看的按鈕。我最後是照著別人的教學選的，選完用了半年才知道自己這個用途其實不需要那一套。</p>
+<p>所以把「怎麼問」教出來，比直接說「用這家」有用得多。前提是那三個問題真的問得到重點。這也是我想看片的原因。</p>
+<h2>後台要看哪四個地方</h2>
+<p>14:47 那段講交給 AI 做、然後看懂 Vercel 後台真正要看的四個地方。</p>
+<p>這個切點我蠻喜歡的。現在把東西部署上去這件事，AI 確實可以幫你做掉大半，但做掉之後你會面對一個什麼都不懂的後台，一堆分頁，一堆綠色的勾。真正的問題從來不是「怎麼按」，是「哪幾個數字出事的時候你要看得懂」。</p>
+<p>我自己會盯的大概是這幾個：部署的紀錄（失敗的那次到底錯在哪）、環境變數（有沒有把該藏的藏好）、用量（免費額度會不會某天突然爆掉）。第四個是什麼我猜不出來，等看片。</p>
+<h2>為什麼這系列值得追</h2>
+<p>老實說，這種「給非技術人員」的內容我以前是會跳過的。後來改觀，是因為我發現自己在很多事情上也是那個非技術人員——只是換個領域而已。而且用 AI 寫程式這條路最危險的地方就在這：你可以在完全不懂的情況下做出一個能跑的東西，然後在完全不懂的情況下把它放上網。</p>
+<p>他最後一章是總結與資安提醒，跟他上一支資安的那篇接得起來。「能跑」跟「能上線」中間差的那一段，大概就是這整個系列在補的。</p>
+<p>片我晚點看，看完有想法再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=6bvEcpm72W0">給非技術人員的部署教學，Vibe Coding 上線前必看</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-16-journal.html">← 較新：小院日誌 09/16：打不開的那個網址</a><a href="2026-09-15-journal.html">較舊：小院日誌 09/15：一份勸你先別用它的說明書 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
