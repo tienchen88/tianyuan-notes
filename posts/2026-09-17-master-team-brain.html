@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一個人的第二大腦，換成一整隊人就不管用了 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-team-brain.png" alt="一個人的第二大腦，換成一整隊人就不管用了" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-17</time></div>
+    <h1 class="post-title">一個人的第二大腦，換成一整隊人就不管用了</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天上了新片：<a href="https://www.youtube.com/watch?v=mjQlZrteMIY">You Built Your AI Second Brain. Now What? (Here's How to Evolve It)</a>，十五分半。說明欄第一句就把題目定死了——一個人的 AI 第二大腦是行得通的，但當一整個團隊都需要它的時候，就不是那麼回事了。</p>
+<p>這句話我一看就知道他要講什麼。過去半年他這個系列都在解決「我自己的東西怎麼收好」，從<a href="2026-07-30-master-youtube-brain.html">把 YouTube 影片收進知識庫</a>，到<a href="2026-08-08-master-second-brain-rot.html">知識庫用久了會爛掉</a>那支。這次換題目了，換成「我的東西怎麼跟別人共用」。</p>
+<p>片我還沒看，照例先把章節抄下來：0:00 從第二大腦到團隊大腦、2:53 保留你的 agent，共享知識、4:56 所有來源塞進同一張表、6:16 MCP server、7:12 匯入時就先貼標籤、8:34 存取金鑰與 row-level security、11:19 示範：同一個問題、不同權限、13:08 規模化搜尋（關鍵字＋語意）、15:40 收尾。技術棧看起來是 Oracle AI Database 加 LangChain，Oracle 那邊有放 code。</p>
+<h2>「保留你的 agent，共享知識」</h2>
+<p>2:53 那個章節標題我覺得是整支片最值錢的一句。</p>
+<p>團隊共用知識庫最常見的做法是做一個大家都去用的介面——一個公司內部的聊天機器人，全部人問同一個東西。這種東西我看過幾個，通常下場是沒人用。因為每個人的工作方式差太多，你要我放棄自己習慣的工具，跑去用一個別人設計的對話框，我大概第三天就懶了。</p>
+<p>他的切法反過來：agent 還是你自己的，共享的只有底下那層知識。這樣我在我的編輯器裡問、你在你的 Obsidian 裡問，撈的是同一批東西。這個分法聽起來理所當然，但真的要做，等於是逼你把「知識」跟「使用知識的方式」徹底切開。我自己的知識庫現在完全沒切，筆記格式、資料夾規則、prompt，全糊在一起。真要拆給第二個人用，我猜會很痛。</p>
+<h2>權限這件事我最想看</h2>
+<p>8:34 到 13:08 那三段——貼標籤、row-level security、然後示範同一個問題不同人問會拿到不同答案——是我最想看的部分。</p>
+<p>因為這是整件事最容易翻車的地方。個人知識庫沒有這個問題，東西都是我的，撈到什麼都無所謂。一旦變成團隊的，「不該看到的東西被撈出來」就變成隨時可能發生的事故。而且 RAG 這種撈法特別討厭：它不是照著資料夾走，是照語意相似度走，你根本沒辦法事先預測它會從哪個角落翻出什麼。</p>
+<p>他選的解法是在資料庫層做 row-level security，而不是在 agent 那層做過濾。這個選擇我覺得是對的。在 prompt 裡寫「不要回答 HR 相關內容」這種事，跟他<a href="2026-08-08-master-second-brain-rot.html">上一支片講的那個 8% 合規率</a>是同一種天真——模糊的指令對模型沒有約束力，要擋就要擋在它撈不到的地方。</p>
+<p>7:12 那個「匯入時就先貼標籤」也是同一個思路的延伸：權限不是查詢時才算，是資料進來的那一刻就決定好。這比事後補標籤可靠太多，但也意味著匯入流程會變重，而且標錯了很難發現。這段我想看他怎麼處理標籤的預設值——沒標到的東西到底是預設全開還是預設全鎖？這一個選擇就決定了整套系統是「偶爾外洩」還是「常常撈不到東西」。</p>
+<h2>一張表裝所有來源</h2>
+<p>4:56 說所有來源共用同一張表。這個我有點意外，本來以為會看到一堆分表。</p>
+<p>想想又覺得合理。來源一多，每種都給一張表的話，查詢那邊就要寫一堆 union，加一個新來源就要改一次 schema。塞同一張表、用欄位區分來源，加東西的成本低很多，權限也好統一套。代價是那張表會長得很寬，而且每個來源特有的欄位不知道往哪放。這部分他怎麼設計我還沒概念。</p>
+<p>13:08 講關鍵字加語意混合搜尋，這個做法現在算標準配備了，純語意搜尋在找專有名詞、產品編號這種東西的時候會意外地笨。我比較好奇的是規模——他說的 scale 是十萬筆還是一千萬筆，這兩個量級要面對的問題差很遠。</p>
+<h2>我自己用不用得到</h2>
+<p>老實說，短期內用不到。我的知識庫就我一個人在用，沒有第二個人要共享，也沒有需要擋起來的東西。</p>
+<p>但我還是想看，原因有兩個。一個是他這次選 Oracle 的資料庫來做，這跟他以前那套「本機跑、markdown 檔為主」的路線差蠻多的，我想知道是什麼讓他覺得需要換一套重的東西上來。另一個是權限這題遲早會碰到——就算永遠只有我一個人用，我也會希望某些東西不要被隨便撈出來。分不分帳號是一回事，資料要不要分層是另一回事。</p>
+<p>片晚點看，有想法再補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=mjQlZrteMIY">You Built Your AI Second Brain. Now What? (Here's How to Evolve It)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-17-journal.html">← 較新：小院日誌 09/17：換成一群人就不一樣了</a><a href="2026-09-16-journal.html">較舊：小院日誌 09/16：打不開的那個網址 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
