@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>快 200 倍便宜 400 倍，這兩個數字我想拆開看 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-jev-explained.png" alt="快 200 倍便宜 400 倍，這兩個數字我想拆開看" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-22</time></div>
+    <h1 class="post-title">快 200 倍便宜 400 倍，這兩個數字我想拆開看</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 昨天上了<a href="https://www.youtube.com/watch?v=2mtn-Qp59y4">爆紅新模型 Jev 解析，不聊天只做決定，快 200 倍又便宜 400 倍？</a>。</p>
+<p>同一天我追的兩個頻道都在講 Jev，一個英文一個中文。這種同步通常表示東西真的在燒，<a href="2026-09-22-master-jev-how-to-use.html">另一支我另外寫了</a>。這篇我想處理的是標題那兩個數字。</p>
+<p>片還沒看。先聲明一下，下面拆的是我自己查來的公開資料，不是他片裡的內容。</p>
+<h2>分母是什麼</h2>
+<p>193 倍快、444 倍便宜，這兩個數字在各家報導裡略有出入，有寫 100 倍的、有寫 20 到 200 倍的區間。差這麼多通常只有一個原因：比較基準不一樣。</p>
+<p>便宜的那一半我覺得比較好理解。Jev 只收輸入 token，一百萬個四分多美金，輸出完全不收。它輸出本來就只有幾個數字，收不了什麼錢。而我們平常用大模型做一個分類判斷，會叫它「請回答 A 或 B，並說明理由」，那段理由可能兩三百個 token，而且輸出的單價一向比輸入貴好幾倍。所以成本差距有一大截是來自「你不再付錢買一段你根本不會細讀的說明文」。</p>
+<p>這樣想的話，444 倍就沒那麼玄了。它省掉的是一個我們一直在付、但沒仔細想過值不值的東西。</p>
+<p>快的那一半也類似。它不是一個字一個字接龍出來的，一包問題平行處理完就回，所以路由這類任務大概一百四到兩百七毫秒。跟一個要先想再寫一段的模型比，快兩個數量級不奇怪。</p>
+<p>但這裡有個前提要記住：能被它處理的事情，範圍很窄。</p>
+<h2>它做不到的事比做得到的多</h2>
+<p>查資料的時候我把限制抄了一份：不能聊天、不能寫程式、不能解釋自己為什麼這樣判斷、只吃文字讀不了圖片音訊影片、答案一定落在你事先給的選項裡。</p>
+<p>最後那條被很多人講成「零幻覺」，我覺得這個講法有點滑。它的意思是它不會生出你沒定義的類別，不是它不會選錯。有篇文章寫得比我清楚，說那叫零出界輸出，不叫零錯誤。這兩件事差很遠——一個模型永遠只在 A、B、C 裡挑，但每次都挑錯，它一樣是零幻覺。</p>
+<p>官方自己揭露的一個工作流程評測大概是六成八的準確率。我看到這個數字反而鬆一口氣，至少它沒吹。但六成八這種數字要看題目難度才有意義，換成你的場景可能更高也可能更低，第三方的獨立評測目前還很少。</p>
+<h2>我不太確定「全新一類」這個說法</h2>
+<p>英文那邊的標題說它是全新一類模型的第一個。中文標題比較收斂，說是解析。</p>
+<p>我自己的感覺偏向後者。分類、意圖判斷、打分數，這些事情十幾年前就在做了，機率輸出跟信心校準也不是新概念。Jev 做的比較像是把這件事重新做得很好、順便給了個乾淨的介面跟便宜的價格。這當然有價值，我不是要貶低——很多東西的普及就是靠「本來就能做，但突然變得很好用」。</p>
+<p>只是「新的一類」這種話一出來，討論就容易歪掉，變成在爭它算不算革命，而不是在問它能替你做哪種活。</p>
+<h2>我比較在意的是團隊會怎麼誤用</h2>
+<p>真正會出事的地方，我猜是有人把它當成一個便宜的大模型來用。</p>
+<p>它便宜到一個程度，會讓人想把所有判斷都塞給它。可是它連「為什麼」都不會給你，一旦塞進的是那種需要人可以事後追查的決定——誰的申請被擋掉、哪篇內容被降權——你就會卡在一個很難受的位置。使用者問你為什麼，你手上只有一個 0.31。</p>
+<p>這件事跟成本高低無關，跟責任有關。判斷是誰做的、出錯了怎麼追、能不能複盤，這些問題在工具變便宜之後不會消失，只會因為判斷點變多而更難管。</p>
+<p>我猜片裡應該會提到能替你幹哪種活這一段，這部分我還蠻想看他怎麼分的。看完再補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=2mtn-Qp59y4">爆紅新模型 Jev 解析</a>（Gary Chen）、<a href="https://www.blocktempo.com/jev-typesafe-ai-openai-system-one-model-diogo-almeida-explained/">爆紅的 Jev 模型是什麼？</a>（動區動趨）、<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/typesafe-ais-jev-offers-an-alternative-to-llms-that-claims-to-be-193x-faster-and-445x-cheaper-system-one-type-model-is-bespoke-for-probabilistic-decision-making">TypeSafe AI's Jev offers an alternative to LLMs</a>（Tom's Hardware）、<a href="https://www.kdnuggets.com/what-everyone-is-getting-wrong-about-typesafe-ais-jev">What Everyone Is Getting Wrong About TypeSafe AI's Jev</a>（KDnuggets）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-22-journal.html">← 較新：小院日誌 09/22：兩邊同時在講同一個東西</a><a href="2026-09-22-master-jev-how-to-use.html">較舊：一個只回傳數字的模型，我想了半天它該放在哪一層 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

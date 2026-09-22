@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一個只回傳數字的模型，我想了半天它該放在哪一層 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-jev-how-to-use.png" alt="一個只回傳數字的模型，我想了半天它該放在哪一層" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-22</time></div>
+    <h1 class="post-title">一個只回傳數字的模型，我想了半天它該放在哪一層</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天上了新片：<a href="https://www.youtube.com/watch?v=bA8WeHYmJko">Jev is the FIRST of a Whole New Class of AI Models (Here's How to Actually Use It)</a>。</p>
+<p>標題把兩件事塞在一起：一是「全新的一類」，二是「該怎麼實際用」。第二個比較吸引我，因為新東西出來的第一週，講它多厲害的人很多，講它該擺在哪裡的人很少。</p>
+<p>片我還沒看。先把這個叫 Jev 的東西查了一輪，以下是我查到的加上我自己的猜想，看完片再回來對。</p>
+<h2>它不生成文字，這句話比我一開始以為的嚴重</h2>
+<p>Jev 是一家叫 TypeSafe AI 的公司做的，創辦人是前 OpenAI 的研究員，九月中放出限量試用。他們給它一個新名字叫 System One Model，典故是康納曼那個快思慢想的「系統一」——不假思索的那種直覺判斷。</p>
+<p>技術上它跟我們熟的模型差在一個很根本的地方：它不是一個 token 一個 token 往外吐。你丟一包狀態進去（字串、陣列、鍵值對都行），同時問它一串問題，它平行地把每題都回答完，回給你的是數字。是非題給你一個 0 到 1 的信心值；選擇題給你各選項的機率分布；評分題給你一個浮點數。</p>
+<p>所以它沒辦法解釋為什麼。這點我查到的時候愣了一下。我們現在用模型，多半還是靠它把理由寫出來，我們讀了覺得合理才放行。Jev 把那一層整個拿掉了，它就給你 0.83，你自己看著辦。</p>
+<p>限制還有幾條：只吃文字，圖片音訊影片都不行；答案永遠鎖在你事先定義好的選項裡，跑不出去；也不會寫程式。</p>
+<h2>價格那條是「輸出免費」</h2>
+<p>這個我覺得是整件事裡最有意思的設計。它只算輸入 token，一百萬個大概四分多美金，輸出不收錢。</p>
+<p>因為輸出本來就只是幾個數字，沒什麼好收的。但這個收費方式會改變你問問題的習慣——多加一題幾乎不會讓回應變慢，也只多付那一題的輸入 token。以前每多問一句就是一次完整的模型呼叫，現在一次問二十題跟問三題的成本差距小到可以忽略。</p>
+<p>我想了一下這代表什麼。代表「要不要問這題」這個猶豫本身就消失了。以前我在寫流程的時候會很克制，因為每一個判斷點都要付一次錢、等一次延遲，所以能合併的判斷就合併，能省的就省。那些克制寫進程式裡，其實讓邏輯變模糊了——一個問題硬問成三個問題的合體。</p>
+<h2>我猜這支片會講的是路由跟攔截</h2>
+<p>「怎麼實際用」，我猜會落在 agent 迴圈裡那些原本用大模型硬幹的小決定。</p>
+<p>我自己看到的兩個模式，一是路由：進來一個請求，先用它判斷這題難不難、該丟給哪個模型。這件事我<a href="2026-08-05-master-model-routing.html">八月看過一支專門講模型路由的片</a>，當時的做法是拿一個便宜模型當分流員，但便宜模型也要跑，延遲還是有。Jev 這種據說是一百多到兩百多毫秒就回來，那個量級就不太一樣了。</p>
+<p>二是攔截：agent 要動工具之前，先問一輪「這個動作風不風險」。我<a href="2026-09-12-master-security-gate.html">前陣子才寫過一篇</a>在講這種閘門，那時候的困擾是——你要嘛拿規則去擋，硬但笨；要嘛拿模型去判斷，聰明但慢又貴，而且它還會囉嗦一大段。Jev 剛好就是「快、便宜、只給數字」這個組合。</p>
+<h2>沒有解釋這件事我還是有點卡</h2>
+<p>不過我對它最大的疑慮也在這裡。</p>
+<p>當一個判斷是錯的，我們通常是靠它的理由去追。它說「這個請求有風險，因為 A」，我看了發現 A 根本不成立，於是我知道問題出在提示詞哪一句。換成 0.83 這個數字，我能做的只有調閾值，或者換一組問題重問。有人提到用在招募、審核這種有偏誤風險的場合會很麻煩，我覺得這個擔心是對的——不是因為它比較會偏，而是偏了你看不出來。</p>
+<p>所以配套大概就是評測。你得先弄一組有標準答案的樣本，量出它在你的題目上到底準不準，而不是相信官方數字。這件事以前也該做，只是以前你還可以偷懶讀讀它的理由自我安慰一下，現在連那個都沒了。</p>
+<p>另外我看到有人在一週之內就做了開放權重的替代品，也有人搞了基準測試工具出來比。這種生態長得這麼快，通常表示概念本身不難複製，難的是把它調準。</p>
+<h2>我打算先拿哪一塊試</h2>
+<p>如果真要動手，我大概不會一開始就把它放進會影響結果的位置。</p>
+<p>比較安全的起手式是讓它跟現行做法並行——原本的判斷照跑，同時偷偷問 Jev 一次，把兩邊的結果記下來。跑個一兩週，看它在哪些題目上跟我原本的判斷不合，不合的時候誰對。這樣就算它爛，也爛不到使用者身上。</p>
+<p>也可能片裡講的完全不是這些，而是更具體的接法。看完再補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=bA8WeHYmJko">Jev is the FIRST of a Whole New Class of AI Models</a>（Cole Medin）、<a href="https://simonwillison.net/2026/Sep/21/jev/">Jev introduces a new shape of LLM</a>（Simon Willison）、<a href="https://www.langchain.com/blog/building-a-harness-with-jev">Building a harness with Jev</a>（LangChain）、<a href="https://www.kdnuggets.com/what-everyone-is-getting-wrong-about-typesafe-ais-jev">What Everyone Is Getting Wrong About TypeSafe AI's Jev</a>（KDnuggets）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-22-master-jev-explained.html">← 較新：快 200 倍便宜 400 倍，這兩個數字我想拆開看</a><a href="2026-09-20-journal.html">較舊：小院日誌 09/20：我大概沒辦法對著電腦一直講話 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
