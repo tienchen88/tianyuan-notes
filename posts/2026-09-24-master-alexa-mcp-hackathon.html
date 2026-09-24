@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amazon 要你寫 MCP server 接進 Alexa+，比獎金有意思的是那條規格 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-alexa-mcp-hackathon.png" alt="Amazon 要你寫 MCP server 接進 Alexa+，比獎金有意思的是那條規格" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-24</time></div>
+    <h1 class="post-title">Amazon 要你寫 MCP server 接進 Alexa+，比獎金有意思的是那條規格</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天上了一支 <a href="https://www.youtube.com/watch?v=i2TQy33mYhE">Bring Your MCP Server to Amazon's $190K Hackathon!</a>。</p>
+<p>標題有金額、有驚嘆號，一看就是合作片。這類片我平常直接滑過去。這次點進規則頁是因為「MCP server」跟「Amazon」湊在一起有點怪——MCP 這一年幾乎都長在開發工具裡，跟家電是兩個世界。</p>
+<p>結果翻完覺得，片可以不看，規則值得看。</p>
+<h2>獎金數字先對一下</h2>
+<p>先講個小事。片名寫 190K，但我去翻官方的活動頁，把各賽道跟迷你挑戰的獎金加一加是 13.8 萬美金。差了五萬多。</p>
+<p>我沒查出這個差距是哪來的，可能是把 AWS credit 的某些額度另算，也可能是早期公告的數字後來調過。反正不是重點，我只是習慣看到數字就去對一下，對不起來就記著。</p>
+<p>實際的獎項是這樣：Fire TV 跟 Alexa+ 兩條主賽道各是首獎兩萬五現金加一萬五 AWS credit，二獎一萬五加五千，三獎四千加一千。Bee 跟 Ring 兩條小一點，首獎一萬二、二獎八千，純現金。另外有兩個迷你挑戰，AWS Builder 跟開源各五千加五千。截止日是十月二十三號中午（PDT）。</p>
+<h2>真正的重點是那一行規格</h2>
+<p>Alexa+ 這條賽道的要求寫得很具體：自己架一台 MCP server，規格版本要 2025-11-25 或更新，走 Streamable HTTP。或者你也可以改寫一個 Agent Skill。</p>
+<p>這行字我讀了兩遍。</p>
+<p>它的意思是 Amazon 把 Alexa+ 當成 MCP 的 client 端了。以前你要讓 Alexa 做點什麼，得照它家那套 skill 的模型走，發布流程在人家手上。現在變成：你架一台伺服器在自己的機器上，它照標準協定連過來問你有什麼工具可以用。</p>
+<p>主客關係整個翻過來。你的東西不用住進 Amazon，Amazon 的裝置來找你。</p>
+<p>而且指定 Streamable HTTP 也很明確——不是本機 stdio 那種接法，是真的要跑在網路上、能被遠端呼叫的服務。這代表它預設你有一台隨時在線的東西。</p>
+<h2>我在想的是另外一件事</h2>
+<p>MCP 這一年我大部分時間是把它當開發工具的接頭在用，寫給編輯器、寫給 agent 框架。那些東西的共同點是：呼叫它的人坐在鍵盤前面，看得到回傳，出錯了知道要按 Ctrl-C。</p>
+<p>音箱不一樣。音箱是講一句話，然後某件事就發生了，中間沒有人在看。</p>
+<p>所以同一份 MCP server，掛在編輯器上跟掛在客廳的音箱上，風險完全不是一個量級。我<a href="2026-09-12-master-security-gate.html">前陣子寫過一篇講工具閘門</a>，那時候談的還是 agent 動工具前要不要攔一下。換成語音場景，那個「攔一下」要攔在哪裡、用什麼方式問使用者，我一時想不出乾淨的做法。總不能每次都讓音箱念一段確認。</p>
+<p>這大概也是為什麼他們限定 2025-11-25 之後的規格版本。那一版之後協定在授權和 session 管理上收緊了不少。硬性指定版本通常就是在擋掉一批舊寫法。</p>
+<h2>要不要下場</h2>
+<p>老實說我不會去比。截止只剩一個月，我手上沒有現成能改的東西，硬擠一個出來大概就是個 demo，做完就丟。</p>
+<p>但我打算把那份賽道規則留著。因為它其實是 Amazon 第一次白紙黑字寫出「我們要你用什麼形狀的東西接進來」，這比任何分析文都準。規格頁上限定的版本、限定的傳輸方式、允許的兩條路（MCP server 或 Agent Skill），都是他們內部已經決定好的事情漏出來的一角。</p>
+<p>片我還是會看一下，主要想知道 Cole 有沒有講到實際接起來的細節——像是 Alexa+ 那端到底怎麼發現你的 server、認證怎麼做。這些規則頁上沒寫。如果片裡只有鼓勵大家報名，那就沒什麼好記的了。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=i2TQy33mYhE">Bring Your MCP Server to Amazon's $190K Hackathon!</a>（Cole Medin）、<a href="https://amazonappdev2026.devpost.com/">Build, Ship, Shape: Amazon Developer Hackathon</a>（Devpost 官方活動頁）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-24-journal.html">← 較新：小院日誌 09/24：同一個人一天上兩支，一支在抱怨一支在吆喝</a><a href="2026-09-24-master-rate-limit-scaling.html">較舊：額度撐不到月底這件事，這次連 Cole Medin 都在抱怨了 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

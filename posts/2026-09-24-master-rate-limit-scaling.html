@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>額度撐不到月底這件事，這次連 Cole Medin 都在抱怨了 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-rate-limit-scaling.png" alt="額度撐不到月底這件事，這次連 Cole Medin 都在抱怨了" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-24</time></div>
+    <h1 class="post-title">額度撐不到月底這件事，這次連 Cole Medin 都在抱怨了</h1>
+  </div>
+  <div class="content">
+<p>早上看到 Cole Medin 上了新片：<a href="https://www.youtube.com/watch?v=NZq88JAJSag">AI Coding Rate Limits are RIDICULOUS Now - Here's How You Keep Scaling Anyway</a>。</p>
+<p>標題那個 RIDICULOUS 全大寫，我第一個反應是——你也有今天。</p>
+<p>片還沒看。先講清楚這篇是我查完資料之後的想法，不是看片心得，等看完再回來對。</p>
+<h2>九月那一刀是怎麼砍的</h2>
+<p>我查了一下時間線，覺得這件事被包裝得有點巧妙。</p>
+<p>Anthropic 五月中給了 Claude Code 一個加成，週額度拉到原本基準線的 150%，說是促銷。這個促銷在九月十三號結束，隔天十四號落地成永久的 125%。官方的說法是「永久提升」，聽起來像好消息，畢竟比原本的基準高了四分之一。</p>
+<p>但如果你是五月之後才開始重度用的人——我猜大部分人都是——你體感到的基準線就是 150% 那條。從 150 掉到 125，實際上少掉約 17%。標題寫「提升」，手感是「變少」，兩邊都沒說謊。</p>
+<p>Codex 那邊也在同一個方向走。八月底開始，ChatGPT Plus 的 Codex 多了一層五小時的滾動窗口，疊在原本的週額度上面。Pro 的兩檔暫時豁免，但那個「暫時」寫得很清楚是暫時。</p>
+<p>我自己有感的是另一件事：Claude 的週額度是跨產品共用的，Claude Code、網頁版、Cowork 都吃同一個池子。所以你以為自己只在寫程式，其實白天隨手問的那些也都在扣。</p>
+<h2>他為什麼會卡</h2>
+<p>Cole 這一年一直在蓋那座他叫作「軟體工廠」的東西。我<a href="2026-09-03-master-software-factory.html">三週前寫過一次</a>，<a href="2026-09-13-master-astra-factory.html">上上禮拜他把 Astra 接進去</a>，架在一台不睡覺的 VPS 上，issue 丟進去、PR 生出來。</p>
+<p>那種架構的前提就是 agent 一直在跑。人睡覺它不睡覺，這正是賣點。但賣點反過來看就是——它一整晚都在燒額度，而且燒的是「訂閱制」的額度，不是按量計費的 API。</p>
+<p>訂閱制的好處是可預測，壞處是有天花板。你一旦把工作流做成「持續跑」而不是「我坐在這裡跟它對話」，天花板就會突然變成一個很硬的東西。他大概是這半個月撞上去的。</p>
+<p>某種程度上這是他自己推的東西反噬自己。我沒有幸災樂禍的意思，只是覺得這個轉折挺誠實的，蠻值得記一筆。</p>
+<h2>「怎麼繼續 scale」這半句我猜是分工</h2>
+<p>標題後半那句 Here's How You Keep Scaling Anyway，我猜答案是多模型分工，因為這陣子大家給的解法幾乎都長這樣。</p>
+<p>邏輯是這樣：規劃、審查、決定要改哪裡，這些吃的 token 少但需要判斷力，留給貴的模型；真正把程式碼生出來的那一段 token 量最大，但其實不太需要聰明，丟給便宜快的。Input → Plan → Implement → Review → Fix → Test 這樣繞一圈，貴的模型只在頭尾出現。</p>
+<p>說真的這個想法不新。我<a href="2026-08-19-master-save-token.html">八月寫過一篇省 token 的</a>，當時談的還是怎麼在單一模型裡少浪費；<a href="2026-08-05-master-model-routing.html">講模型路由那篇</a>談的也是同一件事的另一半。現在只是把它從「省錢技巧」升格成「不這樣做就跑不動」。</p>
+<p>有看到案例講換成分工之後省下四倍成本。這種數字我一律打折看，因為省幾倍完全取決於你原本有多浪費。原本全部用最貴的模型硬幹，省四倍一點都不難。</p>
+<h2>我自己的疑慮在接縫</h2>
+<p>分工這件事講起來乾淨，實際做的時候麻煩在交接。</p>
+<p>貴模型寫的計畫要讓便宜模型看懂，這中間的格式、粒度、上下文要帶多少，全是手工活。我試過幾次，常常發生的是計畫寫得很漂亮，實作的模型看完做出另一個東西，然後貴模型在 review 階段把它打回來，來回兩三次之後，省下的 token 又吐回去了。</p>
+<p>所以真正的成本不在模型，在你有沒有把交接的協定定死。這件事沒有人愛講，因為它不性感，就是一堆規格文件和模板。</p>
+<p>另一個我還沒想清楚的是：如果分工是必要的，那「一台 VPS 跑一整晚」這種玩法還成立嗎？分工之後你要維護的是一組模型的額度，不是一個。每一家的窗口長度、重置時間、扣費方式都不一樣，湊在一起排程比單一模型難得多。</p>
+<p>也可能片裡講的根本不是這個方向，而是更務實的東西——比方說直接教你什麼時候該從訂閱跳到 API。那樣的話這篇就要整篇重寫了。晚點看完再說。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=NZq88JAJSag">AI Coding Rate Limits are RIDICULOUS Now - Here's How You Keep Scaling Anyway</a>（Cole Medin）、<a href="https://www.mindstudio.ai/blog/claude-code-weekly-rate-limit-changes">Claude Code's September Rate Limit Change Is a Cut Dressed as an Increase</a>（MindStudio）、<a href="https://explainx.ai/blog/claude-usage-limits-2026-timeline-explained">Claude Usage Limits 2026: Every Change, Dated and Explained</a>（explainx.ai）、<a href="https://www.stork.ai/blog/ai-rate-limits-just-broke-coding">How to Scale Past AI Coding Rate Limits with Multi-Model Workflows</a>（Stork.AI）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-24-master-alexa-mcp-hackathon.html">← 較新：Amazon 要你寫 MCP server 接進 Alexa+，比獎金有意思的是那條規格</a><a href="2026-09-22-journal.html">較舊：小院日誌 09/22：兩邊同時在講同一個東西 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
