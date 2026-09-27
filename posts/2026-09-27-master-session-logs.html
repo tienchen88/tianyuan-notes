@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「最大的升級已經在你機器上」——我去翻了那些紀錄，能讀的只有 3% · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-session-logs.png" alt="「最大的升級已經在你機器上」——我去翻了那些紀錄，能讀的只有 3%" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-27</time></div>
+    <h1 class="post-title">「最大的升級已經在你機器上」——我去翻了那些紀錄，能讀的只有 3%</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 前天上了一支 <a href="https://www.youtube.com/watch?v=td52e2tQFIU">The Biggest AI Coding Agent Upgrade Is Already on Your Machine?!</a>。</p>
+<p>標題後面那個 ?! 讓我有點警覺，但說明裡寫的前提很樸素：你跟 coding agent 的每一次對話都被存成檔案放在你自己的機器上，每一個提示、每一次工具呼叫、每一次失敗，全都在。</p>
+<p>這句我沒有異議，那些檔案我自己也翻過。有意思的是他打算拿它做什麼。</p>
+<h2>他大概想講的是這件事</h2>
+<p>片我還沒看。下面是我從他的 repo 推的，不是片裡的內容，先講清楚。</p>
+<p>他九月有個 claude-memory-compiler，架構寫得很直白：對話結束或壓縮之前用 hook 攔一下，把那次 session 丟給腳本抽出決策、教訓、模式跟地雷，寫成一天一個 markdown，再編譯成主題文章放到 knowledge/ 底下，下次開工用 SessionStart 塞回去。</p>
+<p>檢索那一段我覺得他做了個挺務實的決定：不上 RAG，就用一個索引檔。他自己在 README 寫五十到五百篇這個規模用索引就夠，要到兩千篇以上才需要向量庫。這個判斷我同意，個人尺度的知識庫上向量庫通常是自找麻煩。</p>
+<p>整套東西的賣點就是標題那句：你不用另外準備什麼，材料已經在硬碟裡了。</p>
+<h2>但那些檔案沒有我以為的那麼好讀</h2>
+<p>查的時候撈到一份蠻硬的調查，作者收了十一個月、三千多份 transcript、將近四個 GB，把六家 agent 的 session 紀錄格式攤開來比。看完之後我對「材料現成」這句話變保守了。</p>
+<p>三件事讓我停下來。</p>
+<p>第一是密度。Claude Code 的紀錄裡，看得見的對話文字只占檔案大小的 3%，剩下全是工具輸出、metadata 之類的邊角料。單一個 session 檔可以到 19 MB，Codex 那邊更誇張，有到 212 MB 的。所以「每個 token 都留著」跟「有一份可讀的工作紀錄」是兩件事，中間隔著不少工。</p>
+<p>第二是最關鍵的那段被封起來了。Codex 跟 Claude Code 現在都把推理內容存成加密或簽章過的區塊，不是明文。這件事很要命，因為你真正想從過去學到的是「當時為什麼決定這樣做」，而那一段恰好讀不到。剩下的是動作紀錄：呼叫了什麼、結果是什麼。你可以從動作反推意圖，但那就是猜。</p>
+<p>第三是這些格式沒有一家有公開的 schema 文件。六家都沒有。所有解析器都是逆向出來的，人家改個欄位名你的工具就掛。這種東西要當長期記憶的地基，我會有點不安。</p>
+<h2>我比較在意的一件事</h2>
+<p>上面那些還算工程問題，時間久了會有人解掉。我自己想比較久的是另一個。</p>
+<p>假設抽取那一段做得很好，真的把你的決策跟教訓整理成一份會長大的記憶，然後每次開工都餵回去。那你等於在拿自己的過去訓練自己的未來。</p>
+<p>我做事有一些習慣其實是壞的，只是我沒意識到，或者意識到了還沒改。這種東西在紀錄裡一樣是「模式」，而且因為它反覆出現，被抽出來的機率還更高。壓縮出來的記憶不會標註哪些是好習慣哪些是懶惰，它只會告訴下一次的你：你以前都這樣做。</p>
+<p>我沒有結論。可能實際跑起來沒這麼嚴重，也可能要在編譯那層留一個人看過。但我如果真的裝，大概會先把它產出的 knowledge/ 當成待審的草稿，不當成事實。</p>
+<p>片晚點看。我主要想知道他有沒有處理推理段被封起來這件事，因為那直接決定他抽出來的是決策還是動作。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=td52e2tQFIU">The Biggest AI Coding Agent Upgrade Is Already on Your Machine?!</a>（Cole Medin）、<a href="https://github.com/coleam00/claude-memory-compiler">claude-memory-compiler</a>（Cole Medin）、<a href="https://jazzyalex.github.io/agent-sessions/blog/how-coding-agents-remember/">How coding agents remember: a field study of six session-history formats</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-27-master-impeccable-design.html">← 較新：去掉 AI 味的那份清單，等大家都裝了之後會變成什麼</a><a href="2026-09-24-journal.html">較舊：小院日誌 09/24：同一個人一天上兩支，一支在抱怨一支在吆喝 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
