@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>找程式碼燒掉一半的 token，但我卡在「少撈一點」那篇論文 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-code-search-tokens.png" alt="找程式碼燒掉一半的 token，但我卡在「少撈一點」那篇論文" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-28</time></div>
+    <h1 class="post-title">找程式碼燒掉一半的 token，但我卡在「少撈一點」那篇論文</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 今天上了一支 <a href="https://www.youtube.com/watch?v=oFPUUFLZJHQ">Your Coding Agent Wastes SO MANY Tokens Just Finding Code - Here's the Fix</a>。</p>
+<p>前半句我完全同意。自己在旁邊看 agent 工作的時候，最花時間的那一段常常不是寫，是找。grep 一輪、讀幾個檔、發現不對、再 grep 一輪。看著它在專案裡繞，我有時候會想直接告訴它東西在哪，但那樣就失去讓它自己做的意義了。</p>
+<p>後半句那個 Here's the Fix，我比較好奇。</p>
+<h2>數字大概是這樣</h2>
+<p>片還沒看，下面是我自己查到的，不是片裡的內容，先講清楚。</p>
+<p>六月有人量過這件事，跑了幾個專案，一個 session 裡大概 47% 的 token 花在探索上，不是花在真正生程式碼或推理。同一份測試說掛上語意索引之後工具呼叫少了 58%，因為 grep 讀檔再 grep 的迴圈可以壓成一次查詢。</p>
+<p>這個比例比我原本估的高。我本來以為三成左右。</p>
+<p>有意思的是 Cole 自己以前的立場。他把長影片整理成一個知識庫放在 GitHub 上，裡面談索引那頁寫得蠻保守：Claude Code 本身不帶索引，就用命令列工具找，跟工程師的做法一樣。而索引真正難的地方是同步，他原話大意是，要讓索引過的程式庫跟你實際改的程式碼保持一致非常困難，因為程式碼的變動頻率比一般非結構化資料高太多。</p>
+<p>所以我最想知道的是他這次怎麼處理過期這件事。如果 fix 就是「上一個索引」，那難題只是換個位置放著。</p>
+<h2>Anthropic 為什麼當初不做</h2>
+<p>順著查下去，Claude Code 那邊據說早期試過本機向量庫，後來拿掉了，理由整理起來是四個：索引會過期、寫程式要的是精確的符號而不是語意相近的東西、少一層基礎設施就少一個會壞的地方、本機翻檔案不用把程式碼送出去。</p>
+<p>第二點我覺得最實在。你要找的是 <code>UserSessionManager</code> 這個確切的東西，不是「跟使用者登入狀態管理有關的段落」。向量檢索在後者很強，在前者常常給你三個很像但不是的。</p>
+<p>代價也很誠實：token 會爆。大專案上那個探索迴圈沒有上界，最壞的情況很難看。</p>
+<h2>我卡住的地方</h2>
+<p>查的時候撞到一篇八月的 arXiv，叫 The Recall Trap。結論有點違反直覺：把檢索器調成召回率最大化——也就是盡量把所有相關的東西都撈進來——在固定的 context 預算下，issue 的解決率反而掉了。</p>
+<p>原因不複雜。撈得多就會夾帶一堆邊緣貨，這些東西佔掉的空間本來可以留給推理。於是覆蓋率上去了，深度下來了。</p>
+<p>我把這個跟前面那 47% 放在一起看，覺得它們量的根本不是同一件事。</p>
+<p>省 token 是在量成本。找對東西是在量結果。索引可以很便宜地一次塞給你二十個看起來有關的檔案，帳單確實變好看，工具呼叫也真的少了 58%。但如果那二十個裡面只有三個是對的，剩下十七個就是在跟推理搶位子。</p>
+<p>換句話說，agent 慢慢 grep 的那個過程，它一邊找一邊在篩。篩掉的那些不會進 context。索引的做法是把篩這一步交給向量相似度，然後把結果整包丟進去。便宜是真的便宜，但篩的品質換人做了。</p>
+<p>我不是說索引沒用。概念性的搜尋、很大的 repo、跨很多檔案的那種問題，agentic search 確實很吃力，這時候有個索引幫忙開頭合理。我只是覺得「省了多少 token」這個指標單獨看會騙人。</p>
+<h2>我會想看他量什麼</h2>
+<p>如果要我自己評估，我大概會同時看三個東西：找到第一個真正有用的檔案花多久、整個任務的 token、還有多少次是因為索引過期而給錯。第三個最容易被忽略，因為它不會報錯，它只是安靜地給你上禮拜的版本。</p>
+<p>片晚點看。我主要想確認兩件事：他的 fix 怎麼跟程式碼變動同步，以及他有沒有量過準確率，還是只量了省下多少。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=oFPUUFLZJHQ">Your Coding Agent Wastes SO MANY Tokens Just Finding Code - Here's the Fix</a>（Cole Medin）、<a href="https://github.com/coleam00/cole-medin-knowledge-base/blob/main/concepts/codebase-indexing.md">cole-medin-knowledge-base / codebase-indexing</a>、<a href="https://arxiv.org/pdf/2608.14838">The Recall Trap</a>、<a href="https://smartscope.blog/en/ai-development/practices/rag-debate-agentic-search-code-exploration/">Settling the RAG Debate</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-28-journal.html">← 較新：小院日誌 09/28：省下來的跟找對的，好像不是同一件事</a><a href="2026-09-27-journal.html">較舊：小院日誌 09/27：一支講怎麼記住，一支講怎麼別看起來像 AI →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
