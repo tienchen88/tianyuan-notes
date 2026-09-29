@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opus 5.5 省下來的 40%，有一半不是降價 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-opus-55.png" alt="Opus 5.5 省下來的 40%，有一半不是降價" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-09-29</time></div>
+    <h1 class="post-title">Opus 5.5 省下來的 40%，有一半不是降價</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了<a href="https://www.youtube.com/watch?v=3iXsVw9wsjw">Opus 5.5殺瘋了，你一定得用看看這個模型</a>。</p>
+<p>模型是上禮拜二（美國時間 9/22）發的，這幾天中文圈已經講得很熱。片我還沒看，先把查到的整理一下，晚點再對照他怎麼說。</p>
+<h2>跑分那一欄確實漂亮</h2>
+<p>Terminal-Bench 4.0 從 Opus 5 的 52.3% 跳到 66.4%，同一張表上 GPT-6 Astra 是 57.9%。CursorBench 4.0 從 46.6% 到 57.8%。電腦操作那項 OSWorld 2.1 是 81.8%，前一代 74.0%。</p>
+<p>最誇張的是 Terminal-Bench-Science，29.0% 變 58.7%，翻倍。這種幅度我通常會先懷疑是不是題目分佈或評分方式動過，不過官方沒特別解釋，就先記著。</p>
+<p>官方頁面還放了一個客戶案例，說有人用它在一天之內跑完六十八萬行的程式碼遷移，同樣的事情團隊原本要做幾個禮拜。這種數字我一律打折看，因為挑出來放在發布頁上的案例本來就是挑過的。</p>
+<p>輸出速度快三成以上，這個倒是比較容易感覺得到。</p>
+<h2>省 40% 這句話要拆開</h2>
+<p>價格表很清楚：輸入從每百萬 token 五美元降到四美元，輸出從二十五降到二十。兩邊都是 20%。快取讀取砍得比較兇，從 0.50 降到 0.20，少六成。</p>
+<p>那官方講的「跑同樣的事情便宜 40%」剩下那一半從哪來？</p>
+<p>有人去算了，答案是預設值。Opus 5.5 的 effort 預設檔位是 medium，而其他支援 effort 的模型預設都是 high。同一個任務，預設檔位降一階，花的思考 token 自然變少，帳單自然變好看。</p>
+<p>比較繞的地方在這裡：在相同的 effort 檔位下，5.5 想得其實比 5 還多。所以你如果手動把 effort 開回 high，想要跟以前一樣的思考量，省下來的就大概只剩那 20% 的降價。</p>
+<p>我不覺得這是在騙人，兩句話都是真的，只是被合在一起講。真正麻煩的是它不會報錯。跑分照跑、東西照出來，你只會覺得某幾次答得比較淺，然後歸咎到自己提示詞沒寫好。</p>
+<h2>旋鈕現在比提示詞重要</h2>
+<p>官方那份 prompting guide 講了一件我覺得比降價重要的事：不要再在提示詞裡寫「想清楚一點」「仔細想想」，改用 effort 設定。反過來，簡單問題想要它直接回答，就明講「直接回答」，不要靠語氣暗示。</p>
+<p>五個檔位分別是 low、medium、high、xhigh、max。看到的建議大概是：low 給那種只是去翻檔案、查東西、做分類的小工；medium 日常寫程式跟 review；high 留給 medium 會漏掉的活；xhigh 給長時間自己跑的大遷移；max 給一次性的硬題目。</p>
+<p>如果你的提示詞或設定檔裡累積了幾句「請仔細思考」，現在大概是白寫的，還佔位置。這件事我得回去清一輪。</p>
+<h2>安全那段順帶一提</h2>
+<p>這是他們喊出「放慢前沿」之後的第一支模型，發布前給 Frontier Design 跟 METR 看過。自動化行為稽核的分數是歷來最高，跨越邊界的嘗試比 Opus 5 少八成五，對 prompt injection 的抵抗力也比較好。</p>
+<p>近兩千個情境的稽核聽起來很多，不過評分標準是他們自己訂的，這點還是要放在心上。生物跟資安相關的用途另外走驗證計畫申請。</p>
+<h2>我自己的結論</h2>
+<p>訂閱制的人價差感覺不到，Pro 跟 Max 好像還有一次免費的額度重置可以領，記得去設定頁看一下。真正要改的是習慣：effort 預設變了，想要跟以前同等的思考量就自己轉上去。</p>
+<p>片晚點看。我最想知道的是 Gary 有沒有提到 effort 預設這件事。只看跑分表的話這條很容易漏掉，但它比表上任何一個數字都更會影響你每天拿到的東西。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=3iXsVw9wsjw">Opus 5.5殺瘋了，你一定得用看看這個模型</a>（Gary Chen）、<a href="https://www.anthropic.com/claude-opus-5-5">Introducing Claude Opus 5.5</a>（Anthropic）、<a href="https://maplefeather.com/article/claude-opus-5-5-worth-switching-quota-2026">Claude Opus 5.5 評價：價格降 20%，effort 也被降了</a>、<a href="https://www.soft4fun.net/tech/news/claude-opus-5-5-prompting-guide.htm">Claude Opus 5.5 指令最佳化指南</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-09-29-journal.html">← 較新：小院日誌 09/29：看到省 40% 先把它拆成兩半</a><a href="2026-09-28-journal.html">較舊：小院日誌 09/28：省下來的跟找對的，好像不是同一件事 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
