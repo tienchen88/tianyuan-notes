@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>錯誤率從 16.8% 掉到 7.3%，條件是把技能說明截成 60 個字 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-jev-coding-cases.png" alt="錯誤率從 16.8% 掉到 7.3%，條件是把技能說明截成 60 個字" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-01</time></div>
+    <h1 class="post-title">錯誤率從 16.8% 掉到 7.3%，條件是把技能說明截成 60 個字</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 今天上了 <a href="https://www.youtube.com/watch?v=qwnJJMNGwgY">The BEST Jev Use Cases for AI Coding (Absolute Game Changers)</a>。</p>
+<p>他<a href="2026-09-22-master-jev-how-to-use.html">上禮拜那支</a>我寫過，當時講的是這東西該擺在哪一層。這次換成用法清單，而且限定在寫程式這一塊。</p>
+<p>片還沒看，下面是我自己查的，不是片裡的內容。</p>
+<h2>用法比上次具體很多</h2>
+<p>掃了一輪外面在傳的案例，寫程式相關的大概這幾種：幫 Claude Code 挑該載哪個技能、在人看之前先掃一遍 diff、讓瀏覽器 agent 從 DOM 裡選下一個動作、把整個 repo 的註解打分數、拿它當語意版的 lint。</p>
+<p>數字都蠻漂亮。瀏覽器那個案例，查一趟 Google Flights 七秒鐘，花掉 0.0039 美金。註解審查那個更誇張，一百五十條註解九秒多掃完、花掉一美分，整個專案掃出大約一千七百條值得重寫的。有人估過全專案掃一輪語意型的壞味道大概兩千八百萬 token，一塊多美金。</p>
+<p>便宜到這個地步，確實會讓人想做一些以前不會做的事。</p>
+<h2>那個降一半的數字，我去翻了條件</h2>
+<p>被引用最多的是技能路由那個。Claude Code 每一回都把所有技能的名稱跟說明掛在 context 裡，agent 大部分時候根本不需要，這筆開銷我自己也覺得煩。做法是先讓 Jev 把所有技能排序，再用前三名的說明開頭重排一次，只載入贏的那個。</p>
+<p>實驗跑了 488 個請求，其中 315 個確實有對應技能。載錯技能的比例從 16.8% 降到 7.3%，沒有適用卻硬載的從 9.8% 降到 4.0%，一個 session 省下大概一萬個 token。</p>
+<p>然後我看到一篇日文的紀錄，作者真的做了一個這樣的外掛，接上去之後發現幾乎沒用，最後停手了。他去對了原實驗的條件：挑選那一端用的是 Haiku，而且每個技能的說明被截到 60 個字元，技能數量是一百八十幾個。</p>
+<p>而他自己的環境是 Fable 5.1 在挑，說明可以吃到一千五百多個字元。他翻了翻自己 repo 裡的 59 個技能，說明能壓在 60 字元以內的只有 2 個，中位數 412。</p>
+<p>他的結論我覺得講得很好：對一個本來就看得到完整資訊、而且挑得不錯的模型，你再給它建議，很難有什麼進步空間。</p>
+<p>這不是說那個實驗造假。16.8% 這種錯誤率，是在只能看 60 個字的情況下量出來的，那個情境下多一道排序當然有效。問題是傳出去的時候條件掉了，只剩「錯誤率砍一半」這句。</p>
+<h2>掃得起來不代表收得完</h2>
+<p>註解那個案例我反覆想了幾次。</p>
+<p>一美分掃一百五十條、整個專案一千七百條，這個成本結構沒什麼好挑的。可是一千七百條註解誰去改？</p>
+<p>掃出來的每一條都要人確認。Jev 不會告訴你它為什麼覺得這條爛，它只給你一個分數。所以你拿到的是一份一千七百列的清單，每一列都得自己點進去看。以前這件事做不起來是因為掃不動，現在掃得動了，卡的地方換成後面那一段。</p>
+<p>全專案的壞味道掃描也一樣。一塊多美金買來一份清單，然後呢。</p>
+<p>我的感覺是這類用法真正省下來的是「找」的成本，不是「處理」的成本。這兩個以前綁在一起，所以分不清楚。現在前者趨近於零，後者原封不動地留在那裡，而且因為前者變便宜，後者的量還會變多。</p>
+<h2>跨檔案那條限制我覺得被低估</h2>
+<p>查資料的時候看到一條限制：它一次只看一塊東西，跨檔案的模式它看不到。</p>
+<p>這條對上面那些用法影響不小。code review 裡真正難的問題，很多就是跨檔案的——這個函式改了簽名，另外三個地方還在用舊的；這段邏輯跟隔壁模組的假設打架。單看一個 diff 片段，判斷不出來。</p>
+<p>所以它能攔的是那種看一眼就知道的東西：這裡在 log 密碼、這個測試被改鬆了、這個動作要碰 <code>.env</code>。這些有價值，我不否認，而且本來就是人最容易漏掉的。只是這些跟「review 的工作量降到十分之一」中間還有一段距離。</p>
+<h2>我想在片裡找兩件事</h2>
+<p>一是他有沒有講條件。同樣的做法在不同的模型、不同的技能數量、不同的說明長度下效果差很多，如果片裡只有結果沒有條件，我就會把那些數字當示意看。</p>
+<p>二是錯的時候怎麼辦。7.3% 大概是十四次裡有一次載錯技能，而載錯不會報錯，agent 照樣把事情做完，只是做得差一點。這種安靜的失敗要怎麼發現，我還沒想到好辦法。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=qwnJJMNGwgY">The BEST Jev Use Cases for AI Coding</a>（Cole Medin）、<a href="https://neurycode.com/blog/jev-use-cases">Jev Use Cases: Jev AI for Coding, Code Review and Claude Code</a>、<a href="https://zenn.dev/shimo4228/articles/jev-retrofit-limits?locale=en">Adding Jev's Skill Router to Claude Code, Then Turning Back Just Before Rewriting the Skill List</a>、<a href="https://docs.typesafe.ai/cookbooks/skill_suggestion">Skill suggestion</a>（TypeSafe AI）、<a href="https://vercel.com/i/jev-use-cases">7 practical Jev use cases</a>（Vercel）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-01-journal.html">← 較新：小院日誌 10/01：追一個數字追到半夜</a><a href="2026-09-29-journal.html">較舊：小院日誌 09/29：看到省 40% 先把它拆成兩半 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
