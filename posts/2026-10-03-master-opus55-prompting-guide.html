@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>它現在比較不會自己亂衝了，於是我得改寫 CLAUDE.md 叫它別停 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-opus55-prompting-guide.png" alt="它現在比較不會自己亂衝了，於是我得改寫 CLAUDE.md 叫它別停" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-03</time></div>
+    <h1 class="post-title">它現在比較不會自己亂衝了，於是我得改寫 CLAUDE.md 叫它別停</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了<a href="https://www.youtube.com/watch?v=xs6-p7fFYH8">Opus 5.5 官方指南，Claude Code 該怎麼下指令？</a>。</p>
+<p><a href="2026-09-29-master-opus-55.html">上禮拜那支</a>我寫過，講的是跑分跟價格，那時候就提到官方有份提示指南，當時只掃到 effort 那幾段。這次主題整支都是那份指南，所以我乾脆先自己翻一遍。</p>
+<p>片還沒看，下面是我從官方文件跟幾篇整理裡抓出來的，不是片裡的內容。</p>
+<h2>最大的變化是它會中途停下來問你</h2>
+<p>這條我完全沒預料到。</p>
+<p>Opus 5.5 比前一代更愛回報進度，每做完一段就用文字講一下現在到哪。聽起來是好事，問題是它會在該呼叫工具的時候改成輸出一段文字就結束這一輪，然後整件事就卡在那裡等你回「繼續」。</p>
+<p>官方把這件事講得蠻細，列了四種會卡住的模式：把接下來要做的事寫成摘要但不去做；問你要不要繼續；把一堆該由你決定的事列出來，而其實那些事它自己可以往下走；做到一個段落就停。</p>
+<p>建議的解法是在 CLAUDE.md 或系統提示的最後寫明停止條件。官方給的句子大意是「不需要我判斷的步驟就直接做下去，只有在沒有我就走不下去的時候才停下來問」。另外要說明哪些事一定要先問：刪資料、force push 這類不可逆的動作，還有要去改 repo 以外的東西。</p>
+<p>還有一句我覺得是整份指南裡最實用的：進度說明要跟下一個工具呼叫放在同一則訊息裡。也就是你不要阻止它回報，你是要求它回報完接著做，別把回報當成一輪的結尾。</p>
+<p>我自己的 CLAUDE.md 裡一直沒寫這種東西，因為以前的問題剛好相反——以前要擔心的是它衝太快，做了你沒叫它做的事。現在要寫一段叫它別停，有點不太習慣。</p>
+<h2>回去刪東西的時間比學新東西多</h2>
+<p>指南裡有好幾條是「把以前寫的拿掉」。</p>
+<p>「回答前請仔細思考」這類句子要刪，這個上次講過了，官方自己測的結果是刪掉之後回得比較快、品質看不出變差。這次看到更完整的清單。</p>
+<p>要求它「把推理過程寫在正文裡」也不用了，改成去拿 thinking 的摘要。想知道理由的話，問結果而不是問過程，像是「用三句話說明為什麼選這個做法」。</p>
+<p>然後有一條我看到愣了一下：不要寫「已經回答過的問題就當作定案」。這句在很多人的設定檔裡是用來防止它繞回去重問同一件事的，但官方說這跟改程式碼的工作性質衝突——改到後面常常就是得回頭重新評估前面的判斷。等於這句話以前是在幫倒忙。</p>
+<p>我回去翻了自己的設定檔，這類句子零零星星累積了不少。大部分是某次它做了蠢事之後我補上去的補丁，補完就忘了，也沒再驗證還有沒有用。這次大概得整批清一輪。</p>
+<h2>「不需要我判斷的步驟就做下去」</h2>
+<p>這句話我想了很久。</p>
+<p>寫法上沒什麼問題，問題是「需不需要我判斷」這件事本身就是一個判斷，而且是它在判斷。真正會出事的情況不是它停下來問你一件不用問的事——那只是浪費時間——而是它覺得某件事不用問你，然後就做了。</p>
+<p>這個錯誤方向跟前一個不對稱。停錯了你會知道，因為你會看到它在等你。做錯了你不一定會知道。</p>
+<p>所以那份「一定要先問」的清單其實比那句大原則重要。刪資料、force push、動 repo 以外的檔案，這幾項是硬邊界，不靠它的判斷。我的想法是這份清單應該寫得盡量具體，寧可列得囉嗦一點，別留給它去推論什麼叫不可逆。</p>
+<p>另外看到有人建議裝一個停止時自動回「繼續」的鉤子，給那種要跑一整晚的任務用。我不太敢用。它停下來的原因有兩種，一種是上面講的那種沒必要的停，另一種是它真的需要你，自動補一句「繼續」會把兩種一起蓋掉。要用大概得先過濾它停下來時說了什麼，但這又回到同一個問題：判斷的那一關還是在它身上。</p>
+<h2>其他幾條</h2>
+<p>子代理那邊有個做法我覺得有意思：在代理的定義裡加一句提醒它時間是有成本的，大意是「這裡時間很重要，能省的時間不要花，越早拿到對的結果越好」。回報說它收到這種訊號之後會調整節奏、也比較願意真的把工作併行跑。我有點懷疑這種措辭的效果有多穩定，但成本很低，可以試。</p>
+<p>長時間跑的任務建議把待辦清單寫在單獨的檔案裡，例如 TASKS.md。理由是對話長到一定程度會被自動摘要，摘要過的東西不可靠，而檔案不會被摘要掉。這條很實在。</p>
+<p>視覺方面進步比較多，尤其是位置關係——箭頭接到哪個框這種。建議是直接貼圖，不要自己先把圖轉成文字描述。以前我習慣先轉述，因為不信它讀得準，這個習慣可以改了。</p>
+<p>還有一條是講設計需求怎麼寫：不要說「現代、乾淨」，改成列五個你不想要的風格。給它具體的反例比給抽象的形容詞有用。這個我在<a href="2026-09-27-master-impeccable-design.html">上禮拜那篇設計的文章</a>裡也看過類似的講法。</p>
+<p>最後有個收尾格式的建議：每次跑完用三個標題結束——「卡在你這邊的」「改了什麼」「發現了什麼」。在 CLAUDE.md 裡設一次就好。這個蠻值得抄。</p>
+<h2>我想在片裡找什麼</h2>
+<p>主要是那段 CLAUDE.md 的實際寫法。官方的句子都是示意，中文環境、不同專案結構底下要怎麼寫比較穩，我想看看他有沒有給自己實際在用的版本。</p>
+<p>另外就是中途停下來這件事他遇過幾次、長什麼樣子。我最近沒跑過那種要幾小時的任務，所以還沒撞到，想先知道它停下來的時候畫面上是什麼樣子，比較好認。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=xs6-p7fFYH8">Opus 5.5 官方指南，Claude Code 該怎麼下指令？</a>（Gary Chen）、<a href="https://www.searchenginejournal.com/anthropic-claude-opus-5-5-prompting-guidance/591278/">Anthropic Publishes Prompting Guidance For Claude Opus 5.5</a>、<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">Prompting best practices</a>（Claude Platform Docs）、<a href="https://note.com/clear_tern4816/n/n08e1966ef438">Practical Prompting Guide for Opus 5.5 in ClaudeCode</a>、<a href="https://note.com/yamashoyevskiii/n/nb18b5c5915a7">Opus 5.5 Official Prompt Guide Explanation</a>、<a href="https://www.gritai.studio/blog/opus-5-5-tips">Claude Opus 5.5 tips, a short summary of Anthropic's advice</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-03-journal.html">← 較新：小院日誌 10/03：回去刪自己兩年前寫的補丁</a><a href="2026-10-01-journal.html">較舊：小院日誌 10/01：追一個數字追到半夜 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
