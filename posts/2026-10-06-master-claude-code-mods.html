@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>那些我拜託它別做的事，現在可以寫成程式碼擋掉 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-claude-code-mods.png" alt="那些我拜託它別做的事，現在可以寫成程式碼擋掉" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-06</time></div>
+    <h1 class="post-title">那些我拜託它別做的事，現在可以寫成程式碼擋掉</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了<a href="https://www.youtube.com/watch?v=2i3FT1vfcrA">Claude 新功能 Mods 拆解！一句話把 Claude Code 改成你要的樣子？</a>。</p>
+<p>片還沒看。但這個功能我前幾天就看到消息了，官方是十月一號那版（v2.1.287）放出來的，所以我先自己把公告跟幾篇整理讀過。下面寫的是我從文件裡抓的，不是片裡的內容。</p>
+<h2>Mod 是一個會跑的函式</h2>
+<p>講白了，mod 就是一小段 TypeScript，掛在 Claude Code 內部的事件上。工具要被呼叫的時候、權限要跳出來問你的時候、畫面要畫出來的時候，mod 都可以插進去。可以在事件之前跑、之後跑、乾脆取代掉它，或者包起來前後都跑一段。</p>
+<p>能做的事情範圍比我以為的大。送進模型之前改寫提示、把工具呼叫攔下來改參數或直接拒絕、接手權限詢問、把工具輸出裡的敏感資料遮掉。介面那邊也開了，可以自己加面板、自訂輸入列、加工具欄。</p>
+<p>安裝方式是包在 plugin 裡，用 <code>/plugin</code> 裝，CLI 跟桌面版都吃。官方也說了可以直接叫 Claude Code 幫你寫 mod，寫完當場熱重載，不用重開。這個開發體驗聽起來蠻舒服的。</p>
+<p>幾個被拿出來當範例的：Token Weather 在畫面上顯示 context 用掉多少，據說只有八十行；Blast Radius 在危險指令跑之前先告訴你會動到哪些檔案；Replay Theater 可以把它改過的多個檔案一步一步倒回來看。</p>
+<h2>跟 Skill 的差別在誰做決定</h2>
+<p>我看到有篇中文整理用一句話講這件事，我覺得抓得很準：Skill 告訴它怎麼做，Mod 替它做決定。</p>
+<p>Skill 是寫給模型看的說明書。你寫得再清楚，它照不照做還是它的事。MCP 是外掛的手，讓它能碰到資料庫、瀏覽器、API，但遊戲規則沒變。Mod 是程式碼，它在 Claude Code 真的要動作之前就先跑了，不需要說服誰。</p>
+<p>這件事對我來說有點感覺，因為我<a href="2026-10-03-master-opus55-prompting-guide.html">三天前</a>才在那邊清自己的設定檔。那整個檔案就是一堆補丁，每一條都是某次它做了蠢事之後我貼上去的膠帶，用詞是「請不要」「務必先確認」。那些句子的效力完全建立在它願意聽。</p>
+<p>而那篇文章我最後糾結的那一點——真正會出事的是它覺得某件事不用問你，然後就做了——這個剛好就是 mod 能處理的事。刪資料、force push、動 repo 以外的檔案，這三項與其寫成一段請求，不如寫成一個攔截器。寫成程式碼就不用管它那天的判斷怎麼樣。</p>
+<h2>核心會越縮越小</h2>
+<p>公告裡有一段我一開始沒看出重量：有些內建功能現在本身就是 mod 在跑，<code>/diff</code> 就是其中一個，所以你可以把它關掉或整個換掉。官方說之後會把更多內建功能搬成 mod，讓你可以把 Claude Code 砍到只剩一個小核心，再把你要的裝回來。</p>
+<p>這個方向我喜歡。我自己的設定檔已經肥到我看不懂當初在防什麼了，如果工具本體也往同一個方向長，那遲早要爆。能砍成小核心再加回來，等於每一樣東西都是你主動選的，不是繼承來的。</p>
+<p>不過這也代表以後「Claude Code」會變成一個因人而異的東西。我跟你的可能連 <code>/diff</code> 的行為都不一樣。遇到問題要互相對照會變麻煩，大概會多出一類「你裝了什麼」的提問。</p>
+<h2>沒有沙盒</h2>
+<p>這條我覺得是整件事裡最需要停下來想的。</p>
+<p>Mod 對你電腦的存取權跟 Claude Code 本身一樣，沒有沙盒。它讀得到檔案、環境變數、API key，也讀得到你的提示，然後它可以代替你同意工具呼叫。官方自己就寫了只裝信得過的來源，跟裝任何軟體一樣。</p>
+<p>這個組合有點刺。社群現在正在興奮地互相分享 mod，而 mod 的能力剛好就是「替你做決定」加上「看得到所有東西」。只要有人把一個看起來無害的 UI mod 做得漂亮一點，裝的人大概不會去讀那八十行。</p>
+<p>有篇整理給的建議我覺得實際：裝之前先看它註冊了哪些事件。只掛 render 的跟掛 <code>tool.call</code>、掛 permission 的，風險完全不是同一個量級。前者頂多畫錯，後者是幫你按同意。</p>
+<p>Team 跟 Enterprise 方案那邊有個叫 sec-default 的內建 mod，會在使用者的 mod 之前先載入，防的是像覆蓋權限拒絕這種事。個人用的沒有這層，所以邊界還是自己顧。</p>
+<h2>我會想先做什麼</h2>
+<p>如果我真的動手，第一個大概就是那個不可逆動作的硬攔截。前幾天寫的那份「一定要先問」的清單直接搬成程式碼，列得囉嗦一點也沒差，反正程式碼不會因為句子太長就打折。</p>
+<p>第二個會想試 Blast Radius 那種「先告訴我會動到什麼」。這跟攔截不一樣，攔截是擋，這個是把後果先攤開給你看。我覺得我需要的其實更多是後者，因為我真正的問題不是它亂做，是我看不出它做了什麼。</p>
+<p>Token Weather 那種我反而不急。顯示 context 用掉多少是好看，但我沒遇過因為不知道用掉多少而出事的情況。</p>
+<h2>我想在片裡找什麼</h2>
+<p>主要是實際寫起來的樣子。官方文件我讀完還是不知道一個 mod 的檔案長什麼樣子、事件的參數有哪些、攔下來之後要回傳什麼。這種東西看別人跑一次比讀文件快。</p>
+<p>另外就是「一句話改成你要的樣子」這個標題。叫 Claude Code 幫你寫 mod 聽起來很順，我比較想知道實際上要來回幾次。如果每次都要自己去讀它寫的那段攔截邏輯對不對，那省下來的時間就沒有標題講的那麼多了——而這段邏輯又剛好是你最不該跳過不讀的那種。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=2i3FT1vfcrA">Claude 新功能 Mods 拆解！一句話把 Claude Code 改成你要的樣子？</a>（Gary Chen）、<a href="https://claude.com/blog/claude-code-mods">Customize Claude Code with mods in TypeScript</a>（Anthropic）、<a href="https://www.blocktempo.com/anthropic-claude-code-mods-typescript-plugins-hot-reload-sandbox-risk/">Claude Code 推出 mods：內建功能、介面、行為全能換，核心越縮越小</a>、<a href="https://vocus.cc/article/6ac0d59ffd897800010da8d3">Claude Code v2.1.287：Skill 是說明書，MCP 是手柄，Mods 才是改遊戲本體</a>（李弘基的沙龍）、<a href="https://the-decoder.com/claude-codes-new-mods-system-lets-developers-rewrite-the-ai-coding-tool-from-the-inside/">Claude Code's new Mods system lets developers rewrite the AI coding tool from the inside</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-06-journal.html">← 較新：小院日誌 10/06：我那些拜託的句子，好像可以換成鎖了</a><a href="2026-10-03-journal.html">較舊：小院日誌 10/03：回去刪自己兩年前寫的補丁 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
