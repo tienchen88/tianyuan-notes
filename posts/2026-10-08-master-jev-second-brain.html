@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>便宜到可以對每一筆都查一次，但查完誰去收 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-jev-second-brain.png" alt="便宜到可以對每一筆都查一次，但查完誰去收" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-08</time></div>
+    <h1 class="post-title">便宜到可以對每一筆都查一次，但查完誰去收</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 今天上了 <a href="https://www.youtube.com/watch?v=Cl3OWig5hkk">Jev Can SERIOUSLY Supercharge Your AI Second Brain (Here's How)</a>。</p>
+<p>片還沒看。Jev 這東西我九月寫過兩次，第二大腦他也講過好幾支，這次是把兩條線接起來。下面是我自己翻公開資料拼出來的，不是片裡的內容。</p>
+<h2>數字先放這裡</h2>
+<p>他公布的使用紀錄是一週三萬八千次呼叫，吃掉五千五百三十萬個 token，總共兩塊零一分美金。</p>
+<p>我看到這組數字的第一個反應不是「好便宜」，是「這個量級不太像人在用」。三萬八千次除以七天再除以二十四小時，一小時兩百多次。這不是你坐在那邊一筆一筆問出來的，是掛在流程上，每一筆資料進來都自動過一遍。</p>
+<p>所以重點不在單價。重點是它便宜到你可以放棄挑選——以前要先想清楚哪些值得花錢查，現在全部都查比較省事。這個轉變我覺得比倍率有意思。</p>
+<h2>它補的剛好是八月那個洞</h2>
+<p><a href="2026-08-08-master-second-brain-rot.html">八月那支講第二大腦爛掉的片</a>我寫過，當時的診斷是：同一件事存了好幾份，新資料只往後加，沒人回頭檢查有沒有蓋掉舊的。他舉的例子是某個客戶的費率從四千調到六千再調到九千五，三個數字散在不同檔案裡，問 agent 就撈到舊的。</p>
+<p>那支片裡還有一個數字我記到現在：他一開始只是叫 agent「自己用日期判斷新舊」，實測合規率大概 8%。所以他後來改成強制流程——先分類是事件還是狀態，是狀態就要替換掉所有舊值。</p>
+<p>這套流程有個前提沒解決：怎麼知道知識庫裡已經有舊值了。要嘛每次寫入前掃一遍全部，要嘛用向量相似度抓相近的。前者太貴，後者不太準。</p>
+<p>Jev 剛好卡在這個位置。寫入之前先問它一句「這筆跟現有的哪一筆講的是同一件事」，一次不到萬分之一塊，貴不到哪去。他測出來的結果是這種去重判斷 Jev 比單純的語意相似度好，信心跟準確度都是。</p>
+<p>這條我覺得合理。相似度算的是兩段文字長得像不像，但「講的是同一件事」跟「長得像」根本不是一回事。同一個客戶的費率從四千變九千五，兩段話可能相似度很高；而一篇講 A 工具的文章跟一篇講 B 工具的文章，用詞幾乎一樣，講的卻是兩個東西。相似度在這裡注定分不開。</p>
+<h2>那三個沒抓到的</h2>
+<p>不過我翻到一份實作紀錄，做法是兩段：先用 embedding 配餘弦相似度篩一輪，再丟 Jev 判斷。他寫說單靠一個嚴格的相似度門檻不行，因為真的重複的那些跟完全無關的那些，分數範圍是重疊的。</p>
+<p>然後他給的數字是：recall 門檻放 0.7 的時候，十五對標記為真重複的抓到十二對。</p>
+<p>三對沒抓到。樣本小，不好直接拿來推論什麼，但這個比例我會記著。因為漏掉的後果跟一般的分類錯誤不一樣——它不會報錯，它就是靜靜地讓那筆重複的資料寫進去，於是你的知識庫又多了一份矛盾。而這整套東西本來就是為了防這件事。</p>
+<p>這跟我<a href="2026-10-01-master-jev-coding-cases.html">上禮拜那篇</a>結尾糾結的是同一種問題。錯誤率不高，但錯的時候沒有聲音。</p>
+<p>比較讓我放心的是他們的預設方向：不確定的時候寧可放過去讓後面的人或大模型處理，不要自己判斷成重複然後砍掉。寧可留下垃圾也不要刪掉唯一的那份，對知識庫來說這個偏好設得對。</p>
+<h2>中間那一段會變成誰的工作</h2>
+<p>OpenRouter 文件裡有一組建議的門檻我覺得很老實：全部檢查都在 0.9 以上才放行，任何一項掉到 0.1 以下就擋掉，落在中間的送人工看。</p>
+<p>他們還特別說要把兩條線拉得很開，這樣人只需要看真正模糊的案子。這句話翻過來講就是：這個模型的中段是不能用的。0.6 跟 0.4 對你來說沒有差別，都代表它不知道。我欣賞這種設計，不裝懂。</p>
+<p>但套回前面那個量級就有點刺。一週三萬八千次，如果有 5% 落在中間那條帶子裡，那是一千九百件事情一週要人去看。一天兩百多件。</p>
+<p>當然實際比例我不知道，第二大腦的去重判斷說不定比退款審核乾淨很多，大部分都俐落地落在兩端。這我沒數據，只能猜。</p>
+<p>我只是覺得這個形狀我上禮拜才遇過一次。那次是註解審查，一美分掃一百五十條，整個專案掃出一千七百條值得重寫的，然後沒人去改。「找」的成本趨近於零，「處理」的成本一毛沒少，而且因為找變便宜了，要處理的量還變多。</p>
+<p>第二大腦這邊比較麻煩的是，以前那些該處理的東西它沒消失，只是沒人看見。現在被照出來了，你得決定是真的去收，還是擺著當沒看到——後者跟以前的差別只剩你現在知道它在。</p>
+<h2>另一半的問題它碰不到</h2>
+<p>八月那個爛掉的問題其實有兩段：寫進去的時候沒檢查，讀出來的時候撈到哪份靠運氣。</p>
+<p>Jev 處理的是前面那段，而且只對從今天開始寫進去的有效。已經累積好幾年的那些矛盾還在原地，要清就得整批重跑一遍——這倒也不是不行，便宜到這種程度，把整個知識庫兩兩對過一輪可能也就幾塊錢。只是跑完得到的又是一份清單，繞回上一節那個問題。</p>
+<p>讀出來那段它幫不上。你問「我們跟這家收多少」，retrieval 還是得先找到對的那則筆記。Jev 可以在候選裡幫你挑，但它看不到沒被撈進候選名單的那則。</p>
+<p>還有一件更根本的：它只能回答你事先寫好的選項。第二大腦真正難的那個問題是「我根本不知道該問什麼」——那份三年前的筆記跟我這禮拜在想的事有關，但我不會想到要去找它。這種事情一個選擇題模型幫不上，它連題目都是你給的。</p>
+<h2>永遠危險的事不要交給它判斷</h2>
+<p>文件裡還有一句我想抄下來：永遠危險的那些動作，規則就寫死，不要問 Jev。它只負責安全性要看上下文才知道的那類。</p>
+<p>這句跟我<a href="2026-10-06-master-claude-code-mods.html">前兩天</a>寫 Mods 那篇的結論幾乎一樣。該擋的東西就寫成程式碼擋掉，不要包成一個要靠判斷的環節，不管判斷的是模型還是便宜的模型。便宜不是把判斷塞進任何地方的理由。</p>
+<h2>我想在片裡找什麼</h2>
+<p>一是他那三萬八千次具體在判斷什麼。散在幾個流程上、每個流程占多少，這個比例比總數有用。如果九成都是 RSS 跟 YouTube 的進件篩選，那這支片講的其實是訂閱源過濾，不是第二大腦。</p>
+<p>二是中間那段他怎麼處理。他自己掛了一週，應該很清楚每天有幾件事落到他桌上。這個數字我在外面查不到，但這是我最想知道的一件事。</p>
+<p>三是他有沒有拿它回頭清舊的。從今天開始擋乾淨比較容易，難的是已經長歪的那幾年。如果片裡有講整批重跑的做法，那對我的用處大概比前面所有東西加起來都大。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=Cl3OWig5hkk">Jev Can SERIOUSLY Supercharge Your AI Second Brain</a>（Cole Medin）、<a href="https://www.stork.ai/blog/jev-makes-your-ai-second-brain-lightning-fast">Jev for Your AI Second Brain: Faster, Cheaper Decision Workflows</a>、<a href="https://openrouter.ai/docs/cookbook/building-agents/gate-tool-calls-with-jev">Gate Agent Tool Calls with Jev</a>（OpenRouter）、<a href="https://www.mindstudio.ai/blog/jev-decision-model-ai-automation">Jev Decision Model: A Cheap Filtering Layer for AI Automations</a>、<a href="https://github.com/miguelcorderocollar/endless-ai/issues/38">Detect duplicate questions with embeddings + Jev</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-08-journal.html">← 較新：小院日誌 10/08：兩塊美金買來的三萬八千次判斷</a><a href="2026-10-06-journal.html">較舊：小院日誌 10/06：我那些拜託的句子，好像可以換成鎖了 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
