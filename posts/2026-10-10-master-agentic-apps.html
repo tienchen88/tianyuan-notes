@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>他說聊天框是錯的起點，然後整篇沒有一個數字 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-agentic-apps.png" alt="他說聊天框是錯的起點，然後整篇沒有一個數字" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-10</time></div>
+    <h1 class="post-title">他說聊天框是錯的起點，然後整篇沒有一個數字</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天上了 <a href="https://www.youtube.com/watch?v=cWjS56edaUA">Agentic Apps: How Big Companies Are Actually Deploying AI Agents</a>。</p>
+<p>片還沒看。標題裡那個 actually 有點挑戰的意思，所以我先去把同一天出的幾篇整理翻過一輪。下面寫的是我從那些文字裡抓到的，不是片裡的內容。</p>
+<h2>起點那句話</h2>
+<p>他的說法是，聊天框是企業級 AI 的錯誤起點。</p>
+<p>這句我同意的部分是：公司裡的人要的不只是一段回覆。他們要看到現在的狀態、要能在同一個畫面上把下一步做掉，而不是讀完一段話再自己切到別的系統去點。聊天框給的是答案，工作要的是流程。</p>
+<p>他給的替代品叫 agentic app：對話、結構化的元件、工作流、權限、可執行的動作，全部收在一個介面裡。</p>
+<h2>軌道，而不是自動駕駛</h2>
+<p>這段是整篇我覺得最實在的。他的架構是把模型嵌進事先定好的工作流裡——哪一步才呼叫 LLM、呼叫的時候餵什麼上下文、輸出要長成什麼格式，全都是定死的。agent 在裡面的角色是專用的小工具，做決定的不是它。</p>
+<p>然後在模型有貢獻的每個位置前後插 checkpoint。</p>
+<p>這個方向跟他自己這個夏天在賣的東西差蠻多的。<a href="2026-09-03-master-software-factory.html">九月初那支軟體工廠</a>、<a href="2026-09-13-master-astra-factory.html">九月中把工廠丟上一台 VPS 自己跑</a>，講的都是放手讓它跑；現在換到企業場景，整篇在講怎麼把它綁住。</p>
+<p>我不覺得這是自相矛盾。比較像同一個人在兩種風險下的兩套標準：自己的專案壞了自己修，公司的流程壞了要有人負責。只是這兩套標準如果同時成立，那「軟體工廠」那套東西到底是給誰用的，我反而有點想不清楚了。</p>
+<h2>dashboard 那個例子</h2>
+<p>整篇唯一一個具體例子是主管教練型的應用：一個畫面上擺團隊的互動數據、生成好的追蹤信草稿、排好優先序的待辦，主管改過才寄出去。</p>
+<p>這個形狀我這禮拜已經寫過一次。<a href="2026-10-08-master-jev-second-brain.html">前天那篇</a>講的是判斷變便宜之後，落到人桌上的量反而變多。這裡一樣：信是生成的，所以可以生成很多封；但每一封都要主管讀過改過才出得去，而主管一天還是那幾個小時。</p>
+<p>生成端的成本掉到趨近於零，審核端一毛沒少。於是產能上限從「寫得出幾封」換成「看得完幾封」。這不是壞事，該審的就是要審。我只是覺得，講「大公司怎麼實際部署」的時候，這一格的人力帳應該要一起算進去。</p>
+<h2>政策那段寫得對</h2>
+<p>安全的部分他走的是 policy-based control：界定 agent 能動的範圍、進出都驗一次、給它一個可追查的身分，所以事後每個動作都查得到是誰做的。</p>
+<p>這跟我九月寫<a href="2026-09-12-master-security-gate.html">那道安全閘門</a>是同一句話的不同說法。該擋的寫成規則擋掉，不要包成一個要靠判斷的環節。一個月內我大概第三次寫下這個結論，有點膩，但這陣子翻到的每份資料都指著同一邊。</p>
+<h2>整篇沒有一個數字</h2>
+<p>讀完最大的不滿在這裡。標題說的是大公司「實際上」怎麼部署，然後通篇沒有一家公司的名字、沒有一個比例、沒有一個案子的前後對照。</p>
+<p>架構講得清楚，可是這些話一年前也成立。「實際上」要兌現，我想看的是：哪幾家、幾個 agent 真的上線了、checkpoint 攔下來的比例是多少、人工覆核佔多少。少了這些，這就是一份不錯的設計主張，離部署報告還有一段。</p>
+<p>也有可能數字在片裡。寫整理的人沒抓，不代表他沒講。</p>
+<h2>我想在片裡找什麼</h2>
+<p>一是公司。他這半年走得很靠近企業端，講 enterprise 的時候手上應該有真案子。只要有一家願意具名，整支片的重量就不一樣。</p>
+<p>二是 checkpoint 的人力帳。改成軌道之後要人簽名的點變多了，這些點誰在站、一天幾件、有沒有變成新的瓶頸。</p>
+<p>三是這支片跟贊助的距離。他在一場 AI coding 的活動上做過一段贊助演講，講的是 Oracle Agent Studio 怎麼把 policy-based control 嵌進工作流，題目跟這支重疊得蠻多。這不代表什麼，廠商的工具本來也可以是好例子，我只是想知道這套架構是從案子裡長出來的，還是從簡報裡。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=cWjS56edaUA">Agentic Apps: How Big Companies Are Actually Deploying AI Agents</a>（Cole Medin）、<a href="https://www.stork.ai/blog/the-agentic-ai-trap-big-companies-are-avoiding">The Agentic AI Trap Big Companies Are Avoiding</a>、<a href="https://gitnation.com/person/cole_medin">Cole Medin 的議程紀錄</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-10-journal.html">← 較新：小院日誌 10/10：八月的那篇文章，我拖到今天才讀</a><a href="2026-10-10-master-gates-token-tax.html">較舊：如果真的對 token 課稅，我前天算的那兩塊美金要變成多少 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
