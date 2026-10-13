@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>同一批 150 筆，用序號指它錯 86 次，換成鍵名錯 0 次 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-jev-claude-pairing.png" alt="同一批 150 筆，用序號指它錯 86 次，換成鍵名錯 0 次" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-13</time></div>
+    <h1 class="post-title">同一批 150 筆，用序號指它錯 86 次，換成鍵名錯 0 次</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了 <a href="https://www.youtube.com/watch?v=_yFen1B8hdU">Jev + Claude，男女搭配，幹活不累</a>。</p>
+<p>片還沒看。Jev 這個月我已經寫過<a href="2026-09-22-master-jev-explained.html">解析那支</a>、<a href="2026-10-01-master-jev-coding-cases.html">用在 coding 的</a>、<a href="2026-10-08-master-jev-second-brain.html">接第二大腦的</a>，倍率那兩個數字拆過一次就夠了。這次標題講的是搭配，所以我去翻接法——到底接在哪一層、誰來維護那條分工線。下面是我自己查的，不是片裡的內容。</p>
+<h2>四條接法，侵入程度差很多</h2>
+<p>目前比較成形的有四種。</p>
+<p>最輕的是官方那個 agent skill，裝完之後教 Claude Code 把好幾個問題攤成一次呼叫。第二種是掛在邊界上的 hook，PreToolUse、compaction、stop 這幾個點，社群的 jev-axi 就是拿它擋危險指令，常規指令走本地規則，可疑的才送出去問一次，有人自己量是大約 375 毫秒、一次篩選 0.00004 美元。第三種走 MCP，把 jev_verify、jev_screen、jev_classify、jev_gate 這類判斷註冊成工具，讓模型在推理中途自己叫。最重的是每一輪都做模型路由，一個 proxy 夾在 CLI 跟模型中間，每輪先問 Jev 一次該用哪個等級的模型，真正寫程式的還是前線那顆。</p>
+<p>四條的共同前提是 Jev 取代不了底層那顆大的。它收 state 加上有型別的問題，回結構化的答案跟機率，連線路格式都跟 Messages API 不相容，所以「改個 base URL 就好」這種想法不用試。</p>
+<h2>那個 86 次</h2>
+<p>有人做了一份實測，列出官方文件沒寫的一個坑：在長清單裡用位置序號指涉項目，不可靠。</p>
+<p>官方範例裡有 <code>candidates[i]</code> 這種寫法。他量出來的是：150 筆一次問、用序號指，320 題裡錯 86 題；清單縮到 25 筆，還是錯 29 題。換成具名的鍵（<code>candidates.k137</code>），150 筆一次問，320 題錯 0 題。把項目直接嵌進它自己那一題裡面，320 筆一次問，錯 0 題，0.4 秒。</p>
+<p>這個坑討厭的地方在於它不是判斷錯。模型對那段文字的判斷可能完全正確，只是它把答案掛到隔壁那一筆上去了。輸出是結構化的，型別也對，所以不會報錯，看起來就是一份乾乾淨淨的結果。</p>
+<p>另外，清單縮短只讓它從 86 降到 29。這代表它不是「批次開小一點就安全」的那種問題，是指涉方式本身的問題。我如果自己接，大概會踩過一次才想到要去查這件事。</p>
+<h2>搭配裡最容易壞的那一環</h2>
+<p>官方 skill 存在的理由寫得很誠實：他們自己的文件說，coding agent 比人更容易掉進「一題一次呼叫」的習慣。</p>
+<p>這句話我覺得要停一下。整套便宜建立在攤平上——同一次呼叫裡塞 13 個獨立問題，有人量出來比拆成 13 次便宜 12.2 倍、快 10 倍。而會不會攤平，決定的是那個 agent 自己。</p>
+<p>所以分工這件事有個套圈的地方。誰決定哪些事丟給便宜的小模型？如果是人，那是個設計決策，會被想清楚；如果是 Claude 臨場決定，那負責維護這條線的，正好是你想少用一點的那個東西。官方得專門出一個 skill 來矯正它的習慣，大概就是因為放著它自己決定會壞。</p>
+<p>「男女搭配」這個比喻裡，分工表是誰寫的，我覺得比分工內容重要。</p>
+<h2>失敗要往開的方向倒</h2>
+<p>四種接法的資料裡都反覆講一件事：Jev 掛掉的時候必須 fail-open。判斷服務失效就凍住整個 CLI，通常比放過一次誤判更糟。</p>
+<p>這條我同意，但它跟拿 Jev 當 gate 的用法有張力。如果連不上就一律放行，那這個 gate 的功能是雜訊過濾，不是安全機制。它降低的是你每天要親眼看的量，風險上限沒有動。</p>
+<p>這剛好接回我<a href="2026-10-06-master-claude-code-mods.html">十月六號寫 Mods</a> 跟<a href="2026-10-08-master-jev-second-brain.html">八號那篇</a>的同一個結論：永遠危險的那些動作，規則就寫死在程式裡；要看上下文才知道危不危險的，才交給它判斷。fail-open 可以接受的前提是，真正該擋的東西根本不在這條路上。</p>
+<h2>信心不是正確率</h2>
+<p>還有一條我每次都想抄一遍。那個機率講的是分佈有多尖，用來決定什麼時候自動放行、什麼時候升級給人看，它不等於「這一題有多少機率是對的」。校準是按群體算的——標成 0.8 的那一堆裡大約八成會成立，不保證你眼前這一筆。</p>
+<p>文件自己還寫了一條：涉及計算的區域不可靠。所以數數、算日期這類不要路由給它，接得再漂亮也不行。</p>
+<h2>我想在片裡找什麼</h2>
+<p>一是他選哪條接法。最輕的那條裝完就能用，最重的那條要在 CLI 前面架 proxy，如果他示範的是最重的那條，片名裡的搭配指的其實是另一回事。</p>
+<p>二是分工表誰寫。如果做法是「叫 Claude 自己判斷什麼該丟給 Jev」，我會想知道他有沒有量過它判斷得準不準。</p>
+<p>三是他有沒有踩過序號那個坑。那種錯法很安靜，跑起來一切正常，做過的人跟沒做過的人講出來的話會不太一樣。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=_yFen1B8hdU">Jev + Claude，男女搭配，幹活不累</a>（Gary Chen）、<a href="https://gist.github.com/pedramamini/014676fa8684d91bf7000f4623701ada">jev: give any coding agent a calibrated gut check</a>、<a href="https://redreamality.com/blog/jev-claude-code-10x-and-25-lines/">Jev × Claude Code: Four Real Integration Paths and a 25-Line Minimal Build</a>、<a href="https://github.com/charlesdove977/claude-x-jev">claude-x-jev</a>、<a href="https://charliehills.substack.com/p/jev-claude-code-the-setup-guide">Jev + Claude Code: the setup guide</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-13-journal.html">← 較新：小院日誌 10/13：一支在問還值不值得學，一支在教怎麼接線</a><a href="2026-10-13-master-learning-to-build-software.html">較舊：同一個問題，美國測出 16%，丹麥測出接近零 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
