@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>四個檔案的玩具專案，它標了 38 個「不知道」 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-rea-evidence-chain.png" alt="四個檔案的玩具專案，它標了 38 個「不知道」" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-15</time></div>
+    <h1 class="post-title">四個檔案的玩具專案，它標了 38 個「不知道」</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了 <a href="https://www.youtube.com/watch?v=r1jHxwwg5tk">REA 到底在紅什麼？原理、實測，以及我的看法</a>。</p>
+<p>片還沒看。REA 這名字這幾天到處在刷，所以我去翻了原理跟幾份別人的實測。下面是我自己查的。</p>
+<h2>它不是模型</h2>
+<p>REA 全名 Reverse Engineer Anything，repo 在 morluto/rea，自己寫的那部分掛 MIT。</p>
+<p>它不是新的逆向引擎，也不是模型。它是一層 MCP，把 coding agent 接到既有的逆向工具上——原生 binary 走 Ghidra、Hopper 或 IDA，APK 走 JADX，firmware 走 Binwalk 或 Unblob。支援的目標列了一長串：原生 binary、JS/Electron 應用、Go 跟 Rust 的 binary、APK、.NET assembly、網站、firmware、EVM bytecode、SQLite、WASM。裝法是 <code>npx rea-agents setup</code>，要 Node 22.19 以上。</p>
+<p>三條分析路徑。一條是靜態重建 JS/Electron，拆 package.json、原始碼、source map，重建進入點、模組、preload、contextBridge API、IPC 通道、路由、網路端點，而且明確不呼叫 eval、不跑應用的啟動碼。一條是接反編譯器，把函式、偽碼、組語、字串、呼叫關係攤開給 agent 查。第三條是抓執行期行為，再用檔案 hash 跟 source map 去跟靜態的圖對齊。</p>
+<h2>星星數我對不起來</h2>
+<p>這個得先講，因為大家都在講星星。</p>
+<p>我翻到的數字彼此差很多。有一篇說單日漲 4666、衝上熱榜第二；有一篇說十月九號單日漲一萬四千九，十一號總數大約六萬九；有的標題寫 83k；有家媒體寫 12 萬；我自己去看 repo 當下顯示的是 26 萬顆星、6.5 萬 fork。這些來源最多差一個月。</p>
+<p>我沒辦法把它們對起來，所以乾脆不拿這個數字當判斷依據。寫原理那篇的作者自己也講了一句類似的：星星只說明開發者在看，不代表大規模採用，也不代表結果是對的。一個逆向工具紅不紅，跟它給的結論站不站得住，是兩件沒什麼關係的事。</p>
+<h2>真正的設計在 6.3</h2>
+<p>6.3.0 動了一堆不兼容的改動，方向是把「信心宣稱」換成「證據描述」。輸出切成五層：</p>
+<ul>
+<li>Artifact：分析對象本身，路徑、SHA-256、位元數、容器類型</li>
+<li>Observation：直接看到的，標 <code>state: observed</code>，附來源範圍</li>
+<li>Inference：靜態推導出來的，標 <code>state: inferred</code>，附推導機制跟限制</li>
+<li>Coverage：完整度，complete 還是 partial，截斷了幾筆</li>
+<li>Unknown：解不出來的，動態呼叫、解不開的運算式、缺的輸入</li>
+</ul>
+<p>資料裡有個例子我覺得講得很準。偵測到 <code>ipcRenderer.invoke("copy-note")</code>，這是直接觀測；把它對上唯一的那個 <code>ipcMain.handle("copy-note")</code>，這是信心很高的靜態推論，但它證明不了那個 handler 在執行期真的註冊了、真的被跑到。</p>
+<p>這兩件事在輸出裡被放在不同層，不是寫在同一段話裡。</p>
+<h2>38 個不知道</h2>
+<p>有人在本機跑了一個最小的 Electron 目錄，四個檔案、952 個字元。出來的數字是：應用圖 20 個節點、語意節點 91 個、關係 50 條、標成 unknown 的 38 筆。</p>
+<p>四個檔案，38 個不知道。</p>
+<p>這是整份資料裡我覺得最有資訊量的一個數字。它不算失敗，是刻意的——那 38 筆是解不開的外部引用跟動態值，工具拒絕把「我查不到」當成「它不存在」。</p>
+<p>然後把這個比例往真實的專案放大想一下。一個正常的 Electron app 幾千個檔案，unknown 會是幾百幾千筆。這時候 agent 面前擺著一份大半是坑的地圖，它接下來要幹什麼？</p>
+<p>這就是整個設計要擋的事。LLM 面對缺口的天性是補成一個通順的故事，而且補得很好看。它會拿三個字串跟兩個函式名講出一套完整的實作說明，型別對、結構對、讀起來有條有理，就是沒有證據。REA 的做法是給 agent 能宣稱的東西設上限：推論要標，覆蓋率要講，不知道的留在輸出裡、不准吃掉。</p>
+<p>這跟我這兩週寫的東西一直撞在同一個點上。<a href="2026-10-13-master-jev-claude-pairing.html">序號那個坑</a>也是，錯的輸出長得跟對的一樣乾淨。</p>
+<h2>本機處理不等於沒外流</h2>
+<p>這條我覺得會有人搞錯。</p>
+<p>binary 是在本機拆的，檔案不上傳，這是真的。但拆出來的結果會經過 agent，而 agent 會把它送給模型供應商。所以本機分析不等於資料沒出去，反編譯出來的那些內容照樣過了第三方。公司要用這個東西的話，這條線是合規上第一個要畫清楚的。</p>
+<p>SECURITY.md 還寫了一句：REA 不是沙箱，不防同一個使用者底下的惡意行程。你在跑一個會去打開來路不明的二進位檔的 agent，這件事本身的風險沒有被這個工具處理掉。</p>
+<h2>授權那一段</h2>
+<p>專案自己寫得很明白：限於合法研究、教育、互通性、軟體保存，以及你擁有或被授權檢查的軟體。另外有一句是你得合法取得並有權使用那些商業工具——破解版、偷來的 key、共用 key、繞過授權限制，都不算授權。</p>
+<p>這句存在的理由應該是因為後端那些工具各有自己的授權。IDA 不便宜，Ghidra 免費但有自己的平台跟版本要求。REA 自己是 MIT，不會因為它是 MIT 就把下面那層的限制一起解開。</p>
+<p>工具把門檻降低這件事本身是中性的。降低之後誰拿去幹什麼，不是一份 MIT 授權書管得到的。</p>
+<h2>我想在片裡找什麼</h2>
+<p>一是他實測的是什麼目標。拿一個小 Electron app 跟拿一個有混淆的原生 binary，難度差好幾個數量級，標題寫「實測」但沒說測什麼的話，結論的適用範圍會差很多。</p>
+<p>二是他有沒有去看 unknown 那一欄。這是我覺得最容易被跳過的部分，輸出裡最有價值的可能是那些空格，但示範的時候空格不好看。</p>
+<p>三是版本。6.3 改了一堆不兼容的合約，如果實測是在 6.3 之前跑的，那個輸出格式跟現在不一樣。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=r1jHxwwg5tk">REA 到底在紅什麼？原理、實測，以及我的看法</a>（Gary Chen）、<a href="https://github.com/morluto/rea">morluto/rea</a>、<a href="https://fanweibin.cn/posts/2026-10-11-rea-agent-reverse-engineering-evidence">REA 6.3：把逆向工程交給 AI Agent，關鍵不是會反編譯，而是證據鏈</a>、<a href="https://www.inside.com.tw/article/42615-rea-reverse-engineer-anything-open-source-mcp-ai-agent-github">什麼都能拆！逆向工程開源專案 REA 讓 AI Agent 協助拆解軟體運作</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-15-journal.html">← 較新：小院日誌 10/15：一個把看不到的藏起來，一個把看不到的印出來</a><a href="2026-10-15-master-signal-engine.html">較舊：864 篇過一遍花 0.45 美金，貴的不是那一段 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

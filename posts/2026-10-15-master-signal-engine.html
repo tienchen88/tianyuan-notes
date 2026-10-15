@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>864 篇過一遍花 0.45 美金，貴的不是那一段 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-signal-engine.png" alt="864 篇過一遍花 0.45 美金，貴的不是那一段" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-15</time></div>
+    <h1 class="post-title">864 篇過一遍花 0.45 美金，貴的不是那一段</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 今天上了 <a href="https://www.youtube.com/watch?v=2i_ZyqDmtio">How I Keep Up with AI Without Drowning in It (Free Skill)</a>。</p>
+<p>片還沒看。標題講的是怎麼跟上 AI 又不被淹死，附一個免費的 skill，所以我去翻那個 skill 到底長什麼樣。下面是我自己查的，不是片裡的內容。</p>
+<h2>它不給你系統，它問你問題</h2>
+<p>東西在 coleam00/skills 裡面，叫 build-signal-engine，是那一包三十幾個 skill 的其中一個。</p>
+<p>照 README 的說法，它做的事是先訪談你：你需要跟上什麼、上個月你漏掉了什麼、那件事當初出現在哪裡。然後照你的答案從零蓋一套，讀你在意的每個來源（changelog、社群、feed、影片），對每一筆做一個快速判斷，只把活下來的交給 LLM，產出一份每日摘要。分階段蓋，每階段拿真實資料驗過才往下，逐步長進你自己的 repo。</p>
+<p>我覺得最聰明的是第二個訪談問題。</p>
+<p>「上個月你漏掉了什麼、它出現在哪裡」——這是拿實際的漏接去反推規則，而不去問你想看什麼。問人想看什麼，人會答一個理想版的自己；問人上次漏了什麼，答案會把來源權重直接標出來。我自己如果設這種東西，大概就會照第一種問法填一堆關鍵字，然後過兩週發現它給我的全是我已經知道的事。</p>
+<h2>成本結構</h2>
+<p>來源涵蓋 RSS、Reddit、YouTube 頻道、Hacker News、GitHub repo、論文 feed、產品 changelog。</p>
+<p>過濾分兩段。第一段是死規則，把過期的、明顯沒價值的先砍掉，完全不碰模型。剩下判斷不了的，才交給模型做細一點的相關性檢查。</p>
+<p>有人寫了一篇實測，數字是這樣：864 篇跑一輪，第一段過濾 0.03 美金，第二段交給 Haiku 評估 0.42 美金。省下來的關鍵是在呼叫模型之前先把沒用的字砍掉。</p>
+<p>0.45 美金一輪，一個月十三塊多。老實說我看到這個數字的第一個反應是，成本根本不是這套系統的問題。</p>
+<h2>貴的那一段</h2>
+<p>同一篇實測後面有一句講到維護：調校要時間，來源要維護，還要定期檢查有沒有漏掉的新聞跟誤判。</p>
+<p>這句我想停一下。</p>
+<p>漏掉的東西怎麼檢查？你看不到的就是你看不到的。要知道誤殺了什麼，得回去翻原始來源，可是翻原始來源正好是這套東西本來要幫你免掉的事。所以這件事繞回來了：要維持過濾器準，你得週期性地自己做一輪沒過濾的閱讀，拿它當對照組。</p>
+<p>誤判那一邊比較好辦，摘要裡出現廢文你馬上就看到，是你讀的時候順手就標了。漏接那一邊沒有這種回饋，它安靜。跟我<a href="2026-10-13-master-jev-claude-pairing.html">前兩天寫的那個序號的坑</a>有點像，錯了不會報，看起來乾乾淨淨。</p>
+<p>我猜實際上多數人跑這套跑三個月之後，就不會再去做那個對照組了。然後過濾器會慢慢往「確認我已經相信的事」那邊漂，而且沒人會發現。</p>
+<h2>自己蓋跟拿現成的</h2>
+<p>它刻意不給現成的 repo，給的是蓋法。</p>
+<p>好處明顯：規則是你自己的，來源是你自己的，跟你手上在用的東西對得上。壞處也明顯，你得養它。現成的工具爛掉你就不用了；自己蓋的東西爛掉是你的事，而它爛掉的方式是慢慢變鈍，不是壞掉。</p>
+<p>Cole 自己那套跑了半年多，盯幾百個來源。半年這個數字我覺得比成本數字有說服力，它代表那套東西有被持續修，不是裝完就擺著。</p>
+<h2>我想在片裡找什麼</h2>
+<p>一是那個訪談到底問幾題、問多深。有寫說大約十到十五分鐘，如果真的十五分鐘就能定出夠用的正負規則，那這一步比我想的輕。</p>
+<p>二是他怎麼處理漏接。有沒有做對照組、多久做一次，或者乾脆承認不管。這題的答案決定這套東西是個過濾器還是個回音室。</p>
+<p>三是摘要出來他真的讀多久。盯幾百個來源最後壓成一份每日摘要，如果那份摘要還要讀二十分鐘，省下來的只是翻頁的時間。</p>
+<p>晚點把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=2i_ZyqDmtio">How I Keep Up with AI Without Drowning in It (Free Skill)</a>（Cole Medin）、<a href="https://github.com/coleam00/skills">coleam00/skills</a>、<a href="https://www.stork.ai/blog/stop-drowning-in-ai-news">Build an AI News Signal Engine That Filters the Noise</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-15-master-rea-evidence-chain.html">← 較新：四個檔案的玩具專案，它標了 38 個「不知道」</a><a href="2026-10-13-journal.html">較舊：小院日誌 10/13：一支在問還值不值得學，一支在教怎麼接線 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
