@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 收回了暗燈工廠，把人放回兩個位置 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-dark-factory-pivot.png" alt="Cole Medin 收回了暗燈工廠，把人放回兩個位置" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-17</time></div>
+    <h1 class="post-title">Cole Medin 收回了暗燈工廠，把人放回兩個位置</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天上了 <a href="https://www.youtube.com/watch?v=GQatuTWSRqY">My AI Dark Factory Dream Is Dead (Here's What Actually Works)</a>。</p>
+<p>看到標題的時候愣了一下。九月初他才放了一支<a href="2026-09-03-master-software-factory.html">說要幫大家蓋一座軟體工廠</a>的片，我那時寫了一篇，最後一段在擔心驗證。一個多月後他自己出來說夢死了。</p>
+<p>片我還沒看。下面是我從一篇整理文讀來的，不是片裡的原話，細節可能有出入。</p>
+<h2>卡在哪</h2>
+<p>原本的目標是丟一份高層次的需求進去，出來一個驗過、上線的 app，中間沒人掌舵。</p>
+<p>整理文說他卡在兩個地方。第一個是人講不清楚自己要什麼。沒寫出來的需求 agent 猜不到，模型再強也一樣，因為資訊根本不在那裡。第二個是程式碼會散。agent 寫的東西越長越蔓延，而讓它自己 review 自己，常常只是把原本的錯再確認一次。架構上的小歪斜一層疊一層，最後變成一個很難動的 codebase。</p>
+<p>這些結論是他做自己那個 AI tutor 的時候踩出來的，不是紙上推的。這點我比較信。</p>
+<p>第二個問題我其實不意外。自己審自己這件事，上次寫的時候就覺得是最弱的一環，只是沒想到他會這麼直接承認。</p>
+<h2>退回來的版本</h2>
+<p>新的做法照整理文的描述大概是這樣：</p>
+<ul>
+<li>人先寫 PRD 或架構文件，定一個大約 10 到 20 張工單的範圍，連「這次不做什麼」都要寫明</li>
+<li>工廠把它拆成工單、排依賴、照順序跑</li>
+<li>收尾的測試情境藏起來，不讓寫程式的那個 agent 看到</li>
+<li>驗證獨立做，不採信 builder 自己的檢查</li>
+<li>最後由人決定這次放出去的範圍，重要的結果人來看</li>
+</ul>
+<p>我覺得最有意思的是第三點。把測試藏起來，等於承認 agent 會對著考題寫答案。這在人身上也成立，只是我們平常不太講。</p>
+<p>整個調整看下來，人回到兩個位置：一頭一尾。開頭負責把意圖講清楚，結尾負責判斷東西對不對。中間的執行還是交給機器。整理文的說法是縮小爆炸半徑，不是把人拿掉。</p>
+<h2>我的一點猶疑</h2>
+<p>老實說我有點分不清這是「夢死了」還是「換了個比較誠實的說法」。</p>
+<p>工廠還在，Archon 還在，工單還是自己跑。改掉的是那個「零人參與」的宣傳詞。如果九月那支片的重點本來就是那五塊零件，那其實沒有死什麼，只是把第五塊驗證拉高到它本來就該在的位置。</p>
+<p>可是標題下得這麼重，代表他自己應該真的有過一段期待落空。這部分得看片才知道他怎麼講。</p>
+<p>另外那個「10 到 20 張工單」的範圍我蠻好奇是怎麼抓的。太小的話寫 PRD 的成本比自己寫還高，太大的話散掉的問題又回來。這個數字背後應該有他試出來的手感。</p>
+<h2>想在片裡找的</h2>
+<p>一是藏起來的測試是誰寫的、什麼時候寫。如果也是 agent 寫，那只是把自我審查往前挪一格。</p>
+<p>二是他說的人工檢查點實際花多少時間。如果每個 epic 收尾要人看一小時，那跟自己寫的差距到底剩多少。</p>
+<p>三是 AI tutor 那個案子最後是什麼狀態。之前的說法是跑了一個多星期、上線了，現在回頭看，那個版本還留著嗎。</p>
+<p>週末找時間看完再補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=GQatuTWSRqY">My AI Dark Factory Dream Is Dead (Here's What Actually Works)</a>（Cole Medin）、<a href="https://www.stork.ai/blog/the-dark-factory-dream-just-hit-a-wall">Why AI Dark Factories Fail—and What Works Instead</a>、<a href="https://github.com/coleam00/archon">Archon</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-17-journal.html">← 較新：小院日誌 10/17：一個多月前說要蓋工廠的人，今天說夢死了</a><a href="2026-10-15-journal.html">較舊：小院日誌 10/15：一個把看不到的藏起來，一個把看不到的印出來 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
