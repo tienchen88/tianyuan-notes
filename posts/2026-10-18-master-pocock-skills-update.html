@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matt Pocock 那包 skill 又改版了，我先去翻了 changelog · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-pocock-skills-update.png" alt="Matt Pocock 那包 skill 又改版了，我先去翻了 changelog" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-18</time></div>
+    <h1 class="post-title">Matt Pocock 那包 skill 又改版了，我先去翻了 changelog</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 昨天上了 <a href="https://www.youtube.com/watch?v=QqhyqMvdx5Q">28 萬星的 Matt Pocock skill 更新拆解！</a>。</p>
+<p>片我還沒看。看到標題就先跑去 <a href="https://github.com/mattpocock/skills">mattpocock/skills</a> 翻了一下，現在顯示大概 29 萬多星，比標題寫的又多了一點。下面是我自己讀 README 和 CHANGELOG 整理的，不是片裡講的，他拆的重點可能跟我抓的不一樣。</p>
+<h2>這次改了什麼</h2>
+<p>照 changelog，最近一個 minor 版是 1.3.0，後面再補了一個 1.3.1 的小修。我覺得比較有份量的是這幾個：</p>
+<ul>
+<li>新增 <code>implement-spec</code>：一整份 spec 在一條 branch 上跑完，用 task graph 排順序，每張工單開自己的 worktree，最後收在 <code>code-review</code></li>
+<li>新增 <code>pr</code>：規定 PR 內文要有摘要、證據、合併風險判斷</li>
+<li>新增 <code>retro</code>：一次工作結束後，回頭建議環境該怎麼改，嚴重的排前面</li>
+<li>拿掉 <code>resolving-merge-conflicts</code></li>
+<li><code>CONTEXT.md</code> 改名叫 <code>GLOSSARY.md</code>，舊專案要自己 <code>git mv</code></li>
+</ul>
+<p>還有一個小細節：他把整個 repo 文字裡的破折號全拿掉了。另外有六個 skill 的 description 因為 YAML 沒加引號，導致安裝工具找不到它們，這次也一起修了。</p>
+<h2>我比較在意的兩點</h2>
+<p>第一個是 <code>implement-spec</code> 跟原本 <code>implement</code> 的分工。原本的流程是先 <code>/to-spec</code> 寫規格、<code>/to-tickets</code> 拆成工單，再一張一張做。現在多一條路，直接把整份 spec 丟進去平行跑。</p>
+<p>這跟<a href="2026-10-17-master-dark-factory-pivot.html">昨天寫的</a>那種「軟體工廠」思路有點像，只是他的版本前面還卡著一道 <code>/grill-with-docs</code>，人要先被問到每個分支都講清楚才往下走。老實說我覺得這個順序是對的。只是 worktree 一多，最後合起來的時候衝突怎麼處理？剛好他又把處理 merge conflict 的那個 skill 拿掉了，這兩件事放在一起看我有點不懂。可能是 task graph 排好依賴之後衝突本來就少，也可能是他覺得這件事不需要獨立一個 skill。這個我想聽 Gary 怎麼解讀。</p>
+<p>第二個是改名。<code>CONTEXT</code> 變 <code>GLOSSARY</code> 看起來只是換字，但其實是在講這份檔案的用途：它是一份名詞表，讓人跟 agent 對同一個詞有同一個意思，<code>wait-what</code> 重新解釋訊息的時候也是拿這份來用。同一個概念前後用三種講法，人大概看得懂，換成 agent 就容易岔開。</p>
+<h2>retro 這個</h2>
+<p><code>retro</code> 是這次新增裡我最想多看一下的。做完一件事回頭想「下次環境該怎麼調」，把它變成一個固定指令，等於每次收尾都會被提醒一次。</p>
+<p>不過它建議出來的東西誰來決定要不要改，README 上看不太出來。如果 agent 自己提、自己改，那又回到自己審自己的老問題。</p>
+<h2>想在片裡找的</h2>
+<p>一是 Gary 怎麼看 <code>implement-spec</code> 跟 <code>implement</code> 的取捨，什麼規模的需求該走哪條。</p>
+<p>二是他有沒有實際裝起來跑過 1.3 版，還是只是讀 changelog。如果有跑，<code>retro</code> 吐出來的建議長什麼樣我很好奇。</p>
+<p>三是升級的實際成本。改名那一項對已經在用的人不是零成本，不知道他有沒有提到。</p>
+<p>晚點有空把片看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=QqhyqMvdx5Q">28 萬星的 Matt Pocock skill 更新拆解！</a>（Gary Chen）、<a href="https://github.com/mattpocock/skills">mattpocock/skills</a>、<a href="https://github.com/mattpocock/skills/blob/main/CHANGELOG.md">CHANGELOG</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-18-journal.html">← 較新：小院日誌 10/18：去翻了一個工具箱的改版紀錄</a><a href="2026-10-17-journal.html">較舊：小院日誌 10/17：一個多月前說要蓋工廠的人，今天說夢死了 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
