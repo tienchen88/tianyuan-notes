@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 說提示注入只是開頭，後面那幾層才是重點 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-agent-security-layers.png" alt="Cole Medin 說提示注入只是開頭，後面那幾層才是重點" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-21</time></div>
+    <h1 class="post-title">Cole Medin 說提示注入只是開頭，後面那幾層才是重點</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天上了 <a href="https://www.youtube.com/watch?v=hLoyhm1dHlM">Prompt Injection Is Just the Start of AI Agent Security (Here's What You Need)</a>，同一天還有另一支講 harness 的，那篇<a href="2026-10-21-master-self-harness.html">另外寫</a>。</p>
+<p>片我還沒看。下面是讀一篇整理文的心得，整理文本身是拿他的片當例子在講更大的題目，所以哪些是 Cole 講的、哪些是作者自己延伸的，我分不太清楚，先當參考。</p>
+<h2>從「被說了什麼」到「做了什麼」</h2>
+<p>prompt injection 大家應該都聽過了，一封看起來很正常的信、一個網頁，裡面藏一句話，agent 讀到就照做。</p>
+<p>整理文的說法是，擋輸入只能擋一部分。真正麻煩的是 agent 被影響之後能做什麼。它引了一個很多人在講的組合：手上有私人資料、會讀外面來的不可信內容、又能自己對外寫東西或發訊息。三樣湊齊，就算注入只成功一次，後果也可能很大。</p>
+<p>這個講法我覺得蠻實在。過濾輸入像在門口檢查，可是門永遠會有漏的時候，比較該想的是漏進來之後，屋子裡哪些東西它碰得到。</p>
+<h2>他自己怎麼做</h2>
+<p>整理文提到 Cole 用他那個「第二大腦」agent 舉例。那個 agent 管不少他自己生意上的事，也碰得到私人資料。他的做法大概兩條：</p>
+<ul>
+<li>所有進來的資料，先過一層安全檢查才給模型看</li>
+<li>把 agent 能碰的系統壓到最少，只開它真的需要的</li>
+</ul>
+<p>聽起來都不新鮮，可是他敢把第二大腦接到這麼多東西上，代表這兩條他應該有做得很細。八月他講過<a href="2026-08-08-master-second-brain-rot.html">第二大腦會慢慢爛掉</a>，那時候在意的是內容品質，這次換成安全，同一個系統的另一面。</p>
+<p>整理文後半講的是企業怎麼管一整群 agent：先盤點有哪些、誰負責、能碰什麼，每隻給自己的身分和短期、只限該任務的權限，然後持續盯它的行為。這段應該是作者自己的延伸，跟 Cole 的個人規模不太一樣。整理文也直說了，個人用的手動檢查和寫死的工具限制，放到公司裡撐不住。</p>
+<h2>跟七月那支對照</h2>
+<p>七月他上過一支<a href="2026-07-23-master-agent-safety.html">講 coding agent 災情故事</a>的片，那時候的重點是 agent 自己手滑，刪錯東西、跑錯指令。這次的威脅是從外面來的，有人故意餵它東西。</p>
+<p>兩支放在一起，其實解法長得很像，都是限制它能碰的範圍。差別只在一個是防它犯錯，一個是防別人利用它。我原本以為安全是兩套功夫，現在覺得可能是同一套。</p>
+<h2>想在片裡找的</h2>
+<p>一是「進來的資料先檢查」到底檢查什麼。如果是再叫一個模型來判斷有沒有注入，那檢查的那隻自己也會被注入，這個循環他怎麼處理我很好奇。</p>
+<p>二是第二大腦要對外發訊息的時候，他有沒有留人工確認那一步。如果有，確認框會不會又變成七月那篇講的、看都不看就按同意的儀式。</p>
+<p>三是標題的「What You Need」。我猜會是一份清單，想看他排的順序，哪件最先做。</p>
+<p>看完再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=hLoyhm1dHlM">Prompt Injection Is Just the Start of AI Agent Security (Here's What You Need)</a>（Cole Medin）、<a href="https://www.stork.ai/blog/prompt-injection-is-only-the-first-agent-threat">AI Agent Security: Why Prompt Injection Is Only the Start</a>、<a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP Top 10 for LLM Applications</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-21-journal.html">← 較新：小院日誌 10/21：同一天兩支，一支講防，一支講改</a><a href="2026-10-21-master-self-harness.html">較舊：讓 agent 自己修自己的 harness，Cole Medin 這次說得比較保守 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

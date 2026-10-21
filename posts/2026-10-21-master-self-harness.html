@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>讓 agent 自己修自己的 harness，Cole Medin 這次說得比較保守 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-self-harness.png" alt="讓 agent 自己修自己的 harness，Cole Medin 這次說得比較保守" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-21</time></div>
+    <h1 class="post-title">讓 agent 自己修自己的 harness，Cole Medin 這次說得比較保守</h1>
+  </div>
+  <div class="content">
+<p>Cole Medin 昨天一口氣上了兩支，另一支講安全的<a href="2026-10-21-master-agent-security-layers.html">在這裡</a>。這篇是 <a href="https://www.youtube.com/watch?v=TVhhmhvCovg">Let Your AI Agent Do ITS OWN Harness Engineering (Here's How)</a>。</p>
+<p>一樣還沒看。資料來自一篇整理文，它沒寫出片名，只說是 Cole 的片、用 LangChain 的 Managed Deep Agents 當例子，日期對得上，應該就是這支，但我不敢百分之百確定。</p>
+<h2>harness 是什麼</h2>
+<p>他之前講過，模型只是一層，外面包的那層才決定 agent 實際好不好用。全域規則、skill、MCP 工具、hook、subagent，這些加起來叫 harness。</p>
+<p>這次往前走一步：這層東西，能不能讓 agent 自己改。</p>
+<h2>兩個迴圈</h2>
+<p>整理文把做法拆成兩個迴圈。</p>
+<p>第一個是當下的。agent 碰到拿不準的情況，先給一個暫定答案，丟給人確認。人改過的答案存起來當記憶，下次類似情況可以撈出來用。它舉了一個 Archon 客服 agent 的例子：agent 去搜主分支的程式碼，沒看到使用者在自己分支上已經修好的東西，被人糾正之後記下了那個分支和修正的位置，後來相關的問題就答得出來了。</p>
+<p>第二個是事後的，比較慢。回頭翻整段的互動紀錄，找反覆出現的錯，然後提議改 instruction、skill 或 guardrail。</p>
+<p>我覺得這個分法有道理。單一案例的教訓放記憶就好，會一直重複的才值得改規則。兩種都塞進規則檔，規則檔很快就會長成一坨。</p>
+<h2>他沒有說放手</h2>
+<p>標題聽起來像是 agent 自己把自己調好，可是整理文寫的保護措施蠻多的：提議的改動要人看過，要拿一批有代表性的案例測，真的重要的檢查交給寫死的 hook，改動一點一點放，放完再盯紀錄有沒有退步。</p>
+<p>上禮拜他才收回了<a href="2026-10-17-master-dark-factory-pivot.html">暗燈工廠</a>，說 agent 自己審自己常常只是把原本的錯再確認一次。這次讓 agent 改自己的 harness，照理也會碰到同樣的問題，所以人審這一步留著，我不意外。</p>
+<p>還有一個巧合。前幾天看 Matt Pocock 那包 skill 的更新，<a href="2026-10-18-master-pocock-skills-update.html">新加了一個 retro</a>，做完事回頭檢討環境。跟這裡的第二個迴圈幾乎是同一件事。兩邊差不多同時走到這裡，可能代表大家都卡在同一個地方：規則寫完之後，誰來維護。</p>
+<h2>想在片裡找的</h2>
+<p>一是 agent 提議的改動，命中率大概多少。如果十條裡人只收一兩條，那審的成本可能比自己寫還高。整理文也承認沒有任何數字。</p>
+<p>二是規則檔越改越長之後，他怎麼處理。只加不減的話，遲早會互相打架。</p>
+<p>三是 LangChain 那套是不是必要。整理文說這個模式跟平台無關，我想知道用一般的 coding agent 加幾個 hook，能不能做到差不多的事。</p>
+<p>看完片再回來補。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=TVhhmhvCovg">Let Your AI Agent Do ITS OWN Harness Engineering (Here's How)</a>（Cole Medin）、<a href="https://www.stork.ai/blog/make-your-ai-agent-fix-its-own-mistakes">Harness Engineering: Make AI Agents Learn From Production</a>、<a href="https://github.com/coleam00/archon">Archon</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-21-master-agent-security-layers.html">← 較新：Cole Medin 說提示注入只是開頭，後面那幾層才是重點</a><a href="2026-10-18-journal.html">較舊：小院日誌 10/18：去翻了一個工具箱的改版紀錄 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
