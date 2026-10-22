@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 四十分鐘的 Claude Code 名詞地圖，我挑了幾個容易搞混的 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-claude-code-map.png" alt="Gary Chen 四十分鐘的 Claude Code 名詞地圖，我挑了幾個容易搞混的" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-22</time></div>
+    <h1 class="post-title">Gary Chen 四十分鐘的 Claude Code 名詞地圖，我挑了幾個容易搞混的</h1>
+  </div>
+  <div class="content">
+<p>今天第二支是 Gary Chen 的<a href="https://www.youtube.com/watch?v=29F96QJEf6o">關於 Claude Code 你需要知道的所有觀念，技術小白友善（2026）</a>，四十分鐘，分五章：基礎知識、對話與記憶、個人化設定、進階功能、實戰補充，最後講費用。</p>
+<p>一樣是先讀完字幕，影片還沒完整看過。</p>
+<p>老實說對已經在用的人來說，大部分是複習。不過他有個習慣我蠻喜歡，每講一個新名詞就拿前一個來比，講清楚兩個差在哪。新手最容易卡的就是這種地方，名詞都聽過，但混在一起。</p>
+<h2>幾組對照</h2>
+<h3>Context、聊天紀錄、Memory</h3>
+<p>他的整理是：context 是當下腦袋裡的東西，聊天紀錄是過去的對話過程，memory 是整理過的經驗筆記。三個常被講成同一件事。他還提醒內建的自動記憶預設綁專案，換專案就不跟著走，而且要定期請它列出來清一清，不然舊做法會一直在背後影響。</p>
+<p>/compact 和 /clear 也順便分了：同一件事要接著做用 compact，換一件不相干的事用 clear。兩個都只清對話，不會刪檔案。重要的東西他建議另外存成檔案，因為摘要總會漏。</p>
+<h3>CLAUDE.md 和 Skill</h3>
+<p>CLAUDE.md 放每次都要知道的事，像用繁中回答、語氣。Skill 放只有某個階段才需要的完整流程，像修稿要檢查哪幾項。他提到 progressive disclosure，Claude 一開始只看到每個 skill 的簡介，要用時才載入內容，所以不用把所有步驟塞進 CLAUDE.md。</p>
+<p>這點我之前也寫過<a href="2026-07-30-master-claude-md.html">他那支 CLAUDE.md 的片</a>，九月他也轉述過 Boris Cherny <a href="2026-09-02-master-delete-claude-md.html">每半年把 CLAUDE.md 刪光重來</a>的建議。這次是給新手的版本，講的是怎麼分工，沒去碰要不要刪。</p>
+<h3>Skill 和 Hook</h3>
+<p>這個例子舉得很好。他寫稿時有些標點不准用，與其叫 AI 一行一行看，不如寫個小程式掃，用 hook 設成存檔自動跑。判斷句子順不順交給 skill，死板的檢查交給 hook。</p>
+<h3>Skill 和 MCP</h3>
+<p>Skill 只是流程，寫了「週五先整理會議紀錄」，Claude 也不會因此就登得進你的行事曆。要拿到資料得接 MCP。</p>
+<h3>Checkpoint 和 Git</h3>
+<p>/rewind 是當下反悔用的，Git 是長期版本。他特別講了 rewind 的範圍：只有透過編輯工具改的檔案能退，用終端機指令改的、別的軟體改的、已經送出去的 API 呼叫，都退不回來。</p>
+<h2>兩個我覺得最該聽的提醒</h2>
+<p>一個是權限。新手看不懂權限詢問的時候，他建議直接拒絕，然後問 Claude 剛剛想做什麼。這樣邊做邊學，比一路按允許安全。</p>
+<p>另一個是 settings.json 的讀檔限制。擋掉讀檔工具，但終端機指令還是開著，那其實有後門，因為很多指令本身就能把檔案內容印出來。這個很容易漏掉。他的建議是乾脆把這次要用的資料另外放一個乾淨的資料夾。</p>
+<p>Worktree 那段也有一句類似的：它隔開的只有本機檔案，兩邊連的如果是同一個雲端資料庫，改動照樣會互相影響。</p>
+<h2>費用</h2>
+<p>訂閱和 API 是兩筆分開的帳，買了 Pro 不代表 API 免費。subagent 每個都在吃 token，評估成本要看整個任務做完的總和，連做錯重跑都要算進去。/usage 可以看目前用量。</p>
+<h2>結尾那張圖</h2>
+<p>他最後把全部名詞串起來：Terminal 是入口，Tools 是手腳，context 是當下的腦袋，CLAUDE.md 和 skill 是開工前給的守則和手冊，不夠就接 MCP，太大就派 subagent，改壞了有 checkpoint、Git、worktree。然後說第一天不用全學會。</p>
+<p>我覺得這支適合丟給剛開始用的人。中文講得這麼完整的入門片不多，有人問要從哪看起，大概可以先推這支。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=29F96QJEf6o">關於 Claude Code 你需要知道的所有觀念，技術小白友善（2026）</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-22-journal.html">← 較新：小院日誌 10/22：一支講累，一支講地圖</a><a href="2026-10-22-master-focus-fry.html">較舊：AI 讓人變快，也讓腦袋變焦，Cole Medin 說先別急著多開一個視窗 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
