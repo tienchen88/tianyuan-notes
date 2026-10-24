@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工廠一座變好幾座之後，Cole Medin 說要再包一層 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-factory-org.png" alt="工廠一座變好幾座之後，Cole Medin 說要再包一層" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-24</time></div>
+    <h1 class="post-title">工廠一座變好幾座之後，Cole Medin 說要再包一層</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=tNKmMhiOw9w">Run Your AI Software Factory Like a Real Engineering Org (Here's How)</a>。</p>
+<p>先講清楚兩件事。這支是他跟 Port 合作的片，他在片尾也自己講了，所以裡面誇平台的部分我會打個折。另外我一樣是把字幕整份讀過，影片還沒從頭看，畫面上的 demo 介面我沒看到，下面是照字幕記的。</p>
+<h2>先複習他的核心迴圈</h2>
+<p>前半段他把自己的<a href="2026-09-03-master-software-factory.html">軟體工廠</a>又講了一次，我覺得這段濃縮得比九月那支好懂：</p>
+<p>先跟 agent 一起規劃下一個版本，大概能拆成 10 到 20 張票的量，寫成類似 PRD 的東西。agent 拆票的時候順便做相依關係，知道哪些能平行跑、哪些要等。之後用 cron 定時觸發，每一圈挑一張票，走規劃、實作、驗證，驗證是照使用者會走的流程去測。再開另一個 agent 審 PR，CI 跟審查都綠了才合併。</p>
+<p>合併的目標是 staging，不直接上正式環境。整個版本跑完，人在 staging 一次批改，有問題就開新票丟回去，通常來回一兩次就上線。</p>
+<p>他還特別說，剛開始做工廠的人就守住這個迴圈，先不要碰後面那些東西。這句我很同意。</p>
+<h2>放大之後缺什麼</h2>
+<p>他說幫一些公司導入之後才發現，工廠本身不夠，規模一大，外面還需要一層把護欄、脈絡和可觀測性包起來。他整理成四塊：</p>
+<p>第一塊是登記簿。每個 skill、每個 agent 都有負責人和版本，從一個中央的地方發到各座工廠。他看的一個指標是同一個 skill 有幾個版本，數字高代表各工廠的 skill 已經各自飄走了。他說他工廠裡每一步都是 skill 驅動的，不是兩三行 prompt，所以這件事對他很重要。agent 則是角色，像規劃者、拆票的，每個角色記用哪個平台跑、哪個模型、能碰什麼。</p>
+<p>第二塊是業務脈絡，他說這是他最喜歡的部分。工程迴圈只是流程，不懂業務。哪個功能屬於哪個部門、找誰核准、這個改動影響範圍大不大，看程式碼看不出來，要從 Jira、Slack 這些地方拉。他在規劃階段就用 MCP 去撈負責人、範本、儲存庫的狀態，再跟 agent 一起寫 PRD。</p>
+<p>第三塊是準備度評分。一個儲存庫能不能交給工廠，先過一張檢查表：有沒有指定負責人、有沒有 README、有沒有 PR 範本、有沒有 CI、main 上的 CI 是不是綠的。全過叫 gold。之後每次合併都會重新評一次。</p>
+<p>第四塊是控制，跟評分是連在一起的。demo 是他故意弄壞 CI，評分從 gold 掉到 silver，平台提議開一張 issue，他按核准，下一圈工廠自己把 CI 修好，評分又回到 gold。</p>
+<p>另外他順帶提了一個我之前沒想過的問題：agent 常常借用工程師的 GitHub 帳號，出事追到某個 commit，分不出是人寫的還是他的 agent 寫的。所以要給 agent 自己的身分。</p>
+<h2>我的想法</h2>
+<p>這四塊裡，我最有感的是準備度評分那張檢查表。內容其實很樸素，負責人、README、CI 綠燈，但他把它當成開啟自主之前的門檻，而且每次合併都重評。很多人用 agent 的順序應該是反過來的，先讓它跑，跑出問題才回頭補測試。</p>
+<p>業務脈絡那塊我比較保留。對有 Jira、Slack、一堆團隊的公司很合理，可是我這種一個人做東西的，「找誰核准」答案永遠是自己，這層對我來說比較像是知道就好。</p>
+<p>還有一個小地方。片尾他說一開始做的是完全不需要人的暗燈工廠，後來刻意退回來，這跟上週那支<a href="2026-10-17-master-dark-factory-pivot.html">收回暗燈工廠</a>是同一條線。這次的版本是：人在規劃時、在 staging、在核准修正時出現，其他時間盡量讓它跑。再對照前天<a href="2026-10-22-master-focus-fry.html">講累的那支</a>，他好像越來越清楚人要卡在哪幾個點上。</p>
+<p>不過老實說，這支有一大半在展示平台功能，概念本身其實可以自己用幾個檔案和一點紀律做出簡化版。登記簿用一個共用的 skill 資料夾、評分用一個檢查腳本，大概就有七八成。我比較想知道的是他那 20 個 PR 裡，staging 批改時退回了幾張，這個片裡沒講。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=tNKmMhiOw9w">Run Your AI Software Factory Like a Real Engineering Org (Here's How)</a>（Cole Medin，與 Port 合作）、<a href="https://github.com/coleam00/ai-software-factory">ai-software-factory</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-24-journal.html">← 較新：小院日誌 10/24：工廠多了，要有人管</a><a href="2026-10-22-journal.html">較舊：小院日誌 10/22：一支講累，一支講地圖 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
