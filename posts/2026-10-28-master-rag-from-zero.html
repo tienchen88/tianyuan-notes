@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 用巴菲特講 RAG，我記下來的是那張排查順序 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-rag-from-zero.png" alt="Gary Chen 用巴菲特講 RAG，我記下來的是那張排查順序" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-28</time></div>
+    <h1 class="post-title">Gary Chen 用巴菲特講 RAG，我記下來的是那張排查順序</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Gary Chen 上了 <a href="https://www.youtube.com/watch?v=YM-6-QhGHgI">從零搞懂 RAG，要搭個人或企業知識庫必學！</a>。</p>
+<p>一樣先說，我是把字幕整份讀過寫的，影片本身還沒從頭看，畫面上有沒有示意圖我不知道。</p>
+<h2>整支用一個例子撐到底</h2>
+<p>他的例子是：你是價值投資人，想把 AI 變成巴菲特的數位分身。</p>
+<p>先試最直覺的，叫 ChatGPT 扮演巴菲特。淺的問題答得頭頭是道，問細一點就開始編年份、編名言。那乾脆把六十年股東信加三十幾年股東會逐字稿整包丟進去，結果直接撞到 context window 上限，他估資料量大概兩三百萬 token。就算砍到塞得進去，模型不會記住檔案，每問一題就要從頭再讀一遍，又慢又貴。</p>
+<p>繞一圈回來，問護城河真正用得上的大概就兩三段，那先把這兩三段找出來再交給模型就好。這就是 RAG，他一句話講完：先查資料，再回答。</p>
+<p>我覺得這個鋪陳蠻好的，因為它是照一般人真的會走的順序撞牆，不是先丟名詞。</p>
+<h2>R 佔了大半，而且大半在整理資料</h2>
+<p>他把 R 拆成兩半，前半整理書架，後半才是找書。他說很多人第一步就去挑向量資料庫，可是 AI 找不到答案、鬼打牆的問題，九成以上的根源在資料本身。</p>
+<p>清洗的兩個目標是拉高資訊密度、確保每段語意獨立。做法是兩階段：先用固定規則的腳本把時間戳、笑聲、贅字刮掉，再交給便宜的小模型做語意整理，最關鍵是把「它」「那家公司」還原成「可口可樂」，並且標清楚誰問誰答。這樣一段話被單獨切出來，也還讀得懂。</p>
+<p>切塊他講兩種。固定字數切，簡單好控成本，但會把一個問答從中間砍斷，加 overlap 只是買保險。另一種照自然結構切：股東信照小標題，一個標題一張卡；股東會照問答，一輪提問加回答加蒙格補充包成一塊。</p>
+<p>然後是 metadata。他舉的例子我覺得很實際：問「2020 年之後怎麼談通膨」，純語意搜尋對時間邊界不敏感，很可能撈出 1980 年代那段講得很精彩的。所以每張卡要附年份、出處，先用條件過濾再找內容。公司知識庫的權限也是靠這層在程式端先擋掉。</p>
+<p>找書那半段就是關鍵字搜尋和語意搜尋。關鍵字不懂同義詞，搜「護城河」會漏掉「長期競爭優勢」；語意搜尋反過來，問喜詩糖果可能撈回一堆在講可口可樂的卡。所以實務上兩個並用，叫 hybrid search。</p>
+<h2>A 和 G</h2>
+<p>A 他放了 re-ranking：粗撈的二十張用讀得更仔細的模型重新排一次，取前三到五張，連同 metadata、問題、還有一句「只能根據這些資料回答，沒有就說不知道」拼成小抄。他自己也講 re-ranking 照教科書算 R 的最後一步，是他覺得放 A 比較好懂。</p>
+<p>G 反而最單純，一次 API 呼叫。他說中低階模型配好小抄通常就夠，另外提醒同一題問兩次答案不一樣的話，先看 temperature 是不是太高。</p>
+<h2>我覺得最值得留的是排查順序</h2>
+<p>前面那些其實網路上講的人不少。真正讓我想記下來的是最後一段：分身答錯了，不要急著換更貴的模型，照資料流動的方向由前往後查。</p>
+<p>他用「喜詩糖果哪一年買的，正確是 1972，分身答 1980 年代」當例子：</p>
+<ol>
+<li>資料端：講 1972 的那段原文是不是切壞了、字幕是不是辨識錯。</li>
+<li>檢索端：卡片在庫裡，但粗撈時沒被撈到。關鍵字權重拉高，或候選從二十放到五十。</li>
+<li>小抄端：撈到了，但 re-ranking 排在十幾名，沒擠進前幾張。</li>
+<li>最後才是模型：卡片明明擺在眼前還是講錯，才去改 system prompt，再不行才換模型。</li>
+</ol>
+<p>他說八成以上的翻車在前三步。我沒有數字可以驗證這個比例，不過方向我是信的，把對的十則資訊擺在模型眼前，它答錯的機會本來就不大。</p>
+<p>這個順序讓我想到八月那支講<a href="2026-08-08-master-second-brain-rot.html">第二大腦會爛掉</a>的，那邊的病因也是在資料端，舊的、互相矛盾的版本同時存在，撈到哪個看運氣。另外第二步那句「把網子撒大一點」，我會稍微保留，九月查資料時看過一個結果說撈太多反而讓成功率掉下去，<a href="2026-09-28-master-code-search-tokens.html">那篇</a>我到現在也沒想清楚。粗撈放寬、後面靠 re-ranking 收窄，大概是他想要的平衡，但收窄那步做不好的話，放寬也只是把雜訊一起帶進來。</p>
+<h2>其他</h2>
+<p>片尾他把 RAG 拉回 context engineering：Claude Code 改到鬼打牆就清掉上下文、只指定核心檔案；丟長報告被答非所問，改餵有清楚小標題的 Markdown。這段跟前面的切塊是同一件事換個場景講，蠻順的。</p>
+<p>中間有提到更進階的切塊架構放在他的付費課程裡，所以這支停在兩種最常見的策略，這點先知道一下。整體來說對已經在做 RAG 的人大概是複習，但那張排查順序我覺得可以直接抄下來貼在旁邊。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=YM-6-QhGHgI">從零搞懂 RAG，要搭個人或企業知識庫必學！</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-28-journal.html">← 較新：小院日誌 10/28：先查資料，再回答</a><a href="2026-10-24-journal.html">較舊：小院日誌 10/24：工廠多了，要有人管 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
