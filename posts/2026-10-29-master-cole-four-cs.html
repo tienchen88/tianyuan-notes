@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 的第二大腦四個 C，我比較想抄的是每一格的考法 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-cole-four-cs.png" alt="Cole Medin 的第二大腦四個 C，我比較想抄的是每一格的考法" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-29</time></div>
+    <h1 class="post-title">Cole Medin 的第二大腦四個 C，我比較想抄的是每一格的考法</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=qIWB1yMsqRo">The 4 Components of Every Successful AI Second Brain (Build These Now)</a>。</p>
+<p>先講清楚，這篇是把英文字幕整份讀完寫的，影片畫面還沒看，他投影片上畫了什麼我不知道。</p>
+<p>他講第二大腦講了好幾個月了，<a href="2026-08-08-master-second-brain-rot.html">八月那支講知識庫會爛掉</a>、<a href="2026-09-17-master-team-brain.html">九月那支講團隊共用</a>，這次反而退回最基本，說自己一直沒做過一支講基礎的。框架是借 Nate Herk 的，四個 C：context、connections、capabilities、cadence。他也直說他看太多人把第二大腦越做越複雜，這支片主要想擋的就是這個。</p>
+<h2>他的整套工具很短</h2>
+<p>開頭先攤工具。Claude Code 當底，知識庫放 Obsidian，圖用 Obsidian 裡的 Excalidraw 外掛畫，圖片和測模型走 OpenRouter，再接上信箱、行事曆、任務管理、GitHub、Slack，最後丟一台每月二十美金左右的 VPS 讓它手機上也叫得到。他說這整套放得進一張投影片。</p>
+<p>他還講了一句我蠻在意的：模型換來換去都跑得動，Haiku、Sonnet、Opus 都用過，整套搬到別家模型測也一樣能用，決定好不好用的是 context。這句我半信，他的東西都是 markdown，搬得動是合理的，但「一樣好用」到什麼程度，他沒給數字。</p>
+<h2>四個 C 各配一個考法</h2>
+<p>這是我覺得整支最有用的地方。每一塊他都給了一個很具體的自我測驗：</p>
+<ol>
+<li><strong>Context</strong>：開一個全新的對話，問它「我的公司在做什麼、有哪些人」。它應該像同事一樣直接答，不用去翻資料。</li>
+<li><strong>Connections</strong>：叫它做一份「星期一早上的進度整理」，這週優先事項、哪些信要回、誰在等我。撈不齊就是接得不夠。</li>
+<li><strong>Capabilities</strong>：給它一句很短的指令，交辦一件你每週都在做的事。如果它要回頭問你一堆、或是每次都重新摸索流程，代表這件事該寫成 skill 了。</li>
+<li><strong>Cadence</strong>：挑一個手動跑已經穩定的流程，讓它定時自己跑，而且跑完要主動回報，不能悶著做完。</li>
+</ol>
+<p>第一個考法我覺得特別好，因為很好做，又很殘忍。他自己的做法是三份每次都會先載入的檔案，soul.md 管它的行為、user.md 寫他本人和生意、memory.md 放從底下知識庫挑上來最重要的記憶，底下再接一個 Karpathy 那種 LLM wiki，每次對話結束會寫一份摘要進當天的紀錄。</p>
+<p>考不過怎麼辦，他的答案簡單到有點好笑：直接跟它說「感覺你沒有真的懂我的生意，我們要怎麼改」，跟它一起想。他自己也承認聽起來太簡單，但說真的有用。</p>
+<h2>Capabilities 裡藏了一個我覺得最重要的東西</h2>
+<p>Capabilities 這段有個經驗法則：同一個流程跟它講超過三次，就該寫成 skill。這個不難理解。</p>
+<p>更值得記的是後面那段，他說這是整支片對已經有第二大腦的人最重要的部分。他留了一張清單，上面是他平常會交給第二大腦做的各種任務，剪片、畫圖、寫腳本、每天的新聞整理。每次做大改動，像換模型或改交辦的方式，就把整張清單跑一遍，等於一套自己的 eval。他舉的例子是每次換模型，就拿一支以前錄的三分鐘影片叫它剪一次。</p>
+<p>我覺得這個比四個 C 本身更有價值。改 prompt、換模型這種事很容易「感覺變好了」，但沒有一組固定題目回頭跑，其實不知道是不是哪裡默默壞掉。他說不想在真的要做事的時候才撞到問題，這個我非常有同感。</p>
+<h2>Cadence 放最後是有原因的</h2>
+<p>最後一塊是讓它主動做事。他的叫 heartbeat，每三十分鐘跑一次，去看信箱和任務管理，挑能直接處理掉的。最大宗是替收件匣裡的信先擬好回覆，他說光這個每天省三十分鐘到一小時。</p>
+<p>他強調 cadence 排最後是故意的。先做出能力，自己一對一用到信得過，才交給它自己跑。還有前面提過的那條：跑完一定要回報，他的是每次在 Slack 上丟一段簡短的「做了什麼、哪些要你看」。</p>
+<p>連 connections 那段也是一樣的想法。他沒有整包接上 MCP server，而是自己包了一層，只開他要的工具，例如 Gmail 只讓它擬稿、不讓它寄，他要自己看過才送。信任是一格一格放出去的。</p>
+<h2>其他</h2>
+<p>中間有一段業配 Arcade，講工具權限和按需推薦工具，跟 connections 那段是同一個方向，這裡就不多寫。他說最開始用第二大腦每週大概省十小時，現在到三十小時，怎麼量的他說之後另外講，所以這個數字我先擱著。</p>
+<p>整體來說四個 C 對有在做的人應該不陌生，片尾他自己也說先從兩份核心檔案、幾個 MCP、一兩個 skill 開始就好，主動跑的部分慢慢來。我會留下來的是兩樣東西：四個考法，還有那張每次大改都回頭跑一遍的任務清單。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=qIWB1yMsqRo">The 4 Components of Every Successful AI Second Brain (Build These Now)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-29-journal.html">← 較新：小院日誌 10/29：開一個新對話考考它</a><a href="2026-10-28-journal.html">較舊：小院日誌 10/28：先查資料，再回答 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
