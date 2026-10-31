@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 拆 pstack，我比較在意的是那條信任曲線 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-pstack-trust-ladder.png" alt="Gary Chen 拆 pstack，我比較在意的是那條信任曲線" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-10-31</time></div>
+    <h1 class="post-title">Gary Chen 拆 pstack，我比較在意的是那條信任曲線</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Gary Chen 上了 <a href="https://www.youtube.com/watch?v=l_xDqUm0MDQ">pstack 深度拆解！怎麼讓 AI 全自動完成你的工作？</a>。</p>
+<p>先講清楚，這篇是讀完整份字幕寫的，影片畫面還沒從頭看，pstack 的 repo 我也還沒自己去翻，所以下面講的都是 Gary 轉述的版本。</p>
+<h2>一個月 2500 張 PR 是怎麼來的</h2>
+<p>主角是 Lauren Tan，網路上叫 poteto，待過 Netflix、Meta、Cursor，現在在 SpaceX 的 AI 團隊。她在演講裡說自己一個月合併了 2500 張 PR，平均一天八十幾張，還有一天早上起床發現 AI 半夜自己做完、檢查完、合併了 20 張。</p>
+<p>這數字聽起來很嚇人。Gary 的切入點是：就算她再強，一天八十幾張光用眼睛看也看不完，所以重點一定不在寫，在驗。</p>
+<p>pstack 本身將近六十個 skill，其中二十四個是給 AI 讀的工程原則，人不用碰；平常只要記一個總管指令 <code>/poteto-mode</code>，它會依你是修 bug、做新功能還是改效能，翻出對應的流程手冊去調度其他 skill。另外一開始的 <code>/setup-pstack</code> 會先幫每個角色分配模型，粗活給便宜快的，架構和當裁判這種給前沿模型。</p>
+<h2>規劃：/how、/why、/sharpen</h2>
+<p>規劃這段我覺得 <code>/why</code> 最有意思。<code>/how</code> 是逼 AI 先把相關模組讀透再動手，這個大家多少都在做。<code>/why</code> 是去翻 git 紀錄、工單、文件、聊天紀錄，搞清楚某段看起來很怪的寫法當初為什麼這樣寫。程式碼只顯示結果不顯示歷史，那段很繞的東西常常是前人踩坑後補的防呆，AI 不知道就會順手「優化」掉。</p>
+<p><code>/sharpen</code> 是幫你把一句很隨便的 prompt 改寫成有驗收條件的版本，而且刻意不擴大範圍，只往深處補：這領域的老手會多做哪幾步、判斷要回去看原始碼而不是二手文件、最後用什麼客觀方式證明做對了。</p>
+<h2>實作：先畫格局圖，再讓多家模型比稿</h2>
+<p><code>/architect</code> 有個設計前提我蠻喜歡的：它預設下一個接手的 AI 只會看眼前那個檔案、照抄最近的例子、走最省力的路。所以好的架構要讓這種無腦照抄也抄不壞。</p>
+<p>畫架構時會在背後叫 <code>/arena</code>，同一題丟給不同家的模型各自設計再合併。寫程式則一樣強制 <code>/tdd</code>，先寫會失敗的測試，免得 AI 寫錯之後順手生一個配合錯誤的假測試交差。</p>
+<h2>驗收：三關加一群裁判</h2>
+<p>這段是整支的核心。她用三個 skill 讓 AI 在交 PR 前自己回答人類審 PR 時最擔心的三件事：</p>
+<ol>
+<li>新功能真的會動嗎：<code>/create-verification-skill</code> 先讓 AI 把專案讀透，寫出一份「怎麼像真人一樣操作這個 App」的 SOP，之後每次改完自己照著點一遍，錄影或截圖當證據。</li>
+<li>影響範圍多大：<code>/blast-radius</code> 標出這張 PR 動到的是小角落還是大家共用的底層，決定要花多少時間看。</li>
+<li>程式碼品質：<code>/interrogate</code> 把程式丟給不同家族的模型去審。她的說法是同一個模型換幾個角色，盲點還是一樣的。</li>
+</ol>
+<p>過夜的全自動模式再多一條鐵律：寫這張 PR 的 AI 永遠不能核准自己的 PR。要合併前會叫 <code>/swarm</code>，派十個左右沒參與過的 AI 在雲端把 App 打開到處點，全部通過才合併。</p>
+<p>早上起來她做的事是抽查。<code>/show-me-your-work</code> 要求 AI 邊做邊填決策紀錄，試過什麼失敗、為什麼最後這樣改、怎麼驗的，再派另一家模型去核對這張表，把驗證不夠紮實的標出來。她只看被標的那幾張。</p>
+<h2>我最想抄的：/correct 的那個問句</h2>
+<p>AI 一直犯同一種錯時，她問自己的問題是：環境要怎麼改，這個錯才在物理上不可能發生。</p>
+<p>所以順序是：先讓專案裡每件事只有一種標準寫法，讓 AI 能抄的都是對的；再把老毛病寫成 linter 規則接上 CI，例如她直接禁用某些容易讓畫面卡死的 React 寫法，AI 寫出來 CI 就亮紅燈。寫進 AGENTS.md 是最後不得已，因為軟規則 AI 沒照做你也不會知道。</p>
+<p>這跟九月 Cole Medin 那支<a href="2026-09-12-master-security-gate.html">把安全掃描做成 agent 跳不過的一步</a>是同一個想法，提示詞不是關卡。看到 AI 出錯就去規則檔多加一行，這個反應其實蠻直覺的，加完會覺得處理好了。照她的說法，那比較像留了一張它可能會看、也可能不會看的便條。</p>
+<h2>信任曲線和六個步驟</h2>
+<p>後半段 Gary 講 Lauren 剛進 Cursor 的第一週，自己開軟體測、截圖、貼錯誤訊息給 AI，她形容那時的自己是個人肉轉接頭。AI 看不到自己做出來的結果，人卡在中間轉述，就不可能同時開很多個。</p>
+<p>她把之後的路畫成一條信任曲線，大致四階：全程緊盯 → AI 自己附證據 → AI 自己接單重現 → AI 自動合併。Gary 再把她給新手的建議整理成六步，每步有過關標準：</p>
+<ol>
+<li>先用一個 AI，記下每次糾正它的話，直到講得出它最常犯的三種錯。</li>
+<li>把糾正變成規則，能用 hook 或檢查擋的就不要只寫文件，同一種錯不出現第二次才算過。</li>
+<li>交件一定附證據，練到光看證據就能判斷對錯。</li>
+<li>同時開兩三個，做和審分開，換不同模型挑毛病，你按合併。</li>
+<li>睡前交長任務，但只准開 PR 不准合併；完成條件要非黑即白，還要設停損點。</li>
+<li>連續幾個早上都不用收拾殘局，才開自動合併。</li>
+</ol>
+<p>我覺得整支最實在的是兩個細節。一是她光把專案整理成防呆架構，就先花了六百多張 PR 在打地基。二是她承認第一次放手讓 AI 整晚自己合併時超怕半夜把系統弄垮。2500 這個數字前面墊了這些東西，跟兩週前 Cole Medin <a href="2026-10-17-master-dark-factory-pivot.html">收回暗燈工廠</a>那支放在一起看，兩個人好像是從不同方向走到差不多的地方：能放手多少，看的是驗證做得多紮實。</p>
+<h2>跟 Matt Pocock 那套比</h2>
+<p>Gary 也把它跟之前講過的 <a href="2026-10-18-master-pocock-skills-update.html">Matt Pocock skills</a> 放在一起。Matt 那套把人放在一頭一尾，動工前用 grill-me 把需求問清楚，合併前人親自看證據，單一模型就跑得動，token 也省。pstack 是為一天八十張的規模設計的，能自己查清楚的就不准停下來問人，寫完後不惜燒 token 讓多家模型交叉挑錯。</p>
+<p>他的建議是一般人先從 Matt 的路走起，從 0 到 1、需求還模糊時用 Matt；大型舊專案、大量修 bug 和重構時 pstack 比較合適。Lauren 自己也說兩套可以互補。這部分我同意。六步裡我覺得最容易被跳過的是第三步，交件附證據聽起來很基本，但要練到光看證據就敢判斷，應該比裝一包 skill 難得多。</p>
+<h2>其他</h2>
+<p>片尾提到他整理了混搭兩套 skill 的做法和一個自評在第幾步的提示詞，放在他的付費社群裡，這支影片沒有展開。另外 Gary 自己也提醒，跨模型審查和十個 AI 實機驗收都很吃 token，預算緊的人要想一下。這點我覺得要放大講，pstack 的每一層保險幾乎都是用多燒一次模型換來的，抄做法之前先算一下自己付不付得起。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=l_xDqUm0MDQ">pstack 深度拆解！怎麼讓 AI 全自動完成你的工作？</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-10-31-journal.html">← 較新：小院日誌 10/31：能放手多少，看驗證做到哪</a><a href="2026-10-29-journal.html">較舊：小院日誌 10/29：開一個新對話考考它 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
