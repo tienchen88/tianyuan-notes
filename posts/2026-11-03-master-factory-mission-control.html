@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工廠跑起來之後要有一面牆：Cole Medin 的軟體工廠控制台 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-factory-mission-control.png" alt="工廠跑起來之後要有一面牆：Cole Medin 的軟體工廠控制台" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-03</time></div>
+    <h1 class="post-title">工廠跑起來之後要有一面牆：Cole Medin 的軟體工廠控制台</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=YHKuUjicB3M">My AI Software Factory Ships Hundreds of PRs a Week (Here's How I Manage It)</a>。</p>
+<p>一樣先講清楚，我是讀英文字幕寫的，這支片大半是在螢幕上點來點去介紹介面，畫面我沒看到，所以下面只能照他嘴上講的記。另外片裡有一段 Victor（一個放在 Slack 裡的 AI 同事）的業配，然後他從頭到尾都在推 Neon，他自己也說跟 Neon 合作很久了，那些誇獎我先打個折。</p>
+<p>標題寫每週幾百個 PR，片裡我沒聽到他細講這個數字，比較具體的是「過去幾週跑了好幾百圈」，這裡就照字幕寫。</p>
+<h2>他自己說這支比較像開發日誌</h2>
+<p>他開頭就說這支會比平常散。內容是他這陣子在做的一個控制台（他叫 mission control），用來管理和改進他那座軟體工廠。</p>
+<p>他提到一個觀察：他看到在做大規模軟體工廠的公司，最後幾乎都會長出一個類似的儀表板，因為工廠是活的，流程一改、要做的東西一變，它就得跟著改。</p>
+<p>這段我讀起來有點像<a href="2026-10-17-master-dark-factory-pivot.html">十月中那支收回暗燈工廠</a>的續集。他又講了一次年初的夢：丟一份 PRD，agent 自己拆票、自己驗證、自己審、直接合併上線，人完全不碰。他說做概念驗證可以，但不夠，所以把自主程度往回調，加回人。這支在講的就是加回人以後，人要怎麼管這座東西。</p>
+<p>他也老實說，一開始很排斥做控制台，覺得這樣會變得不夠自主、自己要負責管更多事。後來覺得是唯一能管住這個複雜度的辦法。相依關係、平行跑、每個 app 怎麼驗證、staging 怎麼管、哪些地方要人介入，全部記在腦袋裡確實不可能。</p>
+<h2>控制台裡有什麼</h2>
+<p>他逛得很快，我照順序記：</p>
+<ul>
+<li>首頁是整座工廠的流程圖，一路畫到每個 skill。他說以前腦中想像不出工廠長什麼樣子，所以也不太知道要從哪裡改。</li>
+<li>一個「關鍵決策」分頁，記錄他每次改工廠時做的決定，還有正在測試的改動。理由很簡單，免得之後又回頭試已經試過的東西。每個版本都在版控裡，可以挑兩版直接看 workflow、步驟、skill 裡的 prompt 改了什麼。</li>
+<li>健康度：失敗是什麼造成的。他舉的數字是，幾週幾百圈裡，兩次是撞到 Claude Code 的用量上限，21 次是 workflow 本身有問題要調。</li>
+<li>每座工廠的進度：PRD 拆成的票、哪幾圈在跑、跑到哪一步。他說工廠會先判斷票的複雜度，簡單的不要花太多時間，複雜的也不能只做一次建置加驗證就算了。</li>
+<li>計分卡：這一版工廠跑了幾圈、合併了幾次、跑多久。他用這些數字判斷這版要不要改、往哪改。</li>
+<li>測試情境：工廠為了回歸測試自己想出來的情境，每個 PR 挑哪些跑、成功失敗各多少。</li>
+<li>回溯：用資料庫的分支功能退回工廠的舊版本，可以拿來比較，或真的退版。</li>
+</ul>
+<h2>要人拍板的那一格</h2>
+<p>我最在意的是他叫 owner 的那個分頁。</p>
+<p>他說跟很多公司導入之後，結論是要可靠，就一定要有些事情冒出來給人決定。重點是用最少的決定換到最多的控制。</p>
+<p>以前的做法是 agent 在 issue 或 PR 裡 tag 他，他再去回答或跟管理用的 agent 談。能用，可是他得一直盯著 repo、盯 email 通知或 Slack 提醒。現在改成 GitHub 有新 issue 或 PR 就觸發一個 webhook，把事情全寫進資料庫，控制台再即時讀出來，要他決定的問題集中在一個地方。</p>
+<p>這跟<a href="2026-10-24-master-factory-org.html">十月寫的那篇</a>裡講的人工核准是同一件事，那支講的是公司規模的護欄，這支比較接近一個人怎麼每天實際去管。</p>
+<h2>每一步都存下來</h2>
+<p>另一個重點是 Archon。他說工廠裡沒有任何一個 coding agent 不是透過 Archon 的 workflow 跑的，規劃、實作、驗證都是。Archon 會把每個 agent 的每一輪、每次工具呼叫、每個決定都存進 Postgres。</p>
+<p>他的理由我蠻認同：如果沒有把每一步存下來，事後想知道哪裡錯、為什麼錯，根本無從查起，也就沒辦法回頭改工廠。真的要細查的時候，他通常是叫 agent 去翻這些紀錄，自己不太會一行一行看。</p>
+<p>他還提到一個小循環：這個控制台本身也是用工廠做出來的，所以工廠變好，控制台就變好，控制台變好，他管工廠又更順。他說有點想看它慢慢變成會自己演化的東西。這個我先聽聽就好，聽起來很漂亮，實際能轉多順，要看他之後的回報。</p>
+<h2>我的感想</h2>
+<p>老實說這支的乾貨沒有前幾支多，很多是在展示介面，而且跟 Neon 綁得很緊。他最後說整套會開源，不想用 Neon 也可以拿他的東西當起點，但他還是建議要有個後端去存和處理這些事，光放在 GitHub 上不夠。</p>
+<p>我自己會記下來的大概是兩點。一是改工廠的決策要寫下來，連試過沒用的也寫，這個不管規模大小都適用，我自己弄小工具也常常繞回去試同一招。二是失敗要分類，他那個「兩次是額度、21 次是流程」的拆法很簡單，可是一拆就知道力氣該花在哪。</p>
+<p>至於控制台本身，我現在用不到這麼大一座。但他說的那個感覺，腦中想像不出系統長什麼樣子，所以也不知道從哪裡改，這個我倒是有點懂。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=YHKuUjicB3M">My AI Software Factory Ships Hundreds of PRs a Week (Here's How I Manage It)</a>（Cole Medin）、<a href="https://github.com/coleam00/archon">Archon</a></p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-03-journal.html">← 較新：小院日誌 11/03：工廠旁邊多了一面牆</a><a href="2026-11-01-journal.html">較舊：小院日誌 11/01：第一個選項是誰的意見 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
