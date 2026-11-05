@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 教 Grok Bot，我記下來的是「讀的權限大方、動手的權限吝嗇」 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-grokbot-team.png" alt="Gary Chen 教 Grok Bot，我記下來的是「讀的權限大方、動手的權限吝嗇」" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-04</time></div>
+    <h1 class="post-title">Gary Chen 教 Grok Bot，我記下來的是「讀的權限大方、動手的權限吝嗇」</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Gary Chen 上了 <a href="https://www.youtube.com/watch?v=nnTqbMhKr3E">Grok Bot 新手教學，30 分鐘學會！</a>。</p>
+<p>先講清楚，這篇是讀完整份字幕寫的，影片畫面我還沒看，Grok Bot 我自己也沒裝過，所以介面長怎樣、功能是不是真的像他講的那樣，都是 Gary 轉述的版本。</p>
+<h2>它跟 Claude Code、OpenClaw 差在哪</h2>
+<p>他一開始先拿大家熟的東西對照。Claude Code 和 Codex 跑在自己電腦上，筆電一闔工作就停；OpenClaw、Hermes 雖然主打常駐，可是開源的要自己買台 Mac mini 或租主機架起來，很多人卡在安裝就放棄了。Grok Bot 是下載 App 登入，每隻 bot 在雲端就有一台待命的電腦，帳號登入狀態也會存著。</p>
+<p>他自己的說法是，Claude Code 和 Codex 還是為寫程式而生，非開發的雜務用 Grok Bot 體驗好很多。最便宜方案一個月 30 美元。</p>
+<p>和 OpenAI 的 dots 那類比起來，差別是 dots 一個人配一個，Grok Bot 是讓你一口氣開好幾隻專職 bot，彼此還會互傳訊息交接。</p>
+<h2>第一隻設成幕僚長</h2>
+<p>這段我覺得蠻實用。他建議第一隻 bot 直接叫它當幕僚長，釘在最上面，跟它說收到任務先看底下有沒有專職的 bot 能接，沒有再自己做，做完回報。之後大多時候只跟這一隻講話，它負責拆單轉派。</p>
+<p>理由有兩個。一個是你建了很多隻之後，每件事都要自己想該找誰，人會先累。另一個是保護記憶：Grok Bot 的記憶分全域和個別兩層，全域放你是誰、時區、溝通風格，個別放那隻 bot 自己那門工作的規則。寫程式、回信、做研究全塞給同一隻，規則疊多了 context 就亂。</p>
+<p>有趣的是他自己也說，平常建 agent 他會建議避開 multi-agent，一個 agent 配不同 skill 通常就夠。只是這個產品的設計天性就是要你分工，所以換成「想像自己開一間小公司」去想需要哪些員工。這個轉彎我覺得講得很老實。</p>
+<p>另外他強調交代的時候要給目標，不要只給雜事。「早上幫我整理收件匣」是雜事；「幫我省下看信的時間，挑出要決策的信，用我的語氣擬好草稿，讓我幾分鐘內處理完」才是目標。這句其實放在任何 agent 上都成立。</p>
+<h2>共用的那台雲端電腦</h2>
+<p>每隻 bot 有自己的螢幕畫面，但底下共用同一台雲端電腦，登入狀態和硬碟是同一份。他拿這點來解決多隻 bot 之間背景不同步的問題：開幾個標準資料夾，context 放公司介紹跟品牌規範，meetings 放討論出的規格，projects 放程式碼。幕僚長派工給寫程式的 bot 時只要一句「照 meetings 的規格寫，品牌看 context，做完存 projects」。</p>
+<p>這個做法跟我自己平常整理資料的習慣蠻像的，背景寫在檔案裡，比每次口頭重講一遍可靠。</p>
+<p>還有一個省錢的建議：Grok Bot 直接寫程式很耗額度，所以叫它在雲端電腦裝 Claude Code CLI 和 Codex CLI，再建一個全團隊共用的寫程式 skill，碰到程式就丟給它們，用的是你原本的訂閱額度。他最後的定位也是這樣，Grok Bot 當總管做調度，重活交給底下的 Claude Code 和 Codex。</p>
+<h2>外掛、Skill、Routines</h2>
+<p>這一段比較像功能巡禮，我挑幾個記：</p>
+<ul>
+<li>外掛內建 Gmail、Google 日曆、Drive、Slack、Notion、Linear，不夠的用 Composio 補。另外它內建每天 1000 則免費讀 X 貼文的額度，他拿來做一隻盯 X 的 bot。</li>
+<li>Skill 有三種建法：對話調到滿意後叫它存起來、把原本 Claude Code 的 skill 檔丟進去轉、或者用 Teach a task 錄你操作一遍。他說 Grok Bot 自己寫的 skill 比 Codex 寫的好讀，這點我沒辦法驗證。</li>
+<li>Routines 分定時和事件觸發。他舉的例子很清楚：等客戶填表單，如果每十分鐘去檢查一次，大部分時間都在空轉燒額度，用 webhook 像裝門鈴，有人按才醒。</li>
+</ul>
+<h2>Group Chat 要省著開</h2>
+<p>把幾隻 bot 拉進同一個群組開會，他示範問 Q4 roadmap，PM、工程師、設計師各講各的，還會讀完別人的話接第二輪，最後幕僚長收斂成兩件要他拍板的事。</p>
+<p>看起來很熱鬧，不過他自己給的判斷標準我覺得比示範更有用：已經知道要做什麼，就直接找單一 bot 或交給幕僚長；自己都還不確定、需要不同角度幫忙抓盲點，才開群聊。因為每隻都會讀整串對話輪流發言，額度掉得很快。</p>
+<h2>我最想留下來的是權限那段</h2>
+<p>最後他講安全，原則一句話：讀的權限給大方，動手的權限要吝嗇。信箱、行事曆、雲端硬碟可以讓它讀，讀得越多越懂你的脈絡；可是對外寄信、發公開訊息、刪檔、刷卡這種做了收不回來的，一定要先問過你。設定裡可以直接用自然語言寫規則，搭配對話框裡的預覽卡片，按同意才真的送出。</p>
+<p>這條我會直接抄下來。前幾天看他拆 <a href="2026-10-31-master-pstack-trust-ladder.html">pstack 的信任曲線</a>，那邊講的是一階一階把自己往流程後面移，這裡算是更日常的版本：先放讀，動手的部分慢慢放。</p>
+<p>他也介紹了 Vault，帳號密碼、聯絡資訊、信用卡先存好，說 bot 本身看不到卡號，由系統加密代填。方便是方便，不過老實說我還不太確定自己敢不敢把卡放進去，大概會先從不涉及錢的事試起。</p>
+<h2>其他</h2>
+<p>他的三個心得：互動設計很友善、速度快到他會懷疑有沒有認真讀檔、還有真的貴。他也坦白一開始用的時候沒特別驚豔，最近熱度回來才再試一次。片尾提到具體的建 bot 提示詞放在他的付費文章，所以影片本身停在概念和操作示範。</p>
+<p>整體來說，對已經在用 Claude Code 的人，前半段可以快轉，幕僚長分工、共用資料夾、權限原則這三段比較值得花時間。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=nnTqbMhKr3E">Grok Bot 新手教學，30 分鐘學會！</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-04-journal.html">← 較新：小院日誌 11/04：先給讀的權限</a><a href="2026-11-03-journal.html">較舊：小院日誌 11/03：工廠旁邊多了一面牆 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

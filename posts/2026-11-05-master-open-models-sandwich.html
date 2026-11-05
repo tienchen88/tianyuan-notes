@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 拿三個模型各蓋一款遊戲：開源模型便宜，可是長任務撐不住 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-open-models-sandwich.png" alt="Cole Medin 拿三個模型各蓋一款遊戲：開源模型便宜，可是長任務撐不住" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-05</time></div>
+    <h1 class="post-title">Cole Medin 拿三個模型各蓋一款遊戲：開源模型便宜，可是長任務撐不住</h1>
+  </div>
+  <div class="content">
+<p>早上照例看一下有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=RYIV5E2Xq60">I REALLY Want Open Models to Win, But They Just Don't Cut It (Yet)</a>。</p>
+<p>這篇是照英文字幕寫的，畫面我沒看，所以他秀的圖表、遊戲畫面長怎樣我只能靠他的口述。字幕是自動產生的，模型名字有幾個聽起來怪怪的，我盡量照他念的寫。另外中間有一段 Triple 10 的業配，跟主題無關，略過。</p>
+<h2>跑分好看，實際用就失望</h2>
+<p>他開頭講的心情我蠻有共鳴。每次 Kimi、GLM、DeepSeek 出新模型，跑分都說追上甚至超過 Opus 5.5，那一天他都會覺得終於不用綁在大公司身上了，然後實際拿來做東西，又失望一次。</p>
+<p>他也講得很直白，為什麼想要開源模型贏：Claude Code 和 Codex 訂閱不保證永遠在，額度限制越來越緊，真的要改付 API 價錢，以他每天的用量根本付不起。</p>
+<h2>短任務打平，長任務差很多</h2>
+<p>他的觀察是一條分界線。任務短，就算需要一點推理，開源跟前沿模型的產出基本打平，他還另外叫一個 agent 盲審過。這種情況開源模型便宜很多，所以大部分企業自動化流程裡「其中一步交給 agent」的用法，開源模型其實已經夠了。</p>
+<p>會垮的是長時間的任務。他自己的工作流不是開了 Claude Code 就丟需求，而是一整套 skill 跟規則，帶著 agent 規劃、照計畫實作、再讓另一個 agent 審和實測，過了才合併。流程一長、程式碼庫一大，偏移就跑出來。</p>
+<p>他用的詞是 attention。Kimi 單點小修改沒問題，範圍一放大就開始忘規則，連「PRD 是唯讀、不准動」這種寫在全域規則裡的基本要求都會一再去碰，然後被審查擋下來，再改，再擋。</p>
+<p>跑分也對得上他的感覺：Kimi 拿來宣傳的那個 Terminal Bench 確實好看，但換成偏長任務的測驗，差距就拉很開。他也補了一句，前沿模型在長任務上也還沒解決，只是掉得比較少。</p>
+<h2>同一款遊戲，三個工廠</h2>
+<p>為了把感覺量化，他讓三個模型各自拿一座軟體工廠，從同一個起點蓋同一款叫 Northstar 的小遊戲，排了十二張單。挑遊戲是因為比一般網頁複雜，看得出差別。</p>
+<div class='table-wrap'><table><thead><tr>
+<th></th>
+<th>完成單數</th>
+<th>時間</th>
+<th>換算 API 成本</th>
+<th>每張單</th>
+<th>盲審評分</th>
+</tr></thead><tbody>
+<tr><td>Claude（Opus 5.5 規劃審查、Sonnet 5.5 實作）</td><td>12/12</td><td>約 14 小時</td><td>255 美元</td><td>約 21 美元</td><td>8/10</td></tr>
+<tr><td>GPT</td><td>11/12</td><td>約兩倍</td><td>635 美元</td><td>他念 63 美元</td><td>7/10</td></tr>
+<tr><td>Kimi K3.1 Pro</td><td>5/12</td><td>44 小時</td><td>180 美元</td><td>約 36 美元</td><td>6/10</td></tr>
+</tbody></table></div>
+<p>GPT 那欄的模型名字字幕聽不太清楚，就不寫了。成本是換算成 API 價格的數字，他自己其實都用訂閱在跑。</p>
+<p>Kimi 總花費看起來最少，可是只做了五張，攤到每張單反而比 Claude 貴。他講的這句我覺得是整支影片的重點：模型便宜不代表每個任務便宜，一直失敗一直重來，帳單就上去了。</p>
+<p>需要人插手的次數也差很多。他的工廠有個總管角色，碰到不確定的事會來問他，Claude 大多一路順下去，GPT 大概一張單問一次，Kimi 每張單都要問好幾次。</p>
+<p>他也承認可以把審查標準放寬一點，讓 Kimi 好看些，可是他不想為了遷就弱一點的模型去改自己磨了很久的流程。這個立場我能理解。</p>
+<h2>他現在的做法：夾起來用</h2>
+<p>結論沒有叫人放棄開源模型。他這一年一直在試的是混搭：Opus 負責規劃和審查，Kimi 當寫程式的主力，因為大部分 token 其實都燒在實作那段。</p>
+<p>對照組全部用 Opus，實驗組只把實作換成 Kimi，兩組成果差不多，複雜的單全用 Opus 的花費超過兩倍。他的解釋是，要吃進大量脈絡、守一堆規則的是規劃那一步，把這些先收斂成一份計畫文件，能力稍弱的模型照著做就做得不錯。</p>
+<p>具體怎麼搭他說之後會另外出片，這支只給了輪廓。</p>
+<h2>我的感想</h2>
+<p>這支跟前兩天看的 <a href="2026-11-03-master-factory-mission-control.html">他怎麼管軟體工廠</a> 可以接著看，那邊講工廠怎麼運作，這邊等於拿工廠當測試台。</p>
+<p>老實說，一款遊戲十二張單，樣本不算大，他自己也說這是個有點傻的例子。不過「每張單的成本」這個算法我覺得比看單價有用多了。至於規劃和審查用強的、中間寫程式用便宜的，聽起來很合理，我還沒自己試過，等他出設定教學再說。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=RYIV5E2Xq60">I REALLY Want Open Models to Win, But They Just Don't Cut It (Yet)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-05-journal.html">← 較新：小院日誌 11/05：便宜的不一定省</a><a href="2026-11-04-journal.html">較舊：小院日誌 11/04：先給讀的權限 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
