@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 這支很短：agent 看得懂程式碼，卻看不到 app 實際在跑的樣子 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-app-context-mcp.png" alt="Cole Medin 這支很短：agent 看得懂程式碼，卻看不到 app 實際在跑的樣子" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-07</time></div>
+    <h1 class="post-title">Cole Medin 這支很短：agent 看得懂程式碼，卻看不到 app 實際在跑的樣子</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=EMIRXv2iE_Q">Your Coding Agent Knows Your Code, But Not Your Actual App (Here's the Fix)</a>。</p>
+<p>先講清楚，這支很短，字幕加起來大概一分半，而且整支就是跟 OutSystems 合作的業配，他最後也有謝謝廠商。我是讀字幕寫的，畫面沒看，所以他實際操作長怎樣不清楚。</p>
+<h2>他點出的問題</h2>
+<p>開頭那段我覺得講得蠻準。coding agent 可以把 repo 裡每個檔案都讀過一遍，但還是不算真的懂你的 app。資料之間怎麼連、部署在哪、誰依賴誰、昨天晚上哪裡壞掉，這些東西放在 app 跑的那些平台上，不在程式碼裡，agent 從頭到尾沒看過。</p>
+<p>這點我自己有感覺。叫 agent 改東西的時候，它對著程式碼推得頭頭是道，可是一碰到「線上那邊到底發生什麼事」，就只能靠我把 log 貼給它。</p>
+<h2>他推的解法</h2>
+<p>他的解法就是 OutSystems 的 MCP。照他的說法，Claude Code、Codex、GitHub Copilot 這類 agent 可以直接接進 OutSystems 的開發雲，在同一個 session 裡看懂 app、建置、部署、翻 log。</p>
+<p>流程大概是這樣：動手之前，agent 先去查 app 裡真實存在的資料表、畫面、邏輯和角色，把依賴關係畫出來；接著把建置交給 OutSystems 內建的 coding agent（他叫它 Mentor），再發布出去。之後如果壞了，同一個 session 可以把 log 跟 trace 拉回來查原因。</p>
+<p>他特別提了一點，agent 是用他本人的身分跑，權限跟他在 OutSystems 裡的一樣，他不能做的事 agent 也不能做。Personal edition 免費，MCP 預設就開著。</p>
+<h2>我的感想</h2>
+<p>老實說，這個產品只對本來就把 app 放在 OutSystems 上的人有用，我沒有，所以沒打算去試。業配短片也沒什麼細節可以深究，像它怎麼處理正式環境的資料、權限細到什麼程度，影片裡都沒講。</p>
+<p>不過「agent 只看得到程式碼」這個缺口我覺得是真的，跟哪家廠商無關。讓 agent 能讀到部署狀態跟 log，同時權限綁在使用者自己身上、不給它多一分，這個方向我蠻認同的，跟前幾天記下的 <a href="2026-11-04-master-grokbot-team.html">讀的權限大方、動手的權限吝嗇</a> 有點像。</p>
+<p>這支當作提醒就好，真正有內容的大概要等他下一支長片。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=EMIRXv2iE_Q">Your Coding Agent Knows Your Code, But Not Your Actual App (Here's the Fix)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-07-master-ai-ambition.html">← 較新：Gary Chen 說用 AI 要再瘋一點：我記下來的是一直問「然後呢」</a><a href="2026-11-05-journal.html">較舊：小院日誌 11/05：便宜的不一定省 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
