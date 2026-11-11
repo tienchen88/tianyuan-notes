@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 的 11 個小修正：agent 的老毛病，大多改幾行設定就能好一大半 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-coding-agent-fixes.png" alt="Cole Medin 的 11 個小修正：agent 的老毛病，大多改幾行設定就能好一大半" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-11</time></div>
+    <h1 class="post-title">Cole Medin 的 11 個小修正：agent 的老毛病，大多改幾行設定就能好一大半</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=hMEQ4rdaOLw">11 More Tiny Coding Agent Fixes With A Stupid Amount Of Payoff (Learn These Now)</a>。</p>
+<p>這篇是讀完整份英文字幕寫的，畫面沒看，所以他示範的 prompt 跟檔案內容我只知道他嘴巴講的部分。中間有一段是 Arcade 的業配，我跳過。</p>
+<p>他整支的套路都一樣：先把問題講給 agent 聽，丟一個自己想到的解法，然後跟 agent 一起討論要改在哪裡，是 skill、規則檔還是 hook。他一直強調這些東西要照自己的工作方式客製，別人的框架拿來當起點就好。這個態度我蠻認同。</p>
+<h2>我比較有感的幾個</h2>
+<p><strong>它說做完了，其實沒有。</strong> 最簡單的做法是在同一個對話裡追問：「什麼情況會讓這個其實跑不起來？你做的跟需求之間差在哪？」他說 agent 被要求找漏洞的時候其實找得蠻準，只是清單會列得很長，因為它想討好你，挑一兩個一看就知道要處理的就好。比較正式的做法是另外寫一個 reviewer 的 skill，交給全新 context 的 agent 去挑毛病。</p>
+<p><strong>測試都過了，app 還是壞的。</strong> 這段跟上一點連在一起。他的意思是單元測試跟整合測試跑得再多也不等於驗證過，要讓 agent 像使用者一樣去點，用瀏覽器自動化工具實際操作畫面、截圖，再把截圖附在 PR 裡。他還提到會在規劃階段就先讓 agent 列出「做完之後要拿什麼證據給我看」，這個順序我覺得很聰明。</p>
+<p><strong>規則一直被忽略。</strong> 我覺得整支最有用的是這段。他說 hook 是唯一真的有保證的東西，規則檔跟 skill 寫得再清楚都只是自然語言，agent 有機率不照做。所以規則檔裡凡是長成「絕對不要」「一定要」「如果這樣就那樣」的句子，都應該搬去寫成 hook，例如不准讀 .env、某個資料夾裡的 migration 不准改、一律用 bun 不准用 npm。他給的分法我記下來了：事實和慣例放規則檔，要強制的流程寫成 hook，比較大的工作流程放 skill。</p>
+<p><strong>對話越拖越笨。</strong> 他講得很直接，對話越長 agent 要顧的東西越多，表現就越差，而且前面犯過的錯後面更容易再犯。解法就是一個對話只做一件小事，真的要接著做，就叫它寫一份 handoff.md，寫清楚做完什麼、卡在哪、試過什麼，再開新對話接手。</p>
+<h2>其他幾個</h2>
+<p>剩下的我簡單記：</p>
+<ul>
+<li>規則檔太肥，agent 反而漏東西。模型越來越強，以前要寫的很多東西現在根本不需要，他有做一個 skill 專門幫人刪減，還會測刪了之後表現有沒有掉。</li>
+<li>覺得自己失去主導權。要在規劃 skill 裡寫清楚哪些事 agent 自己決定、哪些一定要回來問你，像範圍跟產品行為。</li>
+<li>小需求被改成大工程。他說 LLM 天生就太囉嗦，要在規則裡講清楚「精簡」對你來說是什麼意思。</li>
+<li>一直撞到用量上限。他說 subagent 預設開得太大方，有時候一開就十幾個，可以在規則裡限定只有明講才開，或者 subagent 改用小一點的模型。</li>
+<li>小改動也測半天。在規劃階段先讓 agent 判斷這次改動的影響範圍，再決定測多深。他說這要跟上面「測什麼」一起看。</li>
+<li>一直跑去處理旁枝。發現別的問題不要當場修，記到一個 markdown 或開 GitHub issue，之後再說。但也不要特地叫它去找，不然清單會多到看不完。</li>
+</ul>
+<h2>我的感想</h2>
+<p>老實說這支沒有什麼新發明，很多點之前多少都聽過。可是他把它們排在一起看，會發現其實是同一件事：agent 的毛病大部分不靠換模型解決，靠的是自己那一層設定有沒有跟著調。</p>
+<p>如果只挑一個先做，我會選 hook 那段：把規則檔裡那些「絕對不要」的句子挑出來，看哪些能改成擋得住的檢查，成本低，效果也最確定。至於刪減規則檔那個 skill，我還沒去看，不確定他測「表現有沒有掉」實際上是怎麼測的，這部分先保留。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=hMEQ4rdaOLw">11 More Tiny Coding Agent Fixes With A Stupid Amount Of Payoff (Learn These Now)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-11-master-claude-dreaming.html">← 較新：Gary Chen 講 Claude 會做夢：記憶只該留「看檔案猜不到」的事</a><a href="2026-11-07-journal.html">較舊：小院日誌 11/07：多問幾次然後呢 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

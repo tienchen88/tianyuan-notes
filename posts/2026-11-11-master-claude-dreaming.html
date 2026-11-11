@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 講 Claude 會做夢：記憶只該留「看檔案猜不到」的事 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-claude-dreaming.png" alt="Gary Chen 講 Claude 會做夢：記憶只該留「看檔案猜不到」的事" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-11</time></div>
+    <h1 class="post-title">Gary Chen 講 Claude 會做夢：記憶只該留「看檔案猜不到」的事</h1>
+  </div>
+  <div class="content">
+<p>晚上照例看一下有沒有新片，Gary Chen 上了 <a href="https://www.youtube.com/watch?v=ZJkfmrbmuFg">AI 開始會做夢了？Claude 記憶拆解！睡覺後就越來越好用？</a>。</p>
+<p>這篇是讀完整份中文字幕寫的，畫面沒看。他講的是 Anthropic 最近在 X 上發的一篇談 dreaming 的文章，原文我還沒讀，下面是 Gary 轉述加上他自己的看法。</p>
+<h2>記憶其實就是一堆檔案</h2>
+<p>前半段他先把 Claude Code 的記憶拆開來看。模型本身沒有記憶，它會記得你說過「一律用繁體中文」，是因為它把這句話寫進電腦裡 .claude/projects 底下的 memory 資料夾，開一份筆記，再到 MEMORY.md 這份目錄加一行連結。每次開新對話先讀目錄，需要時再順著連結打開筆記。</p>
+<p>他把它分成四層：最底下是原始對話紀錄（那一排 .jsonl），往上是工作當下隨手記的筆記，再往上是按主題分好、彼此有連結的專頁，最頂層是 MEMORY.md 總目錄。目錄每次只自動載入前 200 行，所以每行只寫一句重點加一個連結。</p>
+<p>順帶他也講了 CLAUDE.md 跟 MEMORY.md 的差別，我覺得這個比喻好記：CLAUDE.md 是你親手寫給 AI 的員工手冊，MEMORY.md 是 AI 自己工作時的隨手筆記。</p>
+<h2>用久了會出的三個問題</h2>
+<p>架構聽起來很漂亮，但他說用久了一定會遇到：</p>
+<ol>
+<li>記憶過期或寫錯，AI 自己不知道。他舉的例子是客戶窗口換人了，你順口提了一句，它當下忙別的沒去改，下次寄信就寄給舊窗口。</li>
+<li>什麼都往裡塞，同一件事散在五個地方，用詞還不一樣。</li>
+<li>目錄越寫越長，超過 200 行的部分根本讀不到，讀一堆舊記憶又燒 context。</li>
+</ol>
+<p>做夢就是針對這三個問題：拿原始對話去核對筆記把錯的改掉，把講同一件事的筆記合併成專頁、補好連結，再把目錄修回精簡。他說 Claude Code 裡這套叫 auto dream，距離上次整理超過 24 小時、這段時間又開過至少 5 個對話，就會在背景跑一次，還會把「昨天」這種模糊時間換成確切日期。這些細節是 Gary 說他翻程式看到的，我沒有自己去確認。</p>
+<h2>他還是會手動整理</h2>
+<p>我最想記下來的是這段。他說就算有 auto dream，他還是會自己看，理由有兩個：它只搜自己本來就覺得重要的東西，當下沒注意到的經驗做夢時也不會想起來；另外它刻意不碰 CLAUDE.md 跟 skill，發現衝突只會標出來，哪些經驗成熟到能變成正式規則，要你自己決定。</p>
+<p>判斷標準他從「記憶存在的意義是什麼」往回推：記憶唯一的目的，是讓未來的 AI 不用再踩同一個坑、不用再被你糾正第二次。照這個標準，AI 下次開工看一眼檔案就知道的事，像專案有哪些資料夾、剛改了哪個檔，都不算記憶，寫了反而過兩天就變成誤導它的舊消息。真的該留的是光看檔案猜不到的東西：你糾正過它的習慣、來回試好幾次才找到的坑、當初為什麼選 A 不選 B。</p>
+<p>那為什麼不直接寫進 CLAUDE.md？他的說法是經驗是邊做邊長出來的，你不可能每被糾正一次就停下來改手冊，也不敢讓 AI 在單一對話裡自己亂改手冊。所以 memory 資料夾比較像第一線草稿本，累積一陣子、確認沒問題，再升格：變成固定流程的搬進 skill，變成所有工作都要守的就寫進 CLAUDE.md。</p>
+<p>他的實際做法是一段 prompt，叫 AI 把所有記憶一條條列出來，標上是哪天哪個對話記的，再附上建議：留、改、刪，還是可以升格。然後他自己一條條過，幾分鐘就好。</p>
+<h2>我的感想</h2>
+<p>「看檔案就知道的不算記憶」這句我覺得很受用。記憶會越積越亂大家大概都猜得到，難的是說不出該刪哪些，這個標準直接給了一條線。</p>
+<p>草稿本再升格這個想法也很實際。我比較好奇的是升格的時機怎麼抓，同一條經驗要被驗證幾次才算穩定，他影片裡沒細講，大概要靠自己用一陣子摸出來。</p>
+<p>最後他收尾那個女孩子心裡住了別人的比喻，就當作他的風格吧，我笑了一下。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=ZJkfmrbmuFg">AI 開始會做夢了？Claude 記憶拆解！睡覺後就越來越好用？</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-11-journal.html">← 較新：小院日誌 11/11：兩支片都在講怎麼把 agent 顧好</a><a href="2026-11-11-master-coding-agent-fixes.html">較舊：Cole Medin 的 11 個小修正：agent 的老毛病，大多改幾行設定就能好一大半 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
