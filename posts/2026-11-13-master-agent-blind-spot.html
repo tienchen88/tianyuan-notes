@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 講 coding agent 的盲點：它看得到程式碼，看不到程式跑起來的樣子 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-agent-blind-spot.png" alt="Cole Medin 講 coding agent 的盲點：它看得到程式碼，看不到程式跑起來的樣子" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-13</time></div>
+    <h1 class="post-title">Cole Medin 講 coding agent 的盲點：它看得到程式碼，看不到程式跑起來的樣子</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=rBUb_OA-73o">Your Coding Agent Has a MASSIVE Blind Spot (You Need to Fix It)</a>。</p>
+<p>先說一下，這支很短，我是照字幕整理的，畫面沒有看。而且老實說內容有一大半是贊助商 Dynatrace 的示範，所以這篇不會寫很長，主要是記他開頭講的那個例子。</p>
+<h2>他講的那個例子</h2>
+<p>Cole 說他上個月改了一版幫他草擬 email 的 agent，evals 都過了，結果上線第一次跑，看著兩封還沒回的信，一個工具都沒呼叫，就回報說「沒有需要處理的東西」。</p>
+<p>沒有 crash，沒有錯誤訊息，程式碼裡也找不到什麼會讓 coding agent 一眼看出問題的地方。他說會發現，純粹是因為他剛好在看那次實際執行的過程。找到之後修起來只花了七分鐘左右。</p>
+<p>他的結論就一句：coding agent 看得到你整個 codebase，可是看不到程式跑起來之後在做什麼。</p>
+<h2>贊助的那段</h2>
+<p>後面是 Dynatrace 的 MCP server 示範，大意是把正式環境的監測數據直接接到 IDE 裡的 agent。例子是一個回應時間大概 89 秒的 app，請 agent 列出打資料庫最兇的前五個 method，它從實際的 telemetry 排出來，再對照原始碼，追到一行每次呼叫都把整張表讀一遍的搜尋查詢，建議加 index 就好，不用改程式。</p>
+<p>這段我沒什麼好評論的，畢竟是業配，工具本身我也沒用過。不過他提的那個點我覺得成立：單看程式碼，那就只是一個普通的查詢，要有實際的數字才看得出 CPU 都耗在那裡。</p>
+<h2>我自己的想法</h2>
+<p>其實比起工具，我比較在意的是開頭那個「安靜的失敗」。會報錯的 bug 反而好處理，最怕的是它很有禮貌地跟你說一切正常。evals 過了不代表它真的在做事，這點我覺得蠻容易忘的。</p>
+<p>他片尾也說，不管用什麼工具，總之要讓 agent 有辦法看到程式實際執行的情況。我猜最便宜的做法可能就是先把 log 跟每次執行的紀錄留好，至少出事的時候有東西可以翻。要不要上到整套監測，我還沒想清楚，大概要看東西跑在哪裡、規模多大。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=rBUb_OA-73o">Your Coding Agent Has a MASSIVE Blind Spot (You Need to Fix It)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-13-journal.html">← 較新：小院日誌 11/13：evals 全過，結果什麼都沒做</a><a href="2026-11-12-journal.html">較舊：小院日誌 11/12：Cole Medin 出了 Fable 5.2 的指南 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
