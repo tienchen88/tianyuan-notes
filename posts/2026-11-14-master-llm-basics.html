@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 帶讀 Karpathy 那場 LLM 入門演講：三年後回頭看 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-llm-basics.png" alt="Gary Chen 帶讀 Karpathy 那場 LLM 入門演講：三年後回頭看" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-14</time></div>
+    <h1 class="post-title">Gary Chen 帶讀 Karpathy 那場 LLM 入門演講：三年後回頭看</h1>
+  </div>
+  <div class="content">
+<p>今天 Gary Chen 上了一支 <a href="https://www.youtube.com/watch?v=qtHozNsemsI">一支影片搞懂 AI 的底層邏輯，LLM 到底是什麼？</a>。我是看字幕整理的，大概二十分鐘左右的內容。</p>
+<p>這支基本上是在帶讀 Andrej Karpathy 2023 年底那場一小時的 Intro to Large Language Models，再加上他自己的理解，還有這三年後回頭看的對照。Karpathy 那場我以前看過一部分，沒看完，所以這次剛好當複習。</p>
+<p>他開頭講的理由我蠻認同的：每天追新工具會追不完，學一個冒三個，每個都學半套。底層邏輯懂了，之後看到新東西比較能判斷它在幹嘛。</p>
+<h2>兩個檔案</h2>
+<p>Karpathy 一開始就說，大型語言模型其實就是兩個檔案。拿 Llama 2 當例子，一個是大約 140 GB 的參數檔，一個是把參數跑起來的程式碼。丟進筆電，不連網也能聊天。</p>
+<p>難的是那 140 GB 怎麼來。影片裡講的數字是大約 10TB 的文字、六千張 GPU 跑十二天、燒掉兩百萬美元左右。Karpathy 把這比喻成把一大塊網路壓成 zip 檔，壓了將近一百倍，但是有損壓縮。大意記得，細節會糊。</p>
+<h2>三個訓練階段</h2>
+<p>這段他整理得很清楚，我順手記一下：</p>
+<ul>
+<li>預訓練：就是猜下一個字，猜錯就調參數。厲害的地方是不用人去標答案，文章後面本來就有字。但做完只會文字接龍，你問天氣它可能接著寫一篇小說。</li>
+<li>SFT 監督式微調：原理一樣是猜字，只是教材換成專家寫好的一問一答。量少很多，但品質高，大概一天就能跑完，所以公司可以很頻繁地補資料再調。</li>
+<li>RLHF：收集人類「比較喜歡哪個答案」，訓練一個評分模型，再用強化學習去獎勵。他舉的例子很好懂，要你寫一首詩很難，給你三首挑一首很快。</li>
+</ul>
+<h2>幻覺跟黑盒子</h2>
+<p>幻覺的部分他講了幾個原因。一個是有損壓縮本身，模型記得 ISBN 長什麼樣，就自己填一串像樣的假數字。一個是訓練資料裡的關聯干擾，像以前 9.11 比 9.9 大那個經典錯誤，因為日期、版本號、章節都是 9.11 排在後面。</p>
+<p>還有一個我之前沒特別想過的：他提到 OpenAI 2025 年有篇論文，說現在多數評分方式答錯跟說不知道一樣是零分，就像選擇題不倒扣，模型自然學會硬猜。這個說法我覺得蠻有道理，不過論文本身我還沒去讀。</p>
+<p>至於為什麼不能打開模型直接修，他用 1950 年代感知器的旋鈕來解釋權重，再講 Transformer 的注意力機制。數學架構都懂，但幾千億個旋鈕交互之後內部長什麼樣，沒人能解讀。阿湯哥母親那個例子很有意思，正著問知道，反過來問就答不出來。</p>
+<h2>三年後回頭看</h2>
+<p>後半段是我覺得最有意思的。Karpathy 當年提的幾個方向，Gary 一個一個對照現在：</p>
+<p>System 2 的慢思考，後來變成了推理模型。多模態跟客製化，現在各種專門的 agent 就是。自我進步那條，當年 Karpathy 說語言沒有明確的輸贏標準，很難像 AlphaGo 那樣自己跟自己練，後來是在數學和程式這種能自動驗證對錯的領域先做到了。還有把 LLM 當成新作業系統核心的說法，context window 是記憶體，工具是周邊設備。</p>
+<p>最後講安全，jailbreak、prompt injection、data poisoning 三種。他的提醒是現在 agent 已經接進信箱、雲端硬碟，被攻破的代價跟三年前不能比，所以要清楚自己給了 AI 多少權限，不可逆的操作確認鍵要留在自己手上。</p>
+<h2>我的感想</h2>
+<p>老實說內容對已經在用這些工具的人不算新，但整理得很順，三個訓練階段那段拿來跟朋友解釋應該很好用。比較有收穫的是「三年後回頭看」這個角度，原來當時聽起來很遠的東西，現在大半都在日常裡了。</p>
+<p>他最後也推薦去看 Karpathy 原版，我想找時間把那一小時補完。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=qtHozNsemsI">一支影片搞懂 AI 的底層邏輯，LLM 到底是什麼？</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-14-journal.html">← 較新：小院日誌 11/14：看起來對，跟真的對</a><a href="2026-11-14-master-staging-gate.html">較舊：Cole Medin：agent 可以整晚幫我 merge，但上線那一步我要自己按 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

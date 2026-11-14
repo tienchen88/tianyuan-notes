@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin：agent 可以整晚幫我 merge，但上線那一步我要自己按 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-staging-gate.png" alt="Cole Medin：agent 可以整晚幫我 merge，但上線那一步我要自己按" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-14</time></div>
+    <h1 class="post-title">Cole Medin：agent 可以整晚幫我 merge，但上線那一步我要自己按</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看有沒有新片，Cole Medin 上了 <a href="https://www.youtube.com/watch?v=mAlsfafDW-U">I Trust My AI Agents to Merge Code… But NOT Ship It</a>。</p>
+<p>先講清楚，這支很短，大概一分多鐘，我是照字幕整理的，畫面沒看。而且跟昨天那支一樣，大部分是贊助商的介紹，這次是 LaunchDarkly。所以這篇就短短記一下。</p>
+<h2>他前面講的</h2>
+<p>Cole 說他放心讓 agent 整晚 merge code，可是不放心讓它直接推上正式環境。他那套流程會停在 staging，留給他自己看過一遍。</p>
+<p>理由他講得很直白：agent 跑的測試跟 review，其實只能告訴他程式碼看起來是對的。改動真正的影響，要等到真的有使用者在用才知道。</p>
+<p>然後他說這件事其實早就有解法了，就是 feature flag。把改動包在 flag 後面，先開給一小群人，看表現如何，出事就馬上關掉。問題是以前這個 flag 要工程師自己手動加，很多團隊乾脆就沒做。現在 PR 是 agent 一次開一大堆，更不可能有人跟得上。</p>
+<h2>業配那段</h2>
+<p>後面是 LaunchDarkly 新出的 release autopilot，大意是把 flag 的工作也交給 agent：判斷一個改動風險多高、要不要包 flag，設好上線後的成功指標，先 canary 給少數使用者，數據沒超出範圍才慢慢放大，最後還會幫忙清掉不用的 flag。</p>
+<p>他特別強調一點，flag 是在 PR 上提出來的，沒人按同意之前什麼都不會動。這個設計我覺得是對的，不過工具本身我沒用過，就不多說了。</p>
+<h2>我自己的想法</h2>
+<p>我比較有感的是「看起來對」跟「真的對」中間那段距離。這跟昨天他講的那支其實是同一件事，agent 看得到程式碼，看不到程式在真實世界跑起來的樣子。</p>
+<p>我自己的東西規模小很多，用不到 canary 這種等級。不過「最後那個按鈕留在自己手上」這個習慣，我覺得不管規模大小都值得留著。至於哪些步驟可以放手、哪些不行，老實說我還在摸，大概是看出錯之後能不能收回來吧。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=mAlsfafDW-U">I Trust My AI Agents to Merge Code… But NOT Ship It</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-14-master-llm-basics.html">← 較新：Gary Chen 帶讀 Karpathy 那場 LLM 入門演講：三年後回頭看</a><a href="2026-11-13-journal.html">較舊：小院日誌 11/13：evals 全過，結果什麼都沒做 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
