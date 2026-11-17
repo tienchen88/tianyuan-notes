@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin 把 AI 軟體工廠分成五種，我記下那張「該不該放手」的圖 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-factory-types.png" alt="Cole Medin 把 AI 軟體工廠分成五種，我記下那張「該不該放手」的圖" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-17</time></div>
+    <h1 class="post-title">Cole Medin 把 AI 軟體工廠分成五種，我記下那張「該不該放手」的圖</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看有沒有新片，Cole Medin 上了一支比較長的：<a href="https://www.youtube.com/watch?v=r5iPi8RL7A8">5 Types of AI Software Factories Clearly Explained</a>。</p>
+<p>這篇是照字幕整理的，他畫面上那些圖我沒有一張張看，所以圖的細節如果跟他講的有出入，以影片為準。中間有一段 LangChain 的業配，我跳過。</p>
+<h2>他先講工廠是什麼</h2>
+<p>他開頭先澄清一個誤會。很多人以為軟體工廠就是丟一句需求進去，它自己一路做到上線。他說大部分情況根本不是這樣。</p>
+<p>比較實際的說法是：以前我們跟 coding agent 是一張票一張票陪著做，現在模型跟工具夠穩了，可以把一批票一起交給它，讓它自己排依賴、平行做、部署到 staging。人還在迴圈裡，只是位置換了，集中在前面的規劃跟最後的驗收。他說現在軟體開發的瓶頸就是這兩頭。</p>
+<h2>五種工廠</h2>
+<p><strong>Dark factory</strong>：完全沒人看，需求進去、程式直接上線。他年初真的在頻道上公開跑過一輪，流程是通的，可是最後做出來的東西不是他要的。原因不在模型，在於他自己一開始也講不清楚想要什麼，這種落差在沒人把關的情況下就直接上線了。他覺得這種只適合做 prototype，反正好驗證、速度最重要。</p>
+<p><strong>Fleet factory</strong>：流程跟 dark factory 一樣，差別在拿來做什麼。只挑目標很明確、測試過了就代表真的對的工作，像 migration、refactor、維護類的修改。名字是借 Spotify 的說法，他們內部那套叫 Honk，據他說已經 merge 了兩百五十萬個以上的自動維護 PR。他也提到 Airbnb 六週遷移了三千五百個測試檔。</p>
+<p><strong>PR factory</strong>：反過來，每一個 PR 都要人看。好處是需要判斷的工作也能丟進去，因為意圖沒講清楚也會在 review 時被抓到。缺點是人又變成瓶頸了，跟沒有工廠差不太多。不過他說剛開始做工廠的人從這裡入門最穩。</p>
+<p><strong>Release factory</strong>：這是他自己在用、也最推薦的。先跟 agent 一起寫好規劃文件，把十到二十張票打包成他所謂的 work order，丟進去讓它拆 issue、排依賴、各自跑 build loop。每個步驟開新的 agent session，寫的跟審的永遠是不同的 session，builder 不打自己的分數。最後全部合到一個分支、部署到 staging，他只看一個總的 merge PR，再自己進 staging 點一點。有問題就開新 issue 丟回去。</p>
+<p>他特別說 release 不等於把一整個大功能塞進去，也不是回到 waterfall，一次的份量其實不大。</p>
+<p><strong>Self-improving factory</strong>：在 release factory 上面再接正式環境的訊號，像 Sentry、PostHog 這類工具看到的問題，篩過之後自動變成新的 issue。他引了一句 "real use becomes the next work"。他也老實說這塊他自己還在研究。</p>
+<h2>那張圖</h2>
+<p>我覺得整支片最值得記的是那張圖。縱軸是人介入多少，最下面是每個 PR 都看，最上面是什麼都不看。橫軸是 agent 的測試能不能證明東西是對的。</p>
+<p>對角線附近是合理的區域。左上角是危險區，要大量判斷的東西卻沒人看，dark factory 就在這裡。右上是 fleet factory，不看也沒關係，因為測試過了就真的對了。對角線下方是浪費，明明可以放心卻還一個個看。</p>
+<p>他用這張圖解釋為什麼業界吵得那麼兇。說 agent 很厲害的人，舉的例子大多落在右上；說 agent 不可靠的研究，他舉了 METR 那份，大約一半通過測試的 PR 維護者不願意 merge，那些大多是左上那種問題，送 PR 的人沒搞懂專案方向，或意圖沒講清楚。</p>
+<h2>我自己的想法</h2>
+<p>老實說這張圖比五種分類本身好用。分類名字記不住也無所謂，問自己兩個問題就好：這件事測試過了能不能代表真的對？我現在看得夠不夠、還是看太多？</p>
+<p>我自己平常丟給 agent 的東西，其實大半落在「測試很難證明對不對」那一邊，寫東西、整理資料這種，所以還是一個個看比較安心。比較機械的整理工作，或許可以往右上挪一點。不過界線在哪我還不太確定，大概要多錯幾次才知道。</p>
+<p>另外他說寫的跟審的要分開、審的人不能是自己，這點我很認同。這跟前幾天他講 agent 看不到真實世界那支，感覺是同一條線下來的。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=r5iPi8RL7A8">5 Types of AI Software Factories Clearly Explained</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-17-journal.html">← 較新：小院日誌 11/17：該看多少，才算夠</a><a href="2026-11-17-master-verify-gap.html">較舊：Cole Medin：agent 寫 code 的速度，已經快過我驗證的速度 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>

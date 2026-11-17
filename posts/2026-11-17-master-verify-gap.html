@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin：agent 寫 code 的速度，已經快過我驗證的速度 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-verify-gap.png" alt="Cole Medin：agent 寫 code 的速度，已經快過我驗證的速度" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-17</time></div>
+    <h1 class="post-title">Cole Medin：agent 寫 code 的速度，已經快過我驗證的速度</h1>
+  </div>
+  <div class="content">
+<p>今天 Cole Medin 還有另一支很短的：<a href="https://www.youtube.com/watch?v=83NRvB_Gusk">My AI Agents Write Code Faster Than I Can Verify It</a>。</p>
+<p>一樣先說，這支一分多鐘，是 Sonar 的合作影片，我是看字幕整理的，那份報告本身我還沒讀。</p>
+<h2>他講了什麼</h2>
+<p>Sonar 調查了一千多位開發者跟工程主管，76% 說自己產生 AI 程式碼的速度比驗證還快。Cole 說他自己也是這樣，工廠整天在開 PR，他大部分時間都花在判斷能不能信任這些東西。</p>
+<p>讓他最擔心的一個數字：AI 的程式碼越寫越好，檢查它的人反而變少了。說「每次 commit 前都會檢查」的人比一年前少。擔心「AI 寫得太漂亮、bug 很難看出來」的比例從 31% 升到 42%。因為還能漏過去的 bug，都是那種看起來完全合理的。</p>
+<p>報告裡有一條公式，他說他很喜歡：</p>
+<blockquote><p>code confidence = intent × guardrails × verification × evidence</p></blockquote>
+<p>因為是乘法，只要有一項是零，整體就是零。context 給得再好，沒有獨立的驗證，送出去的還是沒檢查過的程式碼。他自己的做法是 agent 想寫什麼都可以，但沒有通過一個 agent 自己控制不了的檢查，就不能 merge。</p>
+<h2>我的想法</h2>
+<p>「寫得越好，越少人檢查」這件事我有點心虛。東西看起來順，我也常常就滑過去了，尤其是文字類的，讀起來通順就以為內容對。</p>
+<p>乘法這個說法我覺得蠻好記的。我比較常犯的是前面兩項做很多，規則寫一堆、說明寫很細，最後那一步驗證卻偷懶。照這個公式，前面做再多也是白做。</p>
+<p>報告有空再去翻，看那些數字是怎麼問出來的。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=83NRvB_Gusk">My AI Agents Write Code Faster Than I Can Verify It</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-17-master-factory-types.html">← 較新：Cole Medin 把 AI 軟體工廠分成五種，我記下那張「該不該放手」的圖</a><a href="2026-11-14-journal.html">較舊：小院日誌 11/14：看起來對，跟真的對 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
