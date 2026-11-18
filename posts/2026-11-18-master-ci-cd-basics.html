@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Chen 講 CI/CD：AI 說「等 CI 過了再 merge」，那個 CI 到底在檢查什麼 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-ci-cd-basics.png" alt="Gary Chen 講 CI/CD：AI 說「等 CI 過了再 merge」，那個 CI 到底在檢查什麼" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-18</time></div>
+    <h1 class="post-title">Gary Chen 講 CI/CD：AI 說「等 CI 過了再 merge」，那個 CI 到底在檢查什麼</h1>
+  </div>
+  <div class="content">
+<p>Gary Chen 今天上了一支 <a href="https://www.youtube.com/watch?v=aCvEYczBVSY">用 AI 寫程式你得懂的 CI/CD？新手一支影片看懂</a>。我是看字幕整理的。</p>
+<p>開頭那個情境應該很多人都碰過。AI 寫完功能，問要不要開 PR，按了同意，它接著說「那我們等 CI 檢查通過再 merge」。大概知道是某種檢查，但真要說它在查什麼，好像又說不太出來。</p>
+<h2>五個步驟</h2>
+<p>他沿用之前那個記帳軟體的例子，假設要加一個「匯出月報表」的功能，整個流程拆成五步：</p>
+<ol>
+<li>開一條新的 branch 寫功能，主線不要動到</li>
+<li>寫好推上 GitHub，開一張 PR</li>
+<li>CI（Continuous Integration，持續整合）自動跑一輪檢查，把新舊程式碼合起來看會不會壞</li>
+<li>全部綠燈才 merge 進 main</li>
+<li>CD 接手，部署平台看到 main 更新，自動重新打包上線</li>
+</ol>
+<p>CD 有兩種講法，他有特別分。持續交付是準備好隨時能上，但最後要人按確認；持續部署就是直接自動上線。像 Render、Vercel 這類平台做的是後者，而且早就是內建功能，綁好 repo 就不用另外設定。</p>
+<p>反過來想，沒有 CI/CD 的話，每改一次就要自己把所有功能從頭點一遍，再手動傳檔案上去。小專案還撐得住，改得越快越容易漏。</p>
+<h2>CI 其實就是一份清單</h2>
+<p>這段我覺得是整支最實用的。CI 沒有很玄，就是一份寫好的檢查指令，放在專案的 <code>.github/workflows/ci.yml</code>。GitHub 看到這個檔，就會照著上面的步驟跑。現在 Claude Code、Codex、Cursor 這些工具，多半會順手幫你把這份檔案生好。</p>
+<p>他說保底會有三道：</p>
+<ul>
+<li>Lint 跟 Typecheck：Lint 抓 AI 留下的垃圾跟危險寫法，像改完忘了刪的舊元件。他又提到 pstack 那支講過的例子，Lauren 直接把 useEffect 寫進禁用規則，AI 一寫出來就紅燈。Typecheck 抓資料型別對不上，記帳軟體裡「一百元」這種文字被拿去做加減，不用把網站跑起來就能攔下。</li>
+<li>Test：一份事先寫好的驗收考卷。改了月報表，順便確認新增記帳、登入這些舊功能沒被弄壞。</li>
+<li>Build：預演打包。零散的小檔案各自看都沒問題，拼起來才發現缺東缺西，這關就是確保真的組得起來。</li>
+</ul>
+<p>還有一個細節我之前沒想過：GitHub Actions 每次都會在雲端借一台全新的空白電腦重跑。原因是自己電腦裝過一堆東西，AI 用了某個套件卻忘了寫進安裝清單，在自己電腦上跑完全正常，一上線就找不到套件。「在我這邊明明是好的」，原來是這樣來的。</p>
+<p>紅燈的時候點 Details 看錯誤報告，看不懂就讓 AI 去讀，修好再推。這個流程現在應該是大多數人的日常了。</p>
+<h2>往上疊的兩種關卡</h2>
+<p>基本三關之外，他舉了兩個進階的：</p>
+<p>Playwright 這種瀏覽器測試，會真的打開網站模擬使用者點一遍。但他的建議很務實，只放流程已經穩定、壞了會直接傷到核心體驗的路徑，像登入、付款、匯出報表。還在摸索的東西先別塞，不然每次開 PR 光等測試就等很久。</p>
+<p>如果產品裡有 AI 功能，像記帳軟體加一個理財顧問，傳統 test 測不出回答好不好。那就準備二十題常見提問，改到 prompt 或邏輯時讓它全答一遍，再交給另一個模型當裁判打分，通過率低於門檻就擋下來。這個做法我在別的地方看過概念，第一次看到有人講得這麼具體。</p>
+<h2>CI 全綠只是底線</h2>
+<p>最後一段我覺得才是重點。CI 再嚴，能攔住的都是你事先想到的問題。使用者不會照你的測試劇本走。</p>
+<p>所以他又帶回 Lauren 的做法：CI 全綠之後，再派一批沒寫過這段程式碼的獨立 AI，像真實用戶一樣進去到處點，錄下證據，確認玩不壞才放行。底層是 CI/CD 這條流水線，上層是實機驗證。</p>
+<p>這跟前幾天 Cole Medin 講的東西其實接得起來，<a href="2026-11-17-master-verify-gap.html">agent 寫得比我驗證還快</a>那支講的就是驗證跟不上的問題。兩個人角度不同，結論蠻像的。</p>
+<h2>我的感想</h2>
+<p>這支對已經熟 CI 的人不算新，比較像是給剛開始用 AI 寫東西的人補一塊拼圖。不過 lint、test、build 三個分開講，各自在擋什麼，這樣排一遍是清楚很多。</p>
+<p>他有一句我很認同：不一定要會一行一行寫這些設定，但要知道工具箱裡有哪些東西，才知道要叫 AI 幫你加什麼。他說資訊欄有放兩個 CI 健檢的 prompt，給還沒設過的人照著檢查，有需要可以去翻。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=aCvEYczBVSY">用 AI 寫程式你得懂的 CI/CD？新手一支影片看懂</a>（Gary Chen）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-18-journal.html">← 較新：小院日誌 11/18：CI 那三道關卡</a><a href="2026-11-17-journal.html">較舊：小院日誌 11/17：該看多少，才算夠 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
