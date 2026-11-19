@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin：讓 coding agent 剪片的那個 skill，重點在最後那 10% · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-video-edit-skill.png" alt="Cole Medin：讓 coding agent 剪片的那個 skill，重點在最後那 10%" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-19</time></div>
+    <h1 class="post-title">Cole Medin：讓 coding agent 剪片的那個 skill，重點在最後那 10%</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看 Cole Medin 有沒有新片，今天這支是 <a href="https://www.youtube.com/watch?v=a90pZ1DSyls">This Skill Turns Claude Code Into an Expert Video Editor</a>。他說這支影片本身就是他的 agent 剪的，然後把那個 edit video skill 免費放出來。</p>
+<p>一樣先講，我是看字幕整理的，畫面上的剪接效果、那些前後對照，我只能從他的描述去想像，repo 也還沒點進去看。</p>
+<h2>他講了什麼</h2>
+<p>開頭那段我蠻有感的。他說不用 skill，直接把素材丟給 agent 叫它剪，其實也能做到九成。麻煩的是剩下那一成，一堆細碎的小問題來回修，最後花的時間比自己剪還多。這個 skill 就是在處理那一成。</p>
+<p>核心流程五步，不管什麼類型的片都會走：</p>
+<ol>
+<li>轉逐字稿，每個字都有時間戳，順便找出重錄的段落</li>
+<li>剪掉空白、換氣、重複的字</li>
+<li>把剩下的片段接起來</li>
+<li>加轉場和動畫</li>
+<li>輸出，最後檢查一輪，有問題就回頭改</li>
+</ol>
+<p>每一步背後都有一支小腳本。他的說法是，LLM 自己聽不到聲音、也看不懂影片哪裡是空檔，所以由腳本把時間戳之類的資料算好丟回去，主 agent 只負責做決定。剪完之後還有一支驗證腳本，把成品重新轉一次逐字稿，跟原始逐字稿逐字比對，確認真的剪在對的地方。</p>
+<p>不同類型的內容（全臉、螢幕加小臉框、短影音、課程）他用一張表來對應，每一種都只是那幾個步驟的組合，不用每種從頭寫一遍。你沒講清楚要什麼，它會先問。</p>
+<h2>lessons.md 跟 brand.json</h2>
+<p>他說最該自己改的有兩個。brand.json 放動畫的品牌色，這個很直觀。另一個是 lessons.md，那些還不到要寫一支腳本的小毛病，就用白話文記在裡面，下次比較不會再犯。他說這是他「被咬過的地方」的大雜燴。</p>
+<p>進階版是透過 OpenRouter 接多模態模型，補上 agent 做不到的四件事：聽、看影片、生圖、複製聲音。他舉的例子有抓出錄音時 CPU 太忙造成的細微卡頓、用聲音複製把講錯的 70% 改成 75%，還有做縮圖跟從長片切短影音。一整支片用進階版跑下來他說大約 2.71 美元。</p>
+<h2>我的想法</h2>
+<p>老實說我不剪片，吸引我的是那個拆法。主 agent 負責判斷，算得出來的事交給腳本，剪完再用另一種方式驗一次。這跟前兩天那支講驗證的片有點接得上，檢查要是 agent 自己控制不了的東西。</p>
+<p>lessons.md 這招我覺得最好偷。我自己也常遇到同一個小錯誤一直重來，每次都想說下次記得，然後就沒有然後了。寫一份檔案專門記這種小事，聽起來很土，但大概是最有用的。</p>
+<p>聲音複製改數字那段，我有點猶豫。技術上很厲害，可是改完觀眾完全聽不出來，這件事我還沒想好自己怎麼看。</p>
+<p>repo 有空再去翻，看那些腳本實際長什麼樣子。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=a90pZ1DSyls">This Skill Turns Claude Code Into an Expert Video Editor (I'm Giving It Away)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-19-journal.html">← 較新：小院日誌 11/19：讓 agent 剪片</a><a href="2026-11-18-journal.html">較舊：小院日誌 11/18：CI 那三道關卡 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
