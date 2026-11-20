@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin：最危險的 agent，是太想幫忙的那種 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-helpful-agent.png" alt="Cole Medin：最危險的 agent，是太想幫忙的那種" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-21</time></div>
+    <h1 class="post-title">Cole Medin：最危險的 agent，是太想幫忙的那種</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看 Cole Medin 有沒有新片，這支叫 <a href="https://www.youtube.com/watch?v=k87Iqft91j8">The Most Dangerous AI Agent Is an Overly Helpful One</a>。標題有點聳動，不過他講的東西其實蠻樸實的。</p>
+<p>先說一下，我是看字幕整理的，畫面上的介面操作只能從他的講解去想像。另外這支是 MongoDB 合作的業配，示範都用他們剛推出的 Atlas agent engine（目前還在 public preview），所以我盡量只記跟平台無關的部分。</p>
+<h2>他的出發點</h2>
+<p>他的說法是，agent 出包多半是因為太想討好你，跟有沒有惡意關係不大。遇到卡關，它會找一條最快能交差的路，就算那條路是刪掉某個東西。他舉了今年 Pocket OS 創辦人的例子：agent 在 staging 遇到憑證對不上，覺得最快的解法是把 Railway 上的 volume 刪掉，結果那裡面放的是正式環境的資料庫。</p>
+<p>所以他覺得寫在 system prompt 或規則檔裡的東西只能算建議，模型再強也可能哪一次就不照做。要靠系統層面的限制。</p>
+<h2>五個上線前的檢查項</h2>
+<ol>
+<li>工具層級的權限：用白名單決定哪些工具能叫。他示範了一個刪除客戶的工具，同一個請求問兩次，一次 agent 讀了手冊乖乖拒絕，另一次就直接去叫了。手冊一模一樣。被擋下來也不用整輪砍掉，讓它換個方法或回頭跟使用者說做不到就好。</li>
+<li>人工核可：有後果的動作先停下來等人點頭，例如寄信給客戶前先讓人看內文。他提到用量大的客服 agent 沒辦法每件都丟給人，所以要看規模取捨。有人把關的話，agent 能做的事反而可以放寬一點。</li>
+<li>網路限制：除了跑在 sandbox 裡，還要限制它能連到哪些位址，其餘一律擋。他說三個護欄裡這個最常被忽略，大家都在防外面進來的資料，很少想 agent 會把資料送去哪裡。</li>
+<li>會保持最新的記憶：最常見的錯是一直往向量資料庫塞新資料，卻沒處理過時的資訊。他的例子是某間店的聯絡人從 Maya 換成 Diego，CRM 還沒改，agent 因為記憶裡有人提過這件事，所以答對了。沒有這層的話，它大概會很有自信地照 CRM 回答。</li>
+<li>可觀察性：每個 session、每次工具呼叫都留 trace，看得到它當下做了什麼、為什麼、花了多久跟多少 token。這個不會在當下保護你，但出事之後要改前面四項，全靠這份紀錄。</li>
+</ol>
+<p>他另外提到一個不分平台都建議的做法：所有部署設定集中在一份 YAML 裡，框架、功能、網路白名單、embedding 模型都在同一個地方管。</p>
+<h2>我的想法</h2>
+<p>同一個請求問兩次，一次守規矩一次不守，這個例子比任何說明都有說服力。我自己用 agent 的時候也常有這種感覺，規則寫了，大部分時候有用，但你沒辦法保證是哪一次失效。</p>
+<p>網路白名單那點我之前真的沒想過。我想的都是不要讓奇怪的東西進來，沒想過反方向。</p>
+<p>記憶要會「過期」這件事我也蠻有共鳴。一直往裡面加東西很容易，要它知道哪些已經不對了才難。不過影片裡這段是靠平台內建的機制，實際怎麼判斷新舊，他沒有講得很細，我也還沒想清楚自己要怎麼做。</p>
+<p>最後老實講，因為是業配，示範的部分我看看就好。五個項目本身倒是可以直接拿來當檢查表。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=k87Iqft91j8">The Most Dangerous AI Agent Is an Overly Helpful One (It's Not Why You Think)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-21-journal.html">← 較新：小院日誌 11/21：太想幫忙的 agent</a><a href="2026-11-19-journal.html">較舊：小院日誌 11/19：讓 agent 剪片 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
