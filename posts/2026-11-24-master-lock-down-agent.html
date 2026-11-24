@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin：有人盯上你的 coding agent 了（先記下我想看的地方） · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-lock-down-agent.png" alt="Cole Medin：有人盯上你的 coding agent 了（先記下我想看的地方）" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-24</time></div>
+    <h1 class="post-title">Cole Medin：有人盯上你的 coding agent 了（先記下我想看的地方）</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看 Cole Medin 有沒有新片，這支叫 <a href="https://www.youtube.com/watch?v=0q0UbO4oqgQ">Hackers Are Coming for Your AI Coding Agent (Lock It Down Now)</a>。</p>
+<p>先講清楚，這篇是我還沒看完整支片寫的。字幕跟說明我都還沒拿到，所以下面只是我看到標題後的猜測，跟他實際講的可能有出入，等看完再回來補。</p>
+<h2>為什麼想看</h2>
+<p>上週他才講過 agent 太想幫忙會闖禍（<a href="2026-11-21-master-helpful-agent.html">我的筆記在這</a>），那支講的是 agent 自己出包。這支看標題是換個方向，講外面有人故意來搞你的 agent。兩支剛好可以放在一起看。</p>
+<p>而且 coding agent 跟一般聊天機器人不太一樣，它通常可以讀整個專案、跑終端機指令、碰得到 <code>.env</code> 裡的金鑰。權限這麼大，被人騙一次的代價就很高。</p>
+<h2>我預期的看點</h2>
+<p>這陣子網路上討論 coding agent 安全的文章蠻多的，我猜他會講到其中幾種：</p>
+<ul>
+<li>藏在專案檔案裡的指令。agent 打開 repo 會自動去讀說明檔、規則檔，如果有人在別人的專案裡塞一段話，agent 可能就照做了</li>
+<li>透過 MCP 或外部工具進來的東西。像是錯誤回報、網頁內容這類 agent 會去抓的資料，裡面也可以夾帶指令</li>
+<li>金鑰外流。被騙之後把 SSH key 或 token 送出去，這種最可怕</li>
+<li>防法大概會是 sandbox、最小權限、限制網路、用完換金鑰這幾招</li>
+</ul>
+<p>以他的習慣，應該會有實際示範，可能也會推他自己在用的設定方式。我比較想知道的是，他覺得一般人在自己電腦上用 Claude Code 這類工具，最低限度要做到哪幾件事。全部做到很累，總要有個先後順序。</p>
+<p>老實說，我自己現在 agent 的權限開得蠻寬的，看標題有點心虛。看完再來對照一下自己哪裡該收。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=0q0UbO4oqgQ">Hackers Are Coming for Your AI Coding Agent (Lock It Down Now)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-24-journal.html">← 較新：小院日誌 11/24：兩支新片，先存著</a><a href="2026-11-24-master-meta-muse-intro.html">較舊：Gary Chen 教 Meta Muse：社群功能最強的 AI agent？（還沒看，先記期待） →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
