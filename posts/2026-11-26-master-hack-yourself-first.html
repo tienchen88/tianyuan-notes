@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cole Medin：與其等別人來打，不如先自己打一遍 · 恬園手記</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="masthead compact rise">
+  <div class="masthead-row">
+    <h1 class="brand"><a href="../index.html">恬園<b>手記</b></a></h1>
+    <a class="backlink" href="../index.html">⟵ 回到院子</a>
+  </div>
+</header>
+<div class="post-cover rise">
+  <div class="frame"><span class="pic"><img src="../images/post-master-hack-yourself-first.png" alt="Cole Medin：與其等別人來打，不如先自己打一遍" loading="lazy"></span></div>
+</div>
+<main class="single rise">
+  <div class="head">
+    <div class="meta"><span class="badge cat-research">🔬 研究筆記</span><time>2026-11-26</time></div>
+    <h1 class="post-title">Cole Medin：與其等別人來打，不如先自己打一遍</h1>
+  </div>
+  <div class="content">
+<p>晚上照例去看 Cole Medin 有沒有新片，這支叫 <a href="https://www.youtube.com/watch?v=f1gAilgILeI">The Best Defense Against This Wave of AI Attacks: Hack Yourself First</a>。</p>
+<p>先說清楚，整支片我還沒看完。下面是看了標題，加上網路上幾篇整理文章之後拼出來的印象，細節可能跟他實際講的有落差，之後看完再回來修。</p>
+<h2>他大概在講什麼</h2>
+<p>前兩天那支講的是有人會盯上你的 coding agent（<a href="2026-11-24-master-lock-down-agent.html">我的筆記在這</a>），這支算是接著講怎麼反過來用。意思大概是：現在攻擊的人也在用 AI agent 找漏洞，速度比以前快很多，那開發者乾脆先用同樣的方法對自己的專案跑一輪。</p>
+<p>從整理文章看，他介紹的是 Cloudflare 開源的一個安全稽核 skill，然後拿自己的專案實際裝起來跑。流程好像分成兩個角色，一個負責找可能的漏洞，另一個負責驗證那個漏洞是不是真的打得進去，確認之後才去修。有一篇提到負責驗證的那個不能自己記錄自己的發現，這個設計我覺得蠻有意思的，等於不讓同一個人球員兼裁判。</p>
+<h2>我想看的地方</h2>
+<ul>
+<li>找漏洞跟驗證漏洞拆開，實際跑起來誤報會少多少。我自己用 agent 做 code review 最煩的就是一堆「可能有問題」，每個都要自己去確認</li>
+<li>他會不會講到這種自我檢查多久跑一次比較合理，還是只在上線前跑</li>
+<li>個人小專案值不值得跑這一套，還是比較適合有使用者的服務</li>
+</ul>
+<p>另外他好像有特別強調，這種方法只能拿來打自己的東西。這點我覺得講出來是對的，工具越方便，越容易有人拿去亂試。</p>
+<p>老實說，這類稽核工具我一直覺得是錦上添花，架構本身沒想清楚的話，掃再多次也只是補洞。不過能用很低的成本先擋掉一些明顯的問題，還是比什麼都不做好。我打算挑一個自己的小專案試跑看看，有結果再來寫。</p>
+<hr class="leaf">
+<p>參考：<a href="https://www.youtube.com/watch?v=f1gAilgILeI">The Best Defense Against This Wave of AI Attacks: Hack Yourself First (Try This Now)</a>（Cole Medin）</p>
+  </div>
+</main>
+<nav class="post-nav"><a href="2026-11-26-master-artifacts-apps.html">← 較新：Gary Chen：Claude Artifacts 這次更新，SaaS 又要緊張了？</a><a href="2026-11-24-journal.html">較舊：小院日誌 11/24：兩支新片，先存著 →</a></nav>
+<p class="back"><a href="../index.html">⟵ 回到院子</a></p>
+<footer class="site-footer">
+  <div class="inner">
+    <span>🌾 恬園手記 · 以 Markdown 手工烘焙</span>
+    <span><a href="../about.html">關於我</a></span>
+  </div>
+</footer>
+</body>
+</html>
